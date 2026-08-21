@@ -382,7 +382,8 @@
       "WALLET": "E-Wallet",
       "BANK_TRANSFER": "Bank Transfer",
       "INSTAPAY": "InstaPay",
-      "FAWRY": "Fawry"
+      "FAWRY": "Fawry",
+      "CREDIT": "Credit"
     },
     "NO_ITEMS": "No products in this invoice",
     "PRINT_SUCCESS": "Invoice ready for printing",
