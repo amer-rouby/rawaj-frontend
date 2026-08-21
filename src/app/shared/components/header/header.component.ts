@@ -51,8 +51,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
   private themeSubscription?: Subscription;
   private notificationStreamSubscription?: Subscription;
   private lastUnreadCount = 0;
-  private soundEnabled = true;
-  private vibrationEnabled = true;
 
   readonly userDisplayName = computed(() => this.currentUser()?.fullName ?? 'مستخدم');
   readonly userDisplayRole = computed(() => this.currentUser()?.role ?? 'دور');
@@ -77,7 +75,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.initLanguage();
     this.loadNotifications();
     this.setupNotificationStream();
-    this.loadNotificationAlertPrefs();
+    // Populates notificationSettingsService.settings() for alertNewNotification()
+    // to read live - no local caching, so a change saved on the settings screen
+    // takes effect immediately instead of only after this component reloads.
+    this.notificationSettingsService.getSettings().subscribe();
 
     this.langSubscription = this.languageService.currentLang$.subscribe(lang => {
       this.currentLang.set(lang);
@@ -123,63 +124,33 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.currentLang.set(lang);
   }
 
-  /** Caches the user's sound/vibration preference so incoming-notification
-   * handling doesn't need a round-trip on every event; a stale cache just means
-   * a preference change takes effect on next page load, which is fine here. */
-  private loadNotificationAlertPrefs(): void {
-    this.notificationSettingsService.getSettings().subscribe({
-      next: (settings) => {
-        this.soundEnabled = settings?.soundEnabled ?? true;
-        this.vibrationEnabled = settings?.vibrationEnabled ?? true;
-      },
-      error: () => {
-        // Keep the defaults if settings can't be loaded.
-      }
-    });
-  }
-
   private alertNewNotification(): void {
-    if (this.soundEnabled) {
+    // Read live from the shared signal (not a locally cached copy) so a
+    // preference saved on the settings screen takes effect on the very next
+    // notification, not just after this component reloads.
+    const settings = this.notificationSettingsService.settings();
+    if (settings?.soundEnabled ?? true) {
       this.audioService.playNotificationSound();
     }
-    if (this.vibrationEnabled && 'vibrate' in navigator) {
+    if ((settings?.vibrationEnabled ?? true) && 'vibrate' in navigator) {
       navigator.vibrate(200);
     }
   }
 
   private setupNotificationStream(): void {
+    // Every event (including 'notification-created') re-fetches via
+    // loadNotifications() rather than appending the raw pushed payload -
+    // that REST call filters by the user's own per-type notifyX settings
+    // (getUserNotifications on the backend), which a same-store SSE broadcast
+    // does not. Appending the raw payload directly used to show/alert for
+    // notification types (e.g. "new sale") the user had explicitly disabled.
     this.notificationStreamSubscription = this.notificationService.connectToNotificationStream()
       .subscribe(event => {
         if (event.type === 'connected') {
           return;
         }
-
-        if (event.type === 'notification-created' && event.notification) {
-          this.addIncomingNotification(event.notification);
-          return;
-        }
-
         this.loadNotifications(true);
       });
-  }
-
-  private addIncomingNotification(notification: NotificationModel): void {
-    const currentList = this.notifications();
-    if (currentList.some(item => item.id === notification.id)) {
-      return;
-    }
-
-    const updatedList = [notification, ...currentList].slice(0, 100);
-    const currentUnread = updatedList.filter(n => !n.read).length;
-
-    if (currentUnread > this.lastUnreadCount && this.lastUnreadCount !== 0) {
-      this.alertNewNotification();
-    }
-
-    this.lastUnreadCount = currentUnread;
-    this.notifications.set(updatedList);
-    this.totalCount.update(count => count + 1);
-    this.unreadCount.set(currentUnread);
   }
 
   onSearch(): void {
