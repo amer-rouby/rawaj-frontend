@@ -20,6 +20,20 @@ export class ErrorHandlerService {
   };
 
   handleHttpError(error: HttpErrorResponse, fallbackKey: string = 'COMMON.ERROR'): void {
+    // A backend error migrated to LocalizedException carries a stable `code` (+
+    // interpolation `params`) the server resolves through ERRORS.<code> - prefer
+    // that over the generic status-based fallback so the user sees the actual
+    // reason (translated) instead of a generic "something went wrong".
+    const code = error.error?.code;
+    if (code) {
+      const key = `ERRORS.${code}`;
+      const translated = this.translate.instant(key, error.error?.params);
+      if (translated !== key) {
+        this.show(key, { ...this.defaultConfig, params: error.error?.params });
+        return;
+      }
+    }
+
     let messageKey = fallbackKey;
 
     switch (error.status) {
