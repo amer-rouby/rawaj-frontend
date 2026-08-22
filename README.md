@@ -54,7 +54,7 @@ Some copy/validation still reflects the pharmacy origin in places that were neve
 ## 🔗 Related Repositories
 
 - **Backend**: [zaki-supermarket-backend](https://github.com/amer-rouby/zaki-supermarket-backend)
-- **Mobile**: [zaki-supermarket-mobile](https://github.com/amer-rouby/zaki-supermarket-mobile)
+- **Mobile**: not published yet
 - **Forked from**: [smartpharma-frontend](https://github.com/amer-rouby/smartpharma-frontend)
 
 ## 📄 License
