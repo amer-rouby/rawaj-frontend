@@ -162,9 +162,14 @@ export class SalesService {
         catchError(error => {
           // Preserve the HTTP status (0 = no response reached the server at
           // all, e.g. offline) so callers can tell a network failure apart
-          // from a real server-side rejection.
-          const wrapped: Error & { status?: number } = new Error(error?.error?.message || 'Failed to create sale');
+          // from a real server-side rejection. Also preserve the backend's
+          // stable error `code`/`params` so the caller can resolve
+          // ERRORS.<code> instead of displaying this raw English message.
+          const wrapped: Error & { status?: number; code?: string; params?: Record<string, any> } =
+            new Error(error?.error?.message || 'Failed to create sale');
           wrapped.status = error?.status;
+          wrapped.code = error?.error?.code;
+          wrapped.params = error?.error?.params;
           return throwError(() => wrapped);
         })
       );

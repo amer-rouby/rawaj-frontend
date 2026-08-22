@@ -371,7 +371,9 @@ export class SalesFormComponent implements OnInit, AfterViewInit, OnDestroy {
         await this.queueSaleOffline(saleRequest);
       } else {
         console.error('Sale submission error:', error);
-        this.errorHandler.showError(error.message || 'SALES.CREATE_ERROR');
+        if (!this.errorHandler.showByCode(error.code, error.params)) {
+          this.errorHandler.showError('SALES.CREATE_ERROR');
+        }
       }
     } finally {
       this.loading.set(false);
