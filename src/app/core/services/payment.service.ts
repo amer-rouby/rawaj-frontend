@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpParams, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
+import { catchError, map, timeout } from 'rxjs/operators';
 import { AuthService } from './auth.service';
 import { StoreContextService } from './store-context.service';
 import {
@@ -38,8 +38,17 @@ export class PaymentService {
     });
   }
 
-  private handleError(error: HttpErrorResponse) {
-    console.error('Payment service error:', error);
+  private handleError(rawError: HttpErrorResponse | { name?: string }) {
+    console.error('Payment service error:', rawError);
+    // RxJS TimeoutError has no `.status` - must be checked before the
+    // HttpErrorResponse-shaped branches below, so a stalled gateway call
+    // surfaces a fast, distinguishable error instead of falling through.
+    if (rawError?.name === 'TimeoutError') {
+      const wrapped: Error & { code?: string } = new Error('Payment request timed out');
+      wrapped.code = 'REQUEST_TIMEOUT';
+      return throwError(() => wrapped);
+    }
+    const error = rawError as HttpErrorResponse;
     if (error.status === 0) {
       return throwError(() => new Error('Connection error: Please check your network'));
     }
@@ -67,6 +76,7 @@ export class PaymentService {
       formattedRequest,
       { headers: this.getHeaders().set('Content-Type', 'application/json') }
     ).pipe(
+      timeout(5000),
       map(response => response.data),
       catchError(error => this.handleError(error))
     );
@@ -82,6 +92,7 @@ export class PaymentService {
       null,
       { params, headers: this.getHeaders() }
     ).pipe(
+      timeout(5000),
       map(response => response.data),
       catchError(error => this.handleError(error))
     );
@@ -93,6 +104,7 @@ export class PaymentService {
       null,
       { headers: this.getHeaders() }
     ).pipe(
+      timeout(5000),
       map(response => response.data),
       catchError(error => this.handleError(error))
     );
@@ -103,6 +115,7 @@ export class PaymentService {
       `${this.apiUrl}/${paymentReference}/verify`,
       { headers: this.getHeaders() }
     ).pipe(
+      timeout(5000),
       map(response => response.data),
       catchError(error => this.handleError(error))
     );

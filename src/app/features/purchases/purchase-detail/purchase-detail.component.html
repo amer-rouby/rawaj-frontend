@@ -45,6 +45,7 @@
         <mat-icon>chat</mat-icon>
         <span>{{'PURCHASES.SEND_WHATSAPP' | translate}}</span>
       </button>
+      @if (emailEnabled()) {
       <button
         mat-raised-button
         color="primary"
@@ -58,6 +59,7 @@
         }
         <span>{{'PURCHASES.SEND_EMAIL' | translate}}</span>
       </button>
+      }
       }
     </div>
   </app-page-header>

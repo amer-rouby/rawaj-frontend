@@ -356,6 +356,8 @@
     "CREATE_SUCCESS": "Sale created successfully",
     "CREATE_ERROR": "Failed to create sale",
     "OFFLINE_MODE": "Offline - sales will be queued",
+    "EINVOICE_SUBMIT_FAILED": "Could not submit the e-invoice - please try again",
+    "PAYMENT_TIMEOUT_TRY_CASH": "Payment didn't respond in time. Check the connection or switch to Cash.",
     "OFFLINE_CASH_ONLY": "Only cash sales can be made while offline",
     "QUEUED_TITLE": "Sale Queued",
     "QUEUED_MESSAGE": "No internet connection - this sale has been saved and will sync automatically once you're back online.",
@@ -911,6 +913,11 @@
     "FEATURE_DISABLED_SUPPLIER_RECOMMENDATIONS": "Supplier order recommendations feature is disabled for this store",
     "FEATURE_DISABLED_EINVOICE": "E-invoice (ETA) feature is disabled for this store",
     "FEATURE_DISABLED_PRICING_RECOMMENDATIONS": "Pricing recommendations feature is disabled for this store",
+    "FEATURE_DISABLED_EMAIL": "Email sending is disabled for this store",
+    "FEATURE_NETWORK_UNAVAILABLE_EMAIL": "Email needs an internet connection - this store appears to be offline right now. Try again once you're back online.",
+    "FEATURE_NETWORK_UNAVAILABLE_EINVOICE": "E-invoice submission needs an internet connection - this store appears to be offline right now. Try again once you're back online.",
+    "EMAIL_SEND_FAILED": "Could not send the email - check the email settings for this store",
+    "REQUEST_TIMEOUT": "The request took too long and was cancelled",
     "PRODUCT_NOT_FOUND": "Product not found",
     "SALE_NOT_FOUND": "Sale not found",
     "SUPPLIER_NOT_FOUND": "Supplier not found",
@@ -1209,6 +1216,7 @@
     "AI_ASSISTANT": "Zaki Assistant",
     "E_INVOICE": "Egyptian E-Invoice (ETA)",
     "OFFLINE_MODE": "Offline Mode",
+    "EMAIL": "Email Sending",
     "DESC": {
       "STOCK_PREDICTION": "Estimate when each product will run out of stock",
       "REORDER_RECOMMENDATIONS": "Suggest how much to reorder before you run out",
@@ -1222,7 +1230,8 @@
       "CUSTOMER_CREDIT": "Track customer balances and credit sales",
       "AI_ASSISTANT": "Ask Zaki questions about your store's data",
       "E_INVOICE": "Submit sales to the Egyptian Tax Authority (requires your own ETA credentials)",
-      "OFFLINE_MODE": "Keep the POS working during a temporary internet loss"
+      "OFFLINE_MODE": "Keep the POS working during a temporary internet loss",
+      "EMAIL": "Send purchase orders to suppliers by email (requires your own SMTP credentials)"
     }
   },
   "STOCK_ALERTS": {

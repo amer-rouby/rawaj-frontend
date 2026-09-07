@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, timeout } from 'rxjs/operators';
 import { ApiResponse } from '../models';
 import { WhatsAppData } from '../models/whatsapp.model';
 import { StoreContextService } from './store-context.service';
@@ -24,6 +24,7 @@ export class WhatsAppService {
         params: this.store.storeParams()
       })
       .pipe(
+        timeout(8000),
         map((response) => response.data),
         withHttpErrorFallback<WhatsAppData>('getWhatsappData')
       );
@@ -37,6 +38,7 @@ export class WhatsAppService {
         { params: this.store.storeParams() }
       )
       .pipe(
+        timeout(8000),
         map((response) => response.data),
         withHttpErrorFallback<SendWhatsAppResponse>('sendWhatsApp')
       );

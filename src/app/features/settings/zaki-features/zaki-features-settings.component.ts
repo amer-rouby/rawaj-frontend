@@ -116,6 +116,11 @@ export class ZakiFeaturesSettingsComponent implements OnInit {
         key: 'offlineModeEnabled', icon: 'wifi_off',
         label: 'ZAKI_FEATURES.OFFLINE_MODE', description: 'ZAKI_FEATURES.DESC.OFFLINE_MODE',
         enabled: settings.offlineModeEnabled
+      },
+      {
+        key: 'emailEnabled', icon: 'mail',
+        label: 'ZAKI_FEATURES.EMAIL', description: 'ZAKI_FEATURES.DESC.EMAIL',
+        enabled: settings.emailEnabled
       }
     ];
   }

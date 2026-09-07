@@ -7,7 +7,11 @@ import { ApiResponse } from '../../models';
 import { ZakiFeatureSettings, ZakiFeatureSettingsRequest } from '../../models/settings/zaki-feature-settings.model';
 import { environment } from '../../../../environments/environment';
 
-const ALL_ENABLED: ZakiFeatureSettings = {
+// Local-only flags default to enabled (no network dependency, no reason to hide
+// them behind a settings-fetch failure); internet-dependent flags default to
+// disabled so a transient settings-load failure can't silently enable a
+// feature that would then hang waiting on a network call that isn't there.
+const SAFE_DEFAULTS: ZakiFeatureSettings = {
   id: 0,
   storeId: 0,
   stockPredictionEnabled: true,
@@ -22,7 +26,8 @@ const ALL_ENABLED: ZakiFeatureSettings = {
   customerCreditEnabled: true,
   aiAssistantEnabled: true,
   eInvoiceEnabled: false,
-  offlineModeEnabled: false
+  offlineModeEnabled: false,
+  emailEnabled: false
 };
 
 @Injectable({
@@ -36,7 +41,7 @@ export class ZakiFeatureSettingsService {
   // Cached flags so feature components can gate themselves synchronously
   // (`if (!flags().stockPredictionEnabled) return;`) instead of a network
   // round-trip per check. Refreshed on login and whenever settings are saved.
-  readonly flags = signal<ZakiFeatureSettings>(ALL_ENABLED);
+  readonly flags = signal<ZakiFeatureSettings>(SAFE_DEFAULTS);
 
   private getStoreId(): number {
     return this.authService.getStoreId() || 1;
@@ -50,7 +55,9 @@ export class ZakiFeatureSettingsService {
     }).pipe(
       map(response => response.data),
       tap(settings => this.flags.set(settings)),
-      catchError(this.handleError<ZakiFeatureSettings>('getSettings', ALL_ENABLED))
+      // Fall back to the last successfully-fetched value (SAFE_DEFAULTS on the
+      // very first load) rather than silently enabling everything on a blip.
+      catchError(this.handleError<ZakiFeatureSettings>('getSettings', this.flags()))
     );
   }
 

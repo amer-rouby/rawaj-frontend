@@ -60,7 +60,14 @@ export class ErrorHandlerService {
     const key = `ERRORS.${code}`;
     const translated = this.translate.instant(key, params);
     if (translated === key) return false;
-    this.show(key, { ...this.defaultConfig, params });
+    // A feature that's enabled but couldn't reach the internet isn't really an
+    // "error" the cashier caused - show it as a warning, not the red error style.
+    const isNetworkWarning = code.startsWith('FEATURE_NETWORK_UNAVAILABLE_');
+    this.show(key, {
+      ...this.defaultConfig,
+      params,
+      panelClass: isNetworkWarning ? ['warning-snackbar'] : this.defaultConfig.panelClass
+    });
     return true;
   }
 

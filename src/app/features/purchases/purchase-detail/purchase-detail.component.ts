@@ -1,4 +1,4 @@
-import { Component, inject, signal, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, inject, signal, computed, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { PageHeaderComponent } from '../../../shared/components/page-header/page-header.component';
@@ -10,6 +10,7 @@ import { PurchaseOrder } from '../../../core/models/purchase-order.model';
 import { ErrorHandlerService } from '../../../core/services/error-handler.service';
 import { CommonModule } from '@angular/common';
 import { CurrencyService } from '../../../core/services/currency.service';
+import { ZakiFeatureSettingsService } from '../../../core/services/settings/zaki-feature-settings.service';
 
 @Component({
   selector: 'app-purchase-detail',
@@ -27,10 +28,12 @@ export class PurchaseDetailComponent implements OnInit {
   readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
   private readonly currencyService = inject(CurrencyService);
+  private readonly zakiFeatureSettingsService = inject(ZakiFeatureSettingsService);
 
   readonly loading = signal(false);
   readonly order = signal<PurchaseOrder | null>(null);
   readonly emailSending = signal(false);
+  readonly emailEnabled = computed(() => this.zakiFeatureSettingsService.flags().emailEnabled);
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');
@@ -156,9 +159,16 @@ export class PurchaseDetailComponent implements OnInit {
         },
         error: (err) => {
           this.emailSending.set(false);
-          // The backend's message ("Supplier has no email on file", SMTP not
-          // configured, etc.) is actionable and specific - worth showing directly
-          // instead of a generic "failed to send" the user can't act on.
+          // Prefer the backend's stable error `code` (translated + styled as a
+          // warning for FEATURE_NETWORK_UNAVAILABLE_*/FEATURE_DISABLED_* - see
+          // error-handler.service.ts) over the raw English `message`, so the
+          // Arabic UI shows a translated, correctly-styled message instead of
+          // an untranslated string that's always the red error style.
+          if (this.errorHandler.showByCode(err?.error?.code, err?.error?.params)) {
+            return;
+          }
+          // The backend's message ("Supplier has no email on file", etc.) is
+          // actionable and specific for cases with no stable code yet.
           const backendMessage = err?.error?.message;
           if (backendMessage) {
             this.errorHandler.show(backendMessage, { panelClass: ['error-snackbar'] });

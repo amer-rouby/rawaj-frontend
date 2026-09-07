@@ -56,19 +56,37 @@ export class SaleDetailsDialogComponent {
   submitEInvoice(): void {
     if (!this.data.sale?.id) return;
     this.eInvoiceLoading.set(true);
-    this.eInvoiceService.submit(this.data.sale.id).subscribe((submission) => {
-      this.eInvoiceLoading.set(false);
-      if (submission) this.eInvoiceSubmission.set(submission);
+    this.eInvoiceService.submit(this.data.sale.id).subscribe({
+      next: (submission) => {
+        this.eInvoiceLoading.set(false);
+        if (submission) this.eInvoiceSubmission.set(submission);
+      },
+      error: (err) => this.handleEInvoiceError(err)
     });
   }
 
   retryEInvoice(): void {
     if (!this.data.sale?.id) return;
     this.eInvoiceLoading.set(true);
-    this.eInvoiceService.retry(this.data.sale.id).subscribe((submission) => {
-      this.eInvoiceLoading.set(false);
-      if (submission) this.eInvoiceSubmission.set(submission);
+    this.eInvoiceService.retry(this.data.sale.id).subscribe({
+      next: (submission) => {
+        this.eInvoiceLoading.set(false);
+        if (submission) this.eInvoiceSubmission.set(submission);
+      },
+      error: (err) => this.handleEInvoiceError(err)
     });
+  }
+
+  // A failed submit/retry used to be swallowed to `null` with no feedback at
+  // all - the cashier/admin would see the dialog just sit there looking like
+  // nothing happened. Surface it as a real warning instead.
+  private handleEInvoiceError(err: any): void {
+    this.eInvoiceLoading.set(false);
+    const code = err?.code ?? err?.error?.code;
+    const params = err?.params ?? err?.error?.params;
+    if (!this.errorHandler.showByCode(code, params)) {
+      this.errorHandler.showWarning('SALES.EINVOICE_SUBMIT_FAILED');
+    }
   }
 
   getEInvoiceStatusColor(status: string): 'primary' | 'accent' | 'warn' {

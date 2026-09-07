@@ -369,6 +369,13 @@ export class SalesFormComponent implements OnInit, AfterViewInit, OnDestroy {
         // Network dropped between clicking submit and the response coming
         // back - queue it instead of losing a sale the cashier already rang up.
         await this.queueSaleOffline(saleRequest);
+      } else if (error?.code === 'REQUEST_TIMEOUT') {
+        // Don't auto-queue/auto-fallback here: unlike the offline+CASH case
+        // above, we genuinely don't know whether the gateway processed the
+        // charge before the response was lost - ambiguous, so let the cashier
+        // decide (retry, or switch the customer to cash) rather than risk a
+        // double-charge or a phantom queued sale.
+        this.errorHandler.showWarning('SALES.PAYMENT_TIMEOUT_TRY_CASH');
       } else {
         console.error('Sale submission error:', error);
         if (!this.errorHandler.showByCode(error.code, error.params)) {

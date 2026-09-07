@@ -14,6 +14,7 @@ export interface ZakiFeatureSettings {
   aiAssistantEnabled: boolean;
   eInvoiceEnabled: boolean;
   offlineModeEnabled: boolean;
+  emailEnabled: boolean;
   updatedAt?: string;
 }
 
