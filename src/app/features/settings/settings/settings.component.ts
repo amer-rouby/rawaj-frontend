@@ -35,7 +35,8 @@ export class SettingsComponent {
     { icon: 'timer', labelKey: 'SETTINGS.SESSION.TITLE', route: '/settings/session' },
     // { icon: 'language', labelKey: 'SETTINGS.LANGUAGE', route: '/settings/language' },
     { icon: 'backup', labelKey: 'SETTINGS.BACKUP', route: '/settings/backup' },
-    { icon: 'auto_awesome', labelKey: 'ZAKI_FEATURES.TITLE', route: '/settings/zaki-features', roles: ['ADMIN'] }
+    { icon: 'auto_awesome', labelKey: 'ZAKI_FEATURES.TITLE', route: '/settings/zaki-features', roles: ['ADMIN'] },
+    { icon: 'vpn_key', labelKey: 'LICENSE.MENU_LABEL', route: '/license/renew', roles: ['ADMIN'] }
   ]);
 
   readonly filteredItems = signal<SettingsItem[]>([]);

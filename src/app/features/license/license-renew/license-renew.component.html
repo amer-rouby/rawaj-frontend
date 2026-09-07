@@ -4,10 +4,16 @@
 
   <mat-card class="renew-card">
     <mat-card-content>
-      @if (expiresAt()) {
-      <p class="expired-note">{{'LICENSE.EXPIRED_ON' | translate}} {{ expiresAt() | date:'mediumDate' }}</p>
+      @if (expired()) {
+        @if (expiresAt()) {
+        <p class="status-note expired">{{'LICENSE.EXPIRED_ON' | translate}} {{ expiresAt() | date:'mediumDate' }}</p>
+        } @else {
+        <p class="status-note expired">{{'LICENSE.EXPIRED_GENERIC' | translate}}</p>
+        }
+      } @else if (expiresAt()) {
+        <p class="status-note active">{{'LICENSE.ACTIVE_UNTIL' | translate}} {{ expiresAt() | date:'mediumDate' }}</p>
       } @else {
-      <p class="expired-note">{{'LICENSE.EXPIRED_GENERIC' | translate}}</p>
+        <p class="status-note active">{{'LICENSE.UNLIMITED' | translate}}</p>
       }
 
       @if (isAdmin()) {
@@ -24,7 +30,7 @@
         }
         <span>{{'LICENSE.RENEW_BUTTON' | translate}}</span>
       </button>
-      } @else {
+      } @else if (expired()) {
       <p>{{'LICENSE.CONTACT_ADMIN' | translate}}</p>
       }
     </mat-card-content>
