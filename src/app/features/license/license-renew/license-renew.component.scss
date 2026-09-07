@@ -1,0 +1,26 @@
+.license-renew-container {
+  max-width: 560px;
+  margin: 0 auto;
+  padding: 16px;
+}
+
+.renew-card {
+  margin-top: 16px;
+}
+
+.status-note {
+  font-weight: 500;
+  margin-bottom: 16px;
+
+  &.expired {
+    color: #d32f2f;
+  }
+
+  &.active {
+    color: #2e7d32;
+  }
+}
+
+.code-field {
+  width: 100%;
+}

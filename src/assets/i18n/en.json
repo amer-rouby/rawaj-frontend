@@ -5,6 +5,21 @@
     "VERSION": "Version 1.0.0",
     "COPYRIGHT": "© 2026 Zaki Supermarket - All Rights Reserved"
   },
+  "LICENSE": {
+    "MENU_LABEL": "Subscription",
+    "TITLE": "Subscription Renewal",
+    "SUBTITLE": "Your subscription needs to be renewed to continue",
+    "EXPIRED_ON": "Your subscription expired on",
+    "EXPIRED_GENERIC": "Your subscription has expired.",
+    "ACTIVE_UNTIL": "Your subscription is active until",
+    "UNLIMITED": "Your subscription has no expiry date set.",
+    "ENTER_CODE_HINT": "Enter the renewal code you received from your provider.",
+    "CODE_LABEL": "Renewal code",
+    "RENEW_BUTTON": "Renew",
+    "CONTACT_ADMIN": "Your subscription has expired. Please contact your store admin to renew it.",
+    "RENEW_SUCCESS": "Subscription renewed successfully",
+    "RENEW_ERROR": "Could not renew the subscription"
+  },
   "PAGINATOR": {
     "ITEMS_PER_PAGE": "Items per page",
     "NEXT_PAGE": "Next page",
@@ -918,6 +933,7 @@
     "FEATURE_NETWORK_UNAVAILABLE_EINVOICE": "E-invoice submission needs an internet connection - this store appears to be offline right now. Try again once you're back online.",
     "EMAIL_SEND_FAILED": "Could not send the email - check the email settings for this store",
     "REQUEST_TIMEOUT": "The request took too long and was cancelled",
+    "LICENSE_CODE_INVALID": "This renewal code is invalid or was not issued for your store",
     "PRODUCT_NOT_FOUND": "Product not found",
     "SALE_NOT_FOUND": "Sale not found",
     "SUPPLIER_NOT_FOUND": "Supplier not found",
