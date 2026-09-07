@@ -1,0 +1,57 @@
+import { Component, inject, signal, computed, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
+import { TranslateModule } from '@ngx-translate/core';
+import { MaterialModule } from '../../../shared/material.module';
+import { PageHeaderComponent } from '../../../shared/components/page-header/page-header.component';
+import { ErrorHandlerService } from '../../../core/services/error-handler.service';
+import { AuthService } from '../../../core/services/auth.service';
+import { LicenseService } from '../../../core/services/license.service';
+
+@Component({
+  selector: 'app-license-renew',
+  standalone: true,
+  imports: [CommonModule, MaterialModule, FormsModule, TranslateModule, PageHeaderComponent],
+  templateUrl: './license-renew.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
+  styleUrl: './license-renew.component.scss'
+})
+export class LicenseRenewComponent implements OnInit {
+  private readonly authService = inject(AuthService);
+  private readonly licenseService = inject(LicenseService);
+  private readonly errorHandler = inject(ErrorHandlerService);
+  private readonly router = inject(Router);
+
+  // Only an ADMIN can actually submit a code (matches the backend's
+  // @PreAuthorize on POST /api/license/renew) - a cashier/staff account just
+  // sees a message telling them to contact the store admin.
+  readonly isAdmin = computed(() => this.authService.getCurrentUser()?.role === 'ADMIN');
+  readonly code = signal('');
+  readonly submitting = signal(false);
+  readonly expiresAt = signal<string | null>(null);
+
+  ngOnInit(): void {
+    this.licenseService.ensureStatusLoaded().subscribe((status) => this.expiresAt.set(status.expiresAt));
+  }
+
+  onSubmit(): void {
+    const value = this.code().trim();
+    if (!value) return;
+
+    this.submitting.set(true);
+    this.licenseService.renew(value).subscribe({
+      next: () => {
+        this.submitting.set(false);
+        this.errorHandler.showSuccess('LICENSE.RENEW_SUCCESS');
+        this.router.navigate(['/dashboard']);
+      },
+      error: (err) => {
+        this.submitting.set(false);
+        if (!this.errorHandler.showByCode(err?.error?.code, err?.error?.params)) {
+          this.errorHandler.showError('LICENSE.RENEW_ERROR');
+        }
+      }
+    });
+  }
+}

@@ -5,6 +5,18 @@
     "VERSION": "Version 1.0.0",
     "COPYRIGHT": "© 2026 Zaki Supermarket - All Rights Reserved"
   },
+  "LICENSE": {
+    "TITLE": "Subscription Renewal",
+    "SUBTITLE": "Your subscription needs to be renewed to continue",
+    "EXPIRED_ON": "Your subscription expired on",
+    "EXPIRED_GENERIC": "Your subscription has expired.",
+    "ENTER_CODE_HINT": "Enter the renewal code you received from your provider.",
+    "CODE_LABEL": "Renewal code",
+    "RENEW_BUTTON": "Renew",
+    "CONTACT_ADMIN": "Your subscription has expired. Please contact your store admin to renew it.",
+    "RENEW_SUCCESS": "Subscription renewed successfully",
+    "RENEW_ERROR": "Could not renew the subscription"
+  },
   "PAGINATOR": {
     "ITEMS_PER_PAGE": "Items per page",
     "NEXT_PAGE": "Next page",
@@ -911,6 +923,7 @@
     "FEATURE_DISABLED_SUPPLIER_RECOMMENDATIONS": "Supplier order recommendations feature is disabled for this store",
     "FEATURE_DISABLED_EINVOICE": "E-invoice (ETA) feature is disabled for this store",
     "FEATURE_DISABLED_PRICING_RECOMMENDATIONS": "Pricing recommendations feature is disabled for this store",
+    "LICENSE_CODE_INVALID": "This renewal code is invalid or was not issued for your store",
     "PRODUCT_NOT_FOUND": "Product not found",
     "SALE_NOT_FOUND": "Sale not found",
     "SUPPLIER_NOT_FOUND": "Supplier not found",

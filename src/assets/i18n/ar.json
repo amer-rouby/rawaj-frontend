@@ -5,6 +5,18 @@
     "VERSION": "الإصدار 1.0.0",
     "COPYRIGHT": "© 2026 سوبر ماركت زكي - جميع الحقوق محفوظة"
   },
+  "LICENSE": {
+    "TITLE": "تجديد الاشتراك",
+    "SUBTITLE": "لازم تجدد الاشتراك عشان تقدر تكمل",
+    "EXPIRED_ON": "الاشتراك انتهى بتاريخ",
+    "EXPIRED_GENERIC": "الاشتراك انتهى.",
+    "ENTER_CODE_HINT": "دخّل كود التجديد اللي وصلك من المورد.",
+    "CODE_LABEL": "كود التجديد",
+    "RENEW_BUTTON": "تجديد",
+    "CONTACT_ADMIN": "الاشتراك انتهى. تواصل مع أدمن المتجر عشان يجدده.",
+    "RENEW_SUCCESS": "تم تجديد الاشتراك بنجاح",
+    "RENEW_ERROR": "تعذّر تجديد الاشتراك"
+  },
   "PAGINATOR": {
     "ITEMS_PER_PAGE": "عناصر في الصفحة",
     "NEXT_PAGE": "الصفحة التالية",
@@ -913,6 +925,7 @@
     "FEATURE_DISABLED_SUPPLIER_RECOMMENDATIONS": "ميزة توصيات طلبات الموردين غير مفعّلة لهذا المتجر",
     "FEATURE_DISABLED_EINVOICE": "ميزة الفاتورة الإلكترونية (ETA) غير مفعّلة لهذا المتجر",
     "FEATURE_DISABLED_PRICING_RECOMMENDATIONS": "ميزة توصيات التسعير غير مفعّلة لهذا المتجر",
+    "LICENSE_CODE_INVALID": "كود التجديد ده غير صحيح أو مش صادر لمتجرك",
     "PRODUCT_NOT_FOUND": "المنتج غير موجود",
     "SALE_NOT_FOUND": "عملية البيع غير موجودة",
     "SUPPLIER_NOT_FOUND": "المورد غير موجود",

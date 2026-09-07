@@ -1,0 +1,32 @@
+<div class="license-renew-container">
+  <app-page-header [title]="'LICENSE.TITLE' | translate" [subtitle]="'LICENSE.SUBTITLE' | translate" icon="lock_clock">
+  </app-page-header>
+
+  <mat-card class="renew-card">
+    <mat-card-content>
+      @if (expiresAt()) {
+      <p class="expired-note">{{'LICENSE.EXPIRED_ON' | translate}} {{ expiresAt() | date:'mediumDate' }}</p>
+      } @else {
+      <p class="expired-note">{{'LICENSE.EXPIRED_GENERIC' | translate}}</p>
+      }
+
+      @if (isAdmin()) {
+      <p>{{'LICENSE.ENTER_CODE_HINT' | translate}}</p>
+      <mat-form-field appearance="outline" class="code-field">
+        <mat-label>{{'LICENSE.CODE_LABEL' | translate}}</mat-label>
+        <textarea matInput rows="4" [ngModel]="code()" (ngModelChange)="code.set($event)"></textarea>
+      </mat-form-field>
+      <button mat-raised-button color="primary" [disabled]="submitting() || !code().trim()" (click)="onSubmit()">
+        @if (submitting()) {
+        <mat-spinner diameter="20"></mat-spinner>
+        } @else {
+        <mat-icon>vpn_key</mat-icon>
+        }
+        <span>{{'LICENSE.RENEW_BUTTON' | translate}}</span>
+      </button>
+      } @else {
+      <p>{{'LICENSE.CONTACT_ADMIN' | translate}}</p>
+      }
+    </mat-card-content>
+  </mat-card>
+</div>
