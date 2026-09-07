@@ -8,9 +8,17 @@
   margin-top: 16px;
 }
 
-.expired-note {
+.status-note {
   font-weight: 500;
   margin-bottom: 16px;
+
+  &.expired {
+    color: #d32f2f;
+  }
+
+  &.active {
+    color: #2e7d32;
+  }
 }
 
 .code-field {

@@ -1,7 +1,6 @@
 import { Component, inject, signal, computed, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { MaterialModule } from '../../../shared/material.module';
 import { PageHeaderComponent } from '../../../shared/components/page-header/page-header.component';
@@ -21,7 +20,6 @@ export class LicenseRenewComponent implements OnInit {
   private readonly authService = inject(AuthService);
   private readonly licenseService = inject(LicenseService);
   private readonly errorHandler = inject(ErrorHandlerService);
-  private readonly router = inject(Router);
 
   // Only an ADMIN can actually submit a code (matches the backend's
   // @PreAuthorize on POST /api/license/renew) - a cashier/staff account just
@@ -30,9 +28,13 @@ export class LicenseRenewComponent implements OnInit {
   readonly code = signal('');
   readonly submitting = signal(false);
   readonly expiresAt = signal<string | null>(null);
+  // Reachable two ways: forced here by licenseGuard (expired) or opened
+  // voluntarily from Settings to check status/renew early - the messaging
+  // differs, but the code-entry form works the same either way.
+  readonly expired = signal(false);
 
   ngOnInit(): void {
-    this.licenseService.ensureStatusLoaded().subscribe((status) => this.expiresAt.set(status.expiresAt));
+    this.refreshStatus();
   }
 
   onSubmit(): void {
@@ -43,8 +45,9 @@ export class LicenseRenewComponent implements OnInit {
     this.licenseService.renew(value).subscribe({
       next: () => {
         this.submitting.set(false);
+        this.code.set('');
         this.errorHandler.showSuccess('LICENSE.RENEW_SUCCESS');
-        this.router.navigate(['/dashboard']);
+        this.refreshStatus();
       },
       error: (err) => {
         this.submitting.set(false);
@@ -52,6 +55,13 @@ export class LicenseRenewComponent implements OnInit {
           this.errorHandler.showError('LICENSE.RENEW_ERROR');
         }
       }
+    });
+  }
+
+  private refreshStatus(): void {
+    this.licenseService.fetchStatus().subscribe((status) => {
+      this.expiresAt.set(status.expiresAt);
+      this.expired.set(status.expired);
     });
   }
 }

@@ -6,10 +6,13 @@
     "COPYRIGHT": "© 2026 Zaki Supermarket - All Rights Reserved"
   },
   "LICENSE": {
+    "MENU_LABEL": "Subscription",
     "TITLE": "Subscription Renewal",
     "SUBTITLE": "Your subscription needs to be renewed to continue",
     "EXPIRED_ON": "Your subscription expired on",
     "EXPIRED_GENERIC": "Your subscription has expired.",
+    "ACTIVE_UNTIL": "Your subscription is active until",
+    "UNLIMITED": "Your subscription has no expiry date set.",
     "ENTER_CODE_HINT": "Enter the renewal code you received from your provider.",
     "CODE_LABEL": "Renewal code",
     "RENEW_BUTTON": "Renew",
