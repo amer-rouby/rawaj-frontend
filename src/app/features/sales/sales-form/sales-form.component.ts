@@ -302,17 +302,22 @@ export class SalesFormComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   updateQuantity(item: CartItem, quantity: number): void {
-    if (quantity < 1) {
+    // The quantity input passes a raw string from the DOM event - parse it so
+    // loose/weighed items (e.g. 0.5 kg of rice from an open sack) work. The old
+    // `quantity < 1` check was meant to catch the decrement button reaching
+    // zero, but it also rejected every legitimate fractional amount under 1.
+    const numericQuantity = typeof quantity === 'string' ? parseFloat(quantity) : quantity;
+    if (!numericQuantity || numericQuantity <= 0) {
       this.removeFromCart(this.cartItems().indexOf(item));
       return;
     }
-    if (quantity > item.product.totalStock) {
+    if (numericQuantity > item.product.totalStock) {
       this.errorHandler.showWarning('SALES.QUANTITY_EXCEEDED');
       return;
     }
     this.cartItems.set(this.cartItems().map(cartItem =>
       cartItem.product.id === item.product.id
-        ? { ...cartItem, quantity, totalPrice: quantity * cartItem.unitPrice }
+        ? { ...cartItem, quantity: numericQuantity, totalPrice: numericQuantity * cartItem.unitPrice }
         : cartItem
     ));
   }
