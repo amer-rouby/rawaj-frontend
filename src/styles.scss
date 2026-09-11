@@ -57,8 +57,9 @@ $dark-theme: mat.define-theme((color: (theme-type: dark,
   }
 }
 
-// Font Import
-@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap');
+// Cairo is self-hosted via assets/fonts/fonts.css (loaded from index.html) -
+// this app must run fully offline on a customer's machine, and this
+// @import used to silently reach out to fonts.googleapis.com on every load.
 
 // Global Base Styles
 html,
