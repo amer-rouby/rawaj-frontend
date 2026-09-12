@@ -220,7 +220,7 @@ export class SalesAnalyticsComponent implements OnInit, OnDestroy {
   }
 
   formatCurrency(amount: number): string {
-    return new Intl.NumberFormat(this.currentLang() === 'ar' ? 'ar-EG' : 'en-US', {
+    return new Intl.NumberFormat(this.currentLang() === 'ar' ? 'ar-EG-u-nu-latn' : 'en-US', {
       style: 'currency',
       currency: this.currencyService.getCode(),
       minimumFractionDigits: 0,

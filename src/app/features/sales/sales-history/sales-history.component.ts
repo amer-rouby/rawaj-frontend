@@ -189,7 +189,7 @@ export class SalesHistoryComponent implements OnInit {
 
   formatDate(dateString: string): string {
     const lang = this.languageService.getCurrentLanguage();
-    return new Date(dateString).toLocaleDateString(lang === 'ar' ? 'ar-EG' : 'en-US', {
+    return new Date(dateString).toLocaleDateString(lang === 'ar' ? 'ar-EG-u-nu-latn' : 'en-US', {
       year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit'
     });
   }

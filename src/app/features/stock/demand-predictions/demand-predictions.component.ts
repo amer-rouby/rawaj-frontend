@@ -392,7 +392,7 @@ export class DemandPredictionsComponent implements OnInit {
   }
 
   formatDate(dateString: string): string {
-    return new Date(dateString).toLocaleDateString('ar-EG', {
+    return new Date(dateString).toLocaleDateString('ar-EG-u-nu-latn', {
       year: 'numeric',
       month: 'short',
       day: 'numeric'

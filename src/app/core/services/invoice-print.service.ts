@@ -200,7 +200,7 @@ ${this.getPrintStyles(isArabic)}
   }
 
   private formatDate(dateStr: string, isArabic: boolean): string {
-    const locale = isArabic ? 'ar-EG' : 'en-US';
+    const locale = isArabic ? 'ar-EG-u-nu-latn' : 'en-US';
     try {
       return new Date(dateStr).toLocaleDateString(locale, {
         year: 'numeric', month: 'long', day: 'numeric'
@@ -234,7 +234,7 @@ ${this.getPrintStyles(isArabic)}
   }
 
   private formatCurrency(amount: number, isArabic: boolean, currency: string = 'EGP'): string {
-    const locale = isArabic ? 'ar-EG' : 'en-US';
+    const locale = isArabic ? 'ar-EG-u-nu-latn' : 'en-US';
     return new Intl.NumberFormat(locale, {
       style: 'currency',
       currency,
