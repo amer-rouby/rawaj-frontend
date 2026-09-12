@@ -321,7 +321,7 @@ export class AuthService {
     if (user?.storeId) {
       return {
         id: user.storeId,
-        name: user.storeName || 'سوبر ماركت زكي',
+        name: user.storeName || 'زكي',
         address: '',
         phone: '',
         email: ''
