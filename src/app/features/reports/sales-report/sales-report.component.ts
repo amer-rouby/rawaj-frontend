@@ -271,7 +271,7 @@ export class SalesReportComponent implements OnInit {
 
   formatDateForPrint(dateStr: string): string {
     const lang = this.languageService.getCurrentLanguage();
-    const locale = lang === 'ar' ? 'ar-EG' : 'en-US';
+    const locale = lang === 'ar' ? 'ar-EG-u-nu-latn' : 'en-US';
     return new Date(dateStr).toLocaleDateString(locale, {
       year: 'numeric',
       month: 'short',

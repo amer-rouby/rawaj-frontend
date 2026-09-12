@@ -153,7 +153,7 @@ export class StockManagementComponent implements OnInit, AfterViewInit, OnDestro
 
   formatDate(dateString: string | null): string {
     if (!dateString) return '-';
-    return new Date(dateString).toLocaleDateString(this.languageService.getCurrentLanguage() === 'ar' ? 'ar-EG' : 'en-US', {
+    return new Date(dateString).toLocaleDateString(this.languageService.getCurrentLanguage() === 'ar' ? 'ar-EG-u-nu-latn' : 'en-US', {
       year: 'numeric',
       month: 'short',
       day: 'numeric'
