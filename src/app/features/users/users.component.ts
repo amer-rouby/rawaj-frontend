@@ -49,7 +49,7 @@ export class UsersComponent implements OnInit {
   readonly displayedColumns = ['fullName', 'email', 'role', 'isActive', 'lastLoginAt', 'actions'];
   readonly userRoles = [
     { value: UserRole.ADMIN, label: 'USERS.ADMIN' },
-    { value: UserRole.PHARMACIST, label: 'USERS.PHARMACIST' },
+    { value: UserRole.CASHIER, label: 'USERS.CASHIER' },
     { value: UserRole.MANAGER, label: 'USERS.MANAGER' },
     { value: UserRole.VIEWER, label: 'USERS.VIEWER' }
   ];
@@ -173,7 +173,7 @@ export class UsersComponent implements OnInit {
   getRoleLabel(role: UserRole): string {
     const labels: Record<UserRole, string> = {
       [UserRole.ADMIN]: this.translate.instant('USERS.ADMIN'),
-      [UserRole.PHARMACIST]: this.translate.instant('USERS.PHARMACIST'),
+      [UserRole.CASHIER]: this.translate.instant('USERS.CASHIER'),
       [UserRole.MANAGER]: this.translate.instant('USERS.MANAGER'),
       [UserRole.VIEWER]: this.translate.instant('USERS.VIEWER')
     };
@@ -183,7 +183,7 @@ export class UsersComponent implements OnInit {
   getRoleColor(role: UserRole): string {
     const colors: Record<UserRole, string> = {
       [UserRole.ADMIN]: '#ef4444',
-      [UserRole.PHARMACIST]: '#3b82f6',
+      [UserRole.CASHIER]: '#3b82f6',
       [UserRole.MANAGER]: '#f59e0b',
       [UserRole.VIEWER]: '#10b981'
     };
@@ -192,7 +192,7 @@ export class UsersComponent implements OnInit {
 
   formatDate(dateString?: string): string {
     if (!dateString) return '-';
-    return new Date(dateString).toLocaleDateString('ar-EG', {
+    return new Date(dateString).toLocaleDateString('ar-EG-u-nu-latn', {
       year: 'numeric',
       month: 'short',
       day: 'numeric',

@@ -45,7 +45,7 @@ export const routes: Routes = [
           import('./features/products/products.routes')
             .then(m => m.PRODUCTS_ROUTES),
         canActivate: [roleGuard],
-        data: { roles: ['ADMIN', 'PHARMACIST', 'MANAGER'] }
+        data: { roles: ['ADMIN', 'CASHIER', 'MANAGER'] }
       },
       {
         path: 'payments',
@@ -59,7 +59,7 @@ export const routes: Routes = [
           import('./features/stock/stock.routes')
             .then(m => m.STOCK_ROUTES),
         canActivate: [roleGuard],
-        data: { roles: ['ADMIN', 'PHARMACIST', 'MANAGER'] }
+        data: { roles: ['ADMIN', 'CASHIER', 'MANAGER'] }
       },
       {
         path: 'sales',
@@ -67,7 +67,7 @@ export const routes: Routes = [
           import('./features/sales/sales.routes')
             .then(m => m.SALES_ROUTES),
         canActivate: [roleGuard],
-        data: { roles: ['ADMIN', 'PHARMACIST', 'MANAGER'] }
+        data: { roles: ['ADMIN', 'CASHIER', 'MANAGER'] }
       },
       {
         path: 'expenses',
@@ -104,7 +104,7 @@ export const routes: Routes = [
         loadComponent: () =>
           import('./features/notification-bell/notifications.component')
             .then(m => m.NotificationsComponent),
-        title: 'التنبيهات - سوبر ماركت زكي'
+        title: 'التنبيهات - زكي'
       },
       {
         path: 'help',
@@ -119,7 +119,7 @@ export const routes: Routes = [
           import('./features/purchases/purchases.routes')
             .then(m => m.PURCHASES_ROUTES),
         canActivate: [roleGuard],
-        data: { roles: ['ADMIN', 'PHARMACIST', 'MANAGER'] }
+        data: { roles: ['ADMIN', 'CASHIER', 'MANAGER'] }
       },
       {
         path: 'customers',
@@ -127,7 +127,7 @@ export const routes: Routes = [
           import('./features/customers/customers.routes')
             .then(m => m.CUSTOMERS_ROUTES),
         canActivate: [roleGuard],
-        data: { roles: ['ADMIN', 'PHARMACIST', 'MANAGER'] }
+        data: { roles: ['ADMIN', 'CASHIER', 'MANAGER'] }
       },
       {
         path: '**',
