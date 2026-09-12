@@ -53,8 +53,7 @@ export class StockAlertService {
     return this.http.post<ApiResponse<void>>(`${this.apiUrl}/${alertId}/read`, null, {
       params: new HttpParams().set('storeId', storeId)
     }).pipe(
-      map(response => response.data),
-      catchError(this.handleError<void>('markAsRead'))
+      map(response => response.data)
     );
   }
 
@@ -64,8 +63,7 @@ export class StockAlertService {
     return this.http.post<ApiResponse<void>>(`${this.apiUrl}/read-all`, null, {
       params: new HttpParams().set('storeId', storeId)
     }).pipe(
-      map(response => response.data),
-      catchError(this.handleError<void>('markAllAsRead'))
+      map(response => response.data)
     );
   }
 
@@ -75,8 +73,7 @@ export class StockAlertService {
     return this.http.post<ApiResponse<void>>(`${this.apiUrl}/${alertId}/resolve`, null, {
       params: new HttpParams().set('storeId', storeId)
     }).pipe(
-      map(response => response.data),
-      catchError(this.handleError<void>('resolveAlert'))
+      map(response => response.data)
     );
   }
 
@@ -86,8 +83,7 @@ export class StockAlertService {
     return this.http.delete<ApiResponse<void>>(`${this.apiUrl}/${alertId}`, {
       params: new HttpParams().set('storeId', storeId)
     }).pipe(
-      map(response => response.data),
-      catchError(this.handleError<void>('deleteAlert'))
+      map(response => response.data)
     );
   }
 

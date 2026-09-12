@@ -36,8 +36,7 @@ export class StoreSettingsService {
     return this.http.put<ApiResponse<StoreSettings>>(this.apiUrl, request, {
       params: new HttpParams().set('storeId', storeId)
     }).pipe(
-      map(response => response.data),
-      catchError(this.handleError<StoreSettings>('updateSettings'))
+      map(response => response.data)
     );
   }
 
