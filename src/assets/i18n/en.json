@@ -1,9 +1,9 @@
 {
   "APP": {
-    "NAME": "Zaki Supermarket",
-    "SUBTITLE": "Store Management System",
+    "NAME": "Zaki",
+    "SUBTITLE": "Computer & Mobile Shop Management System",
     "VERSION": "Version 1.0.0",
-    "COPYRIGHT": "© 2026 Zaki Supermarket - All Rights Reserved"
+    "COPYRIGHT": "© 2026 Zaki - All Rights Reserved"
   },
   "LICENSE": {
     "MENU_LABEL": "Subscription",
@@ -149,7 +149,7 @@
     "ADD_SUBTITLE": "Enter new product details",
     "EDIT_SUBTITLE": "Update product details",
     "NAME": "Product Name",
-    "NAME_PLACEHOLDER": "Example: Full Cream Milk 1L",
+    "NAME_PLACEHOLDER": "Example: Dell Inspiron 15 Laptop",
     "BARCODE": "Barcode",
     "BARCODE_PLACEHOLDER": "Enter barcode",
     "REGENERATE_BARCODE": "Generate New Barcode",
@@ -159,12 +159,6 @@
     "UNIT_TYPE": "Unit Type",
     "UNIT_PIECE": "Piece",
     "UNIT_BOX": "Box",
-    "UNIT_BOTTLE": "Bottle",
-    "UNIT_BAG": "Bag",
-    "UNIT_PACK": "Pack",
-    "UNIT_KG": "Kilogram",
-    "UNIT_GRAM": "Gram",
-    "UNIT_LITER": "Liter",
     "UNIT_CARTON": "Carton",
     "MIN_STOCK_LEVEL": "Minimum Stock Level",
     "BUY_PRICE": "Purchase Price",
@@ -227,8 +221,8 @@
     "QUICK_ADD_NO_ENTRIES": "No products scanned yet",
     "QUICK_ADD_NO_STOCK_ADDED": "No stock added",
     "ADDITIONAL_INFO_HINT": "Optional",
-    "MANUFACTURER_PLACEHOLDER": "Example: Juhayna",
-    "STORAGE_CONDITIONS_PLACEHOLDER": "Example: Store in a cool, dry place away from direct sunlight",
+    "MANUFACTURER_PLACEHOLDER": "Example: Dell",
+    "STORAGE_CONDITIONS_PLACEHOLDER": "Example: Keep away from humidity and excessive heat",
     "DESCRIPTION_PLACEHOLDER": "Short description of the product",
     "INITIAL_STOCK_SECTION": "Initial Stock",
     "INITIAL_STOCK_HINT": "Optional — you can add quantity later from Stock Management",
@@ -268,24 +262,6 @@
     "STATUS_ERROR": "Failed to update status",
     "PRODUCT_COUNT": "{{count}} products",
     "PRODUCT_COUNT_HEADER": "Product Count",
-    "DAIRY": "Dairy",
-    "DAIRY_DESC": "Milk, cheese, yogurt and other dairy products",
-    "BAKERY": "Bakery",
-    "BAKERY_DESC": "Bread, pastries and baked goods",
-    "GRAINS": "Grains",
-    "GRAINS_DESC": "Rice, pasta and other grains",
-    "COOKING_OIL": "Cooking Oil",
-    "COOKING_OIL_DESC": "Cooking and vegetable oils",
-    "GROCERY": "Grocery",
-    "GROCERY_DESC": "General grocery items",
-    "CONDIMENTS": "Condiments",
-    "CONDIMENTS_DESC": "Sauces, spices and condiments",
-    "HOUSEHOLD": "Household",
-    "HOUSEHOLD_DESC": "Cleaning and household supplies",
-    "BEVERAGES": "Beverages",
-    "BEVERAGES_DESC": "Water, juices and soft drinks",
-    "MEAT": "Meat",
-    "MEAT_DESC": "Fresh and frozen meat and poultry",
     "ACTIVE": "Active",
     "EDIT": "Edit Category",
     "INVALID_SUPPLIER": "Invalid category data"
@@ -504,8 +480,10 @@
     "BATCH_ADD_ERROR": "Failed to add batch",
     "STATUS": {
       "GOOD": "Good",
+      "ACTIVE": "Active",
       "LOW": "Low",
       "EXPIRED": "Expired",
+      "DISCARDED": "Discarded",
       "EXPIRING_SOON": "Expiring Soon",
       "URGENT": "Urgent",
       "WARNING": "Warning"
@@ -656,7 +634,8 @@
     "COUNT": "User",
     "LAST_LOGIN": "Last Login",
     "ADMIN": "Admin",
-    "PHARMACIST": "Pharmacist",
+    "MANAGER": "Manager",
+    "VIEWER": "Viewer",
     "CASHIER": "Cashier",
     "LAST_LOGIN_DESC": "Last login time",
     "EMAIL_EXISTS": "Email already exists"
@@ -964,7 +943,7 @@
     "NOTIFICATION_MARK_READ_UNAUTHORIZED": "You are not authorized to mark this notification as read"
   },
   "FOOTER": {
-    "COPYRIGHT": "© 2026 Zaki Supermarket",
+    "COPYRIGHT": "© 2026 Zaki",
     "ALL_RIGHTS_RESERVED": "All Rights Reserved",
     "VERSION": "Version",
     "POWERED_BY": "Developed by"
@@ -1470,7 +1449,7 @@
       "ADD_USER": "How to add a new user?",
       "ADD_USER_ANSWER": "Go to Settings > Users (Admins only), click 'Add User', fill in their details and choose a role, then save.",
       "USER_ROLES": "What are the different user roles?",
-      "USER_ROLES_ANSWER": "Admin has full access to everything. Manager can access sales, purchases, reports, payments, and expenses. Pharmacist can access products, inventory, sales, and purchases. Viewer can only see the dashboard.",
+      "USER_ROLES_ANSWER": "Admin has full access to everything. Manager can access sales, purchases, reports, payments, and expenses. Cashier can access products, inventory, sales, and purchases. Viewer can only see the dashboard.",
       "ENABLE_2FA": "How to enable two-factor authentication (2FA)?",
       "ENABLE_2FA_ANSWER": "Go to Settings > Security, start the 2FA setup, scan the QR code with an authenticator app, then enter the generated code to confirm. You'll be asked for a code on every future login.",
       "UNLOCK_ACCOUNT": "An account got locked after failed login attempts - how do I unlock it?",
@@ -1900,7 +1879,7 @@
     }
   },
   "STORE": {
-    "DEFAULT_NAME": "Zaki Supermarket",
+    "DEFAULT_NAME": "Zaki",
     "SETTINGS": "Store Settings",
     "NAME": "Store Name",
     "ADDRESS": "Address",
