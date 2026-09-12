@@ -65,12 +65,6 @@ export class QuickAddScanComponent implements OnInit, AfterViewInit {
   readonly unitTypes = [
     { value: 'PIECE', label: 'PRODUCTS.UNIT_PIECE' },
     { value: 'BOX', label: 'PRODUCTS.UNIT_BOX' },
-    { value: 'BOTTLE', label: 'PRODUCTS.UNIT_BOTTLE' },
-    { value: 'BAG', label: 'PRODUCTS.UNIT_BAG' },
-    { value: 'PACK', label: 'PRODUCTS.UNIT_PACK' },
-    { value: 'KG', label: 'PRODUCTS.UNIT_KG' },
-    { value: 'GRAM', label: 'PRODUCTS.UNIT_GRAM' },
-    { value: 'LITER', label: 'PRODUCTS.UNIT_LITER' },
     { value: 'CARTON', label: 'PRODUCTS.UNIT_CARTON' }
   ];
 
@@ -257,7 +251,7 @@ export class QuickAddScanComponent implements OnInit, AfterViewInit {
   private logEntry(barcode: string, name: string, kind: 'new' | 'restock', quantity: number | null): void {
     this.sessionLog.update(log => [{
       barcode, name, kind, quantity,
-      time: new Date().toLocaleTimeString(this.languageService.getCurrentLanguage() === 'ar' ? 'ar-EG' : 'en-US')
+      time: new Date().toLocaleTimeString(this.languageService.getCurrentLanguage() === 'ar' ? 'ar-EG-u-nu-latn' : 'en-US')
     }, ...log]);
   }
 
