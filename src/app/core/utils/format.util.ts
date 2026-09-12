@@ -1,5 +1,5 @@
 export function formatCurrency(amount: number, lang: string, currency: string = 'EGP'): string {
-  return new Intl.NumberFormat(lang === 'ar' ? 'ar-EG' : 'en-US', {
+  return new Intl.NumberFormat(lang === 'ar' ? 'ar-EG-u-nu-latn' : 'en-US', {
     style: 'currency',
     currency,
     minimumFractionDigits: 2
@@ -7,7 +7,7 @@ export function formatCurrency(amount: number, lang: string, currency: string = 
 }
 
 export function formatDateTime(dateString: string, lang: string): string {
-  return new Date(dateString).toLocaleDateString(lang === 'ar' ? 'ar-EG' : 'en-US', {
+  return new Date(dateString).toLocaleDateString(lang === 'ar' ? 'ar-EG-u-nu-latn' : 'en-US', {
     year: 'numeric',
     month: 'short',
     day: 'numeric',

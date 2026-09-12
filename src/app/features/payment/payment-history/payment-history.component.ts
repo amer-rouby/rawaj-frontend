@@ -240,7 +240,7 @@ export class PaymentHistoryComponent implements OnInit {
 
   formatDate(dateString: string): string {
     if (!dateString) return '-';
-    return new Date(dateString).toLocaleString('ar-EG');
+    return new Date(dateString).toLocaleString('ar-EG-u-nu-latn');
   }
 
   formatAmount(amount: number): string {
