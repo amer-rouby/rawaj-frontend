@@ -64,12 +64,6 @@ export class ProductFormComponent implements OnInit, AfterViewInit {
   readonly unitTypes = [
     { value: 'PIECE', label: 'PRODUCTS.UNIT_PIECE' },
     { value: 'BOX', label: 'PRODUCTS.UNIT_BOX' },
-    { value: 'BOTTLE', label: 'PRODUCTS.UNIT_BOTTLE' },
-    { value: 'BAG', label: 'PRODUCTS.UNIT_BAG' },
-    { value: 'PACK', label: 'PRODUCTS.UNIT_PACK' },
-    { value: 'KG', label: 'PRODUCTS.UNIT_KG' },
-    { value: 'GRAM', label: 'PRODUCTS.UNIT_GRAM' },
-    { value: 'LITER', label: 'PRODUCTS.UNIT_LITER' },
     { value: 'CARTON', label: 'PRODUCTS.UNIT_CARTON' }
   ];
 
@@ -259,45 +253,10 @@ export class ProductFormComponent implements OnInit, AfterViewInit {
 
   getCategoryName(category: Category): string {
     const currentLang = this.languageService.getCurrentLanguage();
-
-    // Bidirectional mapping: English <-> Arabic <-> Translation Key
-    const categoryKeyMap: Record<string, string> = {
-      // English names
-      'Dairy': 'CATEGORIES.DAIRY',
-      'Bakery': 'CATEGORIES.BAKERY',
-      'Grains': 'CATEGORIES.GRAINS',
-      'Cooking Oil': 'CATEGORIES.COOKING_OIL',
-      'Grocery': 'CATEGORIES.GROCERY',
-      'Condiments': 'CATEGORIES.CONDIMENTS',
-      'Household': 'CATEGORIES.HOUSEHOLD',
-      'Beverages': 'CATEGORIES.BEVERAGES',
-      'Meat': 'CATEGORIES.MEAT',
-      'Other': 'CATEGORIES.OTHER',
-      // Arabic names
-      'ألبان': 'CATEGORIES.DAIRY',
-      'مخبوزات': 'CATEGORIES.BAKERY',
-      'حبوب': 'CATEGORIES.GRAINS',
-      'زيوت الطهي': 'CATEGORIES.COOKING_OIL',
-      'بقالة': 'CATEGORIES.GROCERY',
-      'توابل وصلصات': 'CATEGORIES.CONDIMENTS',
-      'مستلزمات منزلية': 'CATEGORIES.HOUSEHOLD',
-      'مشروبات': 'CATEGORIES.BEVERAGES',
-      'لحوم': 'CATEGORIES.MEAT',
-      'أخرى': 'CATEGORIES.OTHER'
-    };
-
-    const translationKey = categoryKeyMap[category.name];
-    if (translationKey) {
-      // Always return the translation for the current language
-      const translated = this.translate.instant(translationKey);
-      // If translation exists and is different from the key, use it
-      if (translated && translated !== translationKey) {
-        return translated;
-      }
+    if (currentLang === 'en' && category.nameEn) {
+      return category.nameEn;
     }
-
-    // If no translation found, return the original name
-    return category.name;
+    return category.nameAr || category.name;
   }
 
   translateUnitType(key: string): string {
