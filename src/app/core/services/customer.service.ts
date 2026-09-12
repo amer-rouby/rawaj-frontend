@@ -44,8 +44,7 @@ export class CustomerService {
     return this.http.post<ApiResponse<Customer>>(this.apiUrl, request, {
       params: this.store.storeParams()
     }).pipe(
-      map((response) => response.data),
-      withHttpErrorFallback<Customer>('createCustomer')
+      map((response) => response.data)
     );
   }
 
@@ -53,8 +52,7 @@ export class CustomerService {
     return this.http.put<ApiResponse<Customer>>(`${this.apiUrl}/${id}`, request, {
       params: this.store.storeParams()
     }).pipe(
-      map((response) => response.data),
-      withHttpErrorFallback<Customer>('updateCustomer')
+      map((response) => response.data)
     );
   }
 
@@ -62,8 +60,7 @@ export class CustomerService {
     return this.http.delete<ApiResponse<void>>(`${this.apiUrl}/${id}`, {
       params: this.store.storeParams()
     }).pipe(
-      map((response) => response.data),
-      withHttpErrorFallback<void>('deleteCustomer')
+      map((response) => response.data)
     );
   }
 
@@ -89,8 +86,7 @@ export class CustomerService {
     return this.http.post<ApiResponse<Customer>>(`${this.apiUrl}/${id}/payment`, request, {
       params: this.store.storeParams()
     }).pipe(
-      map((response) => response.data),
-      withHttpErrorFallback<Customer>('recordPayment')
+      map((response) => response.data)
     );
   }
 }
