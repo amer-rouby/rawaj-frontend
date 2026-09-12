@@ -57,8 +57,7 @@ export class PurchaseOrderService {
         params: this.store.storeParams()
       })
       .pipe(
-        map((response) => response.data),
-        withHttpErrorFallback<PurchaseOrder>('createOrder')
+        map((response) => response.data)
       );
   }
 
@@ -68,8 +67,7 @@ export class PurchaseOrderService {
         params: this.store.storeParams()
       })
       .pipe(
-        map((response) => response.data),
-        withHttpErrorFallback<PurchaseOrder>('updateOrder')
+        map((response) => response.data)
       );
   }
 
@@ -79,8 +77,7 @@ export class PurchaseOrderService {
         params: this.store.storeParams()
       })
       .pipe(
-        map((response) => response.data),
-        withHttpErrorFallback<void>('deleteOrder')
+        map((response) => response.data)
       );
   }
 
@@ -90,8 +87,7 @@ export class PurchaseOrderService {
         params: this.store.storeParams()
       })
       .pipe(
-        map((response) => response.data),
-        withHttpErrorFallback<PurchaseOrder>('approveOrder')
+        map((response) => response.data)
       );
   }
 
@@ -101,8 +97,7 @@ export class PurchaseOrderService {
         params: this.store.storeParams()
       })
       .pipe(
-        map((response) => response.data),
-        withHttpErrorFallback<PurchaseOrder>('cancelOrder')
+        map((response) => response.data)
       );
   }
 
@@ -112,8 +107,7 @@ export class PurchaseOrderService {
         params: this.store.storeParams()
       })
       .pipe(
-        map((response) => response.data),
-        withHttpErrorFallback<PurchaseOrder>('receiveOrder')
+        map((response) => response.data)
       );
   }
 
