@@ -42,7 +42,7 @@ export class CurrencyService {
 
   format(amount: number, lang: string): string {
     this.ensureLoaded();
-    return new Intl.NumberFormat(lang === 'ar' ? 'ar-EG' : 'en-US', {
+    return new Intl.NumberFormat(lang === 'ar' ? 'ar-EG-u-nu-latn' : 'en-US', {
       style: 'currency',
       currency: this.getCode(),
       minimumFractionDigits: 2

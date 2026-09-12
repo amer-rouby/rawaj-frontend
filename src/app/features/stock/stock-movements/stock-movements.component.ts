@@ -189,7 +189,7 @@ export class StockMovementsComponent implements OnInit {
   }
 
   formatDate(dateString: string): string {
-    return new Date(dateString).toLocaleString('ar-EG');
+    return new Date(dateString).toLocaleString('ar-EG-u-nu-latn');
   }
 
   formatQuantityChange(before: number, after: number): string {

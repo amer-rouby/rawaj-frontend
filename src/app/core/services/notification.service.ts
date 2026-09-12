@@ -95,7 +95,7 @@ export class NotificationService {
     if (diffMins < 60) return `منذ ${diffMins} دقيقة`;
     if (diffHours < 24) return `منذ ${diffHours} ساعة`;
     if (diffDays < 7) return `منذ ${diffDays} يوم`;
-    return date.toLocaleDateString('ar-EG');
+    return date.toLocaleDateString('ar-EG-u-nu-latn');
   }
 
   private mapNotification(n: any): NotificationModel {

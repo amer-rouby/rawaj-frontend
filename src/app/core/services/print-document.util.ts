@@ -87,7 +87,7 @@ export function getPrintLetterheadHtml(
 }
 
 export function getPrintFooterHtml(appName: string, generatedLabel: string, isArabic: boolean): string {
-  const now = new Date().toLocaleString(isArabic ? 'ar-EG' : 'en-US', {
+  const now = new Date().toLocaleString(isArabic ? 'ar-EG-u-nu-latn' : 'en-US', {
     year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit'
   });
   return `<footer class="doc-footer">${appName}&nbsp;&mdash;&nbsp;${generatedLabel}: ${now}</footer>`;

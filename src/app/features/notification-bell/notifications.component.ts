@@ -139,7 +139,7 @@ export class NotificationsComponent implements OnInit {
   getPriorityColor(priority: string) { return this.notificationService.getPriorityColor(priority); }
   getTypeLabel(type: string) { return this.notificationService.getTypeLabel(type); }
   formatDate(date: string) {
-    return new Date(date).toLocaleString('ar-EG', {
+    return new Date(date).toLocaleString('ar-EG-u-nu-latn', {
       month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit'
     });
   }

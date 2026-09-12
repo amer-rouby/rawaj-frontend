@@ -107,7 +107,7 @@ export class PaymentReceiptComponent implements OnInit {
 
   formatDate(dateString: string | undefined): string {
     if (!dateString) return '-';
-    return new Date(dateString).toLocaleString('ar-EG');
+    return new Date(dateString).toLocaleString('ar-EG-u-nu-latn');
   }
 
   formatAmount(amount: number | undefined): string {

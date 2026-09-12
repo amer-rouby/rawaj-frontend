@@ -259,7 +259,7 @@ export class SessionSettingsComponent implements OnInit {
 
     if (expiresAt) {
       const date = new Date(expiresAt);
-      this.expiresAt = date.toLocaleString('ar-EG', {
+      this.expiresAt = date.toLocaleString('ar-EG-u-nu-latn', {
         year: 'numeric',
         month: 'long',
         day: 'numeric',

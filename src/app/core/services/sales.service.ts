@@ -42,7 +42,7 @@ export class SalesService {
 
   private formatDate(date: string): string {
     try {
-      return new Date(date).toLocaleDateString('ar-EG', { day: 'numeric', month: 'short', year: 'numeric' });
+      return new Date(date).toLocaleDateString('ar-EG-u-nu-latn', { day: 'numeric', month: 'short', year: 'numeric' });
     } catch { return date; }
   }
 

@@ -33,7 +33,7 @@ export class OfflineQueueDialogComponent {
 
   formatDate(dateString: string): string {
     const lang = this.languageService.getCurrentLanguage();
-    return new Date(dateString).toLocaleString(lang === 'ar' ? 'ar-EG' : 'en-US', {
+    return new Date(dateString).toLocaleString(lang === 'ar' ? 'ar-EG-u-nu-latn' : 'en-US', {
       month: 'short',
       day: 'numeric',
       hour: '2-digit',
