@@ -42,7 +42,7 @@ export class SidebarComponent {
       icon: 'dashboard',
       label: 'NAV.DASHBOARD',
       route: '/dashboard',
-      roles: ['ADMIN', 'PHARMACIST', 'MANAGER', 'VIEWER']
+      roles: ['ADMIN', 'CASHIER', 'MANAGER', 'VIEWER']
     },
     {
       icon: 'inventory_2',
@@ -53,7 +53,7 @@ export class SidebarComponent {
         { icon: 'qr_code_scanner', label: 'NAV.PRODUCTS_QUICK_ADD', route: '/products/quick-add' },
         { icon: 'category', label: 'NAV.PRODUCTS_CATEGORIES', route: '/products/categories' }
       ],
-      roles: ['ADMIN', 'PHARMACIST', 'MANAGER']
+      roles: ['ADMIN', 'CASHIER', 'MANAGER']
     },
     {
       icon: 'storage',
@@ -65,7 +65,7 @@ export class SidebarComponent {
         { icon: 'history', label: 'NAV.STOCK_HISTORY', route: '/stock/history' },
         { icon: 'event_busy', label: 'NAV.EXPIRY_REPORT', route: '/reports/expiry' }
       ],
-      roles: ['ADMIN', 'PHARMACIST', 'MANAGER']
+      roles: ['ADMIN', 'CASHIER', 'MANAGER']
     },
     {
       icon: 'shopping_cart',
@@ -75,7 +75,7 @@ export class SidebarComponent {
         { icon: 'receipt_long', label: 'NAV.SALES_HISTORY', route: '/sales/history' },
         { icon: 'analytics', label: 'NAV.SALES_ANALYTICS', route: '/sales/analytics' }
       ],
-      roles: ['ADMIN', 'PHARMACIST', 'MANAGER']
+      roles: ['ADMIN', 'CASHIER', 'MANAGER']
     },
     {
       icon: 'local_shipping',
@@ -85,13 +85,13 @@ export class SidebarComponent {
         { icon: 'add', label: 'PURCHASES.CREATE', route: '/purchases/new' },
         { icon: 'business', label: 'SUPPLIERS.TITLE', route: '/purchases/suppliers' }
       ],
-      roles: ['ADMIN', 'PHARMACIST', 'MANAGER']
+      roles: ['ADMIN', 'CASHIER', 'MANAGER']
     },
     {
       icon: 'people',
       label: 'NAV.CUSTOMERS',
       route: '/customers',
-      roles: ['ADMIN', 'PHARMACIST', 'MANAGER']
+      roles: ['ADMIN', 'CASHIER', 'MANAGER']
     },
     {
       icon: 'assessment',

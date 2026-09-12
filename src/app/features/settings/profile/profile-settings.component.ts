@@ -262,7 +262,7 @@ export class ProfileSettingsComponent implements OnInit {
   getRoleLabel(role: string): string {
     const labels: Record<string, string> = {
       'ADMIN': this.translate.instant('USERS.ADMIN'),
-      'PHARMACIST': this.translate.instant('USERS.PHARMACIST'),
+      'CASHIER': this.translate.instant('USERS.CASHIER'),
       'MANAGER': this.translate.instant('USERS.MANAGER'),
       'VIEWER': this.translate.instant('USERS.VIEWER')
     };
@@ -271,7 +271,7 @@ export class ProfileSettingsComponent implements OnInit {
 
   formatDate(dateString?: string): string {
     if (!dateString) return '-';
-    return new Date(dateString).toLocaleDateString('ar-EG', {
+    return new Date(dateString).toLocaleDateString('ar-EG-u-nu-latn', {
       year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit'
     });
   }

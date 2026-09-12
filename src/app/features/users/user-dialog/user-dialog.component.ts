@@ -25,7 +25,7 @@ export class UserDialogComponent {
 
   readonly userRoles = [
     { value: UserRole.ADMIN, label: 'USERS.ADMIN' },
-    { value: UserRole.PHARMACIST, label: 'USERS.PHARMACIST' },
+    { value: UserRole.CASHIER, label: 'USERS.CASHIER' },
     { value: UserRole.MANAGER, label: 'USERS.MANAGER' },
     { value: UserRole.VIEWER, label: 'USERS.VIEWER' }
   ];
@@ -36,7 +36,7 @@ export class UserDialogComponent {
     fullName: ['', [Validators.required, Validators.minLength(2)]],
     email: ['', [Validators.email]],
     phone: [''],
-    role: [UserRole.PHARMACIST, Validators.required],
+    role: [UserRole.CASHIER, Validators.required],
     isActive: [true]
   });
 
