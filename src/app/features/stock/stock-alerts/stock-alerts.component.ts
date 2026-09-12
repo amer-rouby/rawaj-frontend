@@ -178,7 +178,7 @@ export class StockAlertsComponent implements OnInit, OnDestroy {
     return this.translate.instant(labels[status] || status);
   }
 
-  formatDate(dateString: string): string { return new Date(dateString).toLocaleString('ar-EG'); }
+  formatDate(dateString: string): string { return new Date(dateString).toLocaleString('ar-EG-u-nu-latn'); }
 
   getFilteredAlertsCount(): number {
     return this.allFilteredData().length;

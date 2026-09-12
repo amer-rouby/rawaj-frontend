@@ -79,7 +79,7 @@ export class CustomerStatementDialogComponent implements OnInit {
   }
 
   formatDate(dateString: string): string {
-    return new Date(dateString).toLocaleString('ar-EG', {
+    return new Date(dateString).toLocaleString('ar-EG-u-nu-latn', {
       year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit'
     });
   }

@@ -426,7 +426,7 @@ export class SalesFormComponent implements OnInit, AfterViewInit, OnDestroy {
       customerName: '',
       customerPhone: this.customerPhone(),
       customerEmail: '',
-      description: `Sale - ${new Date().toLocaleDateString('ar-EG')}`
+      description: `Sale - ${new Date().toLocaleDateString('ar-EG-u-nu-latn')}`
     };
 
     return new Promise((resolve, reject) => {

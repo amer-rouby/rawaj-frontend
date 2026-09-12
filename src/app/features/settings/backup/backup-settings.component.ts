@@ -130,7 +130,7 @@ export class BackupSettingsComponent implements OnInit {
   }
 
   formatDate(dateString: string): string {
-    return new Date(dateString).toLocaleString('ar-EG');
+    return new Date(dateString).toLocaleString('ar-EG-u-nu-latn');
   }
 
   getStatusColor(status: string): string {

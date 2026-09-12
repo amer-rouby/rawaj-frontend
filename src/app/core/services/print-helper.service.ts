@@ -124,7 +124,7 @@ export class PrintHelperService {
     `;
 
     const storeName = this.authService.getStoreInfo()?.name || t('APP.NAME');
-    const generatedMeta = `${t('REPORTS.GENERATED') || 'Generated'}: ${new Date().toLocaleDateString(lang === 'ar' ? 'ar-EG' : 'en-US', { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' })}`;
+    const generatedMeta = `${t('REPORTS.GENERATED') || 'Generated'}: ${new Date().toLocaleDateString(lang === 'ar' ? 'ar-EG-u-nu-latn' : 'en-US', { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' })}`;
 
     return `<!DOCTYPE html>
 <html dir="${dir}" lang="${lang}">
@@ -160,18 +160,18 @@ export class PrintHelperService {
 
     switch (type) {
       case 'currency':
-        return new Intl.NumberFormat(isArabic ? 'ar-EG' : 'en-US', {
+        return new Intl.NumberFormat(isArabic ? 'ar-EG-u-nu-latn' : 'en-US', {
           style: 'currency',
           currency: this.currencyService.getCode(),
           minimumFractionDigits: 2
         }).format(value);
 
       case 'number':
-        return new Intl.NumberFormat(isArabic ? 'ar-EG' : 'en-US').format(value);
+        return new Intl.NumberFormat(isArabic ? 'ar-EG-u-nu-latn' : 'en-US').format(value);
 
       case 'date':
         try {
-          return new Date(value).toLocaleDateString(isArabic ? 'ar-EG' : 'en-US', {
+          return new Date(value).toLocaleDateString(isArabic ? 'ar-EG-u-nu-latn' : 'en-US', {
             year: 'numeric', month: 'short', day: 'numeric'
           });
         } catch {
