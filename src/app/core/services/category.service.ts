@@ -124,8 +124,7 @@ export class CategoryService {
     };
 
     return this.http.post<ApiResponse<Category>>(this.apiUrl, request).pipe(
-      map(response => response.data),
-      catchError(this.handleError<Category>('createCategory'))
+      map(response => response.data)
     );
   }
 
@@ -146,8 +145,7 @@ export class CategoryService {
     return this.http.put<ApiResponse<Category>>(`${this.apiUrl}/${id}`, request, {
       params: new HttpParams().set('storeId', storeId)
     }).pipe(
-      map(response => response.data),
-      catchError(this.handleError<Category>(`updateCategory id=${id}`))
+      map(response => response.data)
     );
   }
 
@@ -160,9 +158,7 @@ export class CategoryService {
 
     return this.http.delete<void>(`${this.apiUrl}/${id}`, {
       params: new HttpParams().set('storeId', storeId)
-    }).pipe(
-      catchError(this.handleError<void>(`deleteCategory id=${id}`))
-    );
+    });
   }
 
   searchCategories(query: string): Observable<Category[]> {

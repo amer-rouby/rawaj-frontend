@@ -88,8 +88,7 @@ export class UserService {
     };
 
     return this.http.post<ApiResponse<User>>(this.apiUrl, request).pipe(
-      map(response => response.data),
-      catchError(this.handleError<User>('createUser'))
+      map(response => response.data)
     );
   }
 
@@ -103,8 +102,7 @@ export class UserService {
     return this.http.put<ApiResponse<User>>(`${this.apiUrl}/${id}`, user, {
       params: new HttpParams().set('storeId', storeId)
     }).pipe(
-      map(response => response.data),
-      catchError(this.handleError<User>(`updateUser id=${id}`))
+      map(response => response.data)
     );
   }
 
@@ -117,9 +115,7 @@ export class UserService {
 
     return this.http.delete<void>(`${this.apiUrl}/${id}`, {
       params: new HttpParams().set('storeId', storeId)
-    }).pipe(
-      catchError(this.handleError<void>(`deleteUser id=${id}`))
-    );
+    });
   }
 
   searchUsers(query: string): Observable<User[]> {

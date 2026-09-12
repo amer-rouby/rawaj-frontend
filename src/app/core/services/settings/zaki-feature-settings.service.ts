@@ -68,8 +68,7 @@ export class ZakiFeatureSettingsService {
       params: new HttpParams().set('storeId', storeId)
     }).pipe(
       map(response => response.data),
-      tap(settings => this.flags.set(settings)),
-      catchError(this.handleError<ZakiFeatureSettings>('updateSettings'))
+      tap(settings => this.flags.set(settings))
     );
   }
 
