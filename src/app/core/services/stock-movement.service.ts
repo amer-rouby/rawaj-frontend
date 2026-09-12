@@ -105,8 +105,7 @@ export class StockMovementService {
 
   createMovement(request: CreateMovementRequest): Observable<StockMovement> {
     return this.http.post<ApiResponse<StockMovement>>(this.apiUrl, request).pipe(
-      map(response => response.data),
-      catchError(this.handleError<StockMovement>('createMovement'))
+      map(response => response.data)
     );
   }
 

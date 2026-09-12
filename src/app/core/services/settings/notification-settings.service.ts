@@ -29,8 +29,7 @@ export class NotificationSettingsService {
   updateSettings(request: NotificationSettingsRequest): Observable<NotificationSettings> {
     return this.http.put<ApiResponse<NotificationSettings>>(this.apiUrl, request).pipe(
       map(response => response.data),
-      tap(settings => this.settings.set(settings)),
-      catchError(this.handleError<NotificationSettings>('updateSettings'))
+      tap(settings => this.settings.set(settings))
     );
   }
 

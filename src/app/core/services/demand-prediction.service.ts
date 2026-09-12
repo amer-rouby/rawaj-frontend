@@ -123,8 +123,7 @@ export class DemandPredictionService {
       ? this.store.storeParams({ forDate })
       : this.store.storeParams();
     return this.http.post<ApiResponse<void>>(`${this.apiUrl}/generate`, null, { params }).pipe(
-      map((response) => response.data),
-      withHttpErrorFallback<void>('generatePredictions')
+      map((response) => response.data)
     );
   }
 
@@ -151,15 +150,13 @@ export class DemandPredictionService {
 
   updatePrediction(predictionId: number, updates: UpdatePredictionDTO): Observable<DemandPrediction> {
     return this.http.put<ApiResponse<DemandPrediction>>(`${this.apiUrl}/${predictionId}`, updates).pipe(
-      map((response) => response.data),
-      withHttpErrorFallback<DemandPrediction>('updatePrediction')
+      map((response) => response.data)
     );
   }
 
   deletePrediction(predictionId: number): Observable<void> {
     return this.http.delete<ApiResponse<void>>(`${this.apiUrl}/${predictionId}`).pipe(
-      map((response) => response.data),
-      withHttpErrorFallback<void>('deletePrediction')
+      map((response) => response.data)
     );
   }
 
@@ -206,8 +203,7 @@ export class DemandPredictionService {
     return this.http
       .post<ApiResponse<{ shareUrl: string; expiresAt: string }>>(`${this.apiUrl}/${predictionId}/share`, {})
       .pipe(
-        map((response) => response.data),
-        withHttpErrorFallback<{ shareUrl: string; expiresAt: string }>('sharePrediction')
+        map((response) => response.data)
       );
   }
 }

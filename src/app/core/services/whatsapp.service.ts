@@ -39,8 +39,7 @@ export class WhatsAppService {
       )
       .pipe(
         timeout(8000),
-        map((response) => response.data),
-        withHttpErrorFallback<SendWhatsAppResponse>('sendWhatsApp')
+        map((response) => response.data)
       );
   }
 

@@ -39,15 +39,13 @@ export class AnomalyService {
 
   markReviewed(id: number): Observable<Anomaly> {
     return this.http.put<ApiResponse<Anomaly>>(`${this.apiUrl}/${id}/review`, {}).pipe(
-      map((response) => response.data),
-      withHttpErrorFallback<Anomaly>('markReviewed')
+      map((response) => response.data)
     );
   }
 
   dismiss(id: number): Observable<Anomaly> {
     return this.http.put<ApiResponse<Anomaly>>(`${this.apiUrl}/${id}/dismiss`, {}).pipe(
-      map((response) => response.data),
-      withHttpErrorFallback<Anomaly>('dismiss')
+      map((response) => response.data)
     );
   }
 }

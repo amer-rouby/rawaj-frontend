@@ -42,8 +42,7 @@ export class SecuritySettingsService {
     }, {
       params: new HttpParams().set('userId', userId)
     }).pipe(
-      map(response => response.data),
-      catchError(this.handleError<SecuritySettings>('changePassword'))
+      map(response => response.data)
     );
   }
 

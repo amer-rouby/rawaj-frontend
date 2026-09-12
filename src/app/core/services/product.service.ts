@@ -94,9 +94,7 @@ export class ProductService {
 
     return this.http.post<Product>(this.apiUrl, product, {
       params: new HttpParams().set('storeId', storeId)
-    }).pipe(
-      catchError(this.handleError<Product>('createProduct'))
-    );
+    });
   }
 
   updateProduct(id: number, product: ProductRequest): Observable<Product> {
@@ -108,9 +106,7 @@ export class ProductService {
 
     return this.http.put<Product>(`${this.apiUrl}/${id}`, product, {
       params: new HttpParams().set('storeId', storeId)
-    }).pipe(
-      catchError(this.handleError<Product>(`updateProduct id=${id}`))
-    );
+    });
   }
 
   deleteProduct(id: number): Observable<void> {
@@ -122,9 +118,7 @@ export class ProductService {
 
     return this.http.delete<void>(`${this.apiUrl}/${id}`, {
       params: new HttpParams().set('storeId', storeId)
-    }).pipe(
-      catchError(this.handleError<void>(`deleteProduct id=${id}`))
-    );
+    });
   }
 
   searchProducts(query: string, page: number = 0, size: number = 10): Observable<PaginatedResponse<Product>> {

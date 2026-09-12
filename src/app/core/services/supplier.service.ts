@@ -45,8 +45,7 @@ export class SupplierService {
     return this.http.post<ApiResponse<Supplier>>(this.apiUrl, request, {
       params: this.store.storeParams()
     }).pipe(
-      map((response) => response.data),
-      withHttpErrorFallback<Supplier>('createSupplier')
+      map((response) => response.data)
     );
   }
 
@@ -54,8 +53,7 @@ export class SupplierService {
     return this.http.put<ApiResponse<Supplier>>(`${this.apiUrl}/${id}`, request, {
       params: this.store.storeParams()
     }).pipe(
-      map((response) => response.data),
-      withHttpErrorFallback<Supplier>('updateSupplier')
+      map((response) => response.data)
     );
   }
 
@@ -63,8 +61,7 @@ export class SupplierService {
     return this.http.delete<ApiResponse<void>>(`${this.apiUrl}/${id}`, {
       params: this.store.storeParams()
     }).pipe(
-      map((response) => response.data),
-      withHttpErrorFallback<void>('deleteSupplier')
+      map((response) => response.data)
     );
   }
 
