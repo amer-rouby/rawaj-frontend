@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Injector } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, BehaviorSubject, throwError, of } from 'rxjs';
 import { tap, catchError } from 'rxjs/operators';
@@ -10,6 +10,7 @@ import { SessionStatus, ExtendSessionResponse, SessionWarningData } from '../mod
 import { MatDialog } from '@angular/material/dialog';
 import { SessionWarningDialogComponent } from '../../shared/components/session-warning-dialog/session-warning-dialog.component';
 import { Router } from '@angular/router';
+import { LicenseService } from './license.service';
 
 @Injectable({
   providedIn: 'root'
@@ -31,9 +32,19 @@ export class AuthService {
   constructor(
     private http: HttpClient,
     private dialog: MatDialog,
-    private router: Router
+    private router: Router,
+    // Resolved lazily via Injector, not as a constructor param: LicenseService
+    // depends (through StoreContextService) on AuthService itself, so taking
+    // it as a normal constructor dependency here would be a circular DI graph
+    // (NG0200) - injector.get() defers the lookup until it's actually called,
+    // by which point AuthService is already fully constructed.
+    private injector: Injector
   ) {
     this.loadUserFromStorage();
+  }
+
+  private getLicenseService(): LicenseService {
+    return this.injector.get(LicenseService);
   }
 
   login(credentials: LoginRequest): Observable<AuthResponse> {
@@ -373,6 +384,7 @@ export class AuthService {
    * Save session data to local storage and update the subject
    */
   private setSession(response: AuthResponse): void {
+    this.getLicenseService().resetCache();
     localStorage.setItem(environment.tokenKey, response.accessToken);
     localStorage.setItem(environment.refreshTokenKey, response.refreshToken);
     if (response.expiresAt) {
@@ -393,6 +405,7 @@ export class AuthService {
    * Clear all session data from storage
    */
   private clearSession(): void {
+    this.getLicenseService().resetCache();
     localStorage.removeItem(environment.tokenKey);
     localStorage.removeItem(environment.refreshTokenKey);
     localStorage.removeItem('expiresAt');

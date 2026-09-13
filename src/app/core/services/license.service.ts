@@ -23,6 +23,14 @@ export class LicenseService {
     return this.fetchStatus();
   }
 
+  // Must be called on every login/register/logout - the cache is keyed by
+  // nothing (just "the current session"), so switching accounts without a
+  // full page reload would otherwise keep serving the previous store's
+  // status to the new one (see AuthService.setSession/clearSession).
+  resetCache(): void {
+    this.cachedStatus.set(null);
+  }
+
   fetchStatus(): Observable<LicenseStatus> {
     return this.http.get<ApiResponse<LicenseStatus>>(`${this.apiUrl}/status`).pipe(
       map((response) => response.data),
