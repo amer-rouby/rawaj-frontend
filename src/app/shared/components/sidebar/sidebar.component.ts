@@ -133,6 +133,12 @@ export class SidebarComponent {
       route: '/settings',
       roles: ['ADMIN', 'MANAGER']
     },
+    {
+      icon: 'vpn_key',
+      label: 'NAV.LICENSE_GENERATE',
+      route: '/license/generate',
+      roles: ['ADMIN']
+    },
   ];
 
   readonly expandedPanels = signal<Set<number>>(new Set());
