@@ -28,6 +28,7 @@ export class LicenseRenewComponent implements OnInit {
   readonly code = signal('');
   readonly submitting = signal(false);
   readonly expiresAt = signal<string | null>(null);
+  readonly licenseKey = signal<string | null>(null);
   // Reachable two ways: forced here by licenseGuard (expired) or opened
   // voluntarily from Settings to check status/renew early - the messaging
   // differs, but the code-entry form works the same either way.
@@ -62,6 +63,7 @@ export class LicenseRenewComponent implements OnInit {
     this.licenseService.fetchStatus().subscribe((status) => {
       this.expiresAt.set(status.expiresAt);
       this.expired.set(status.expired);
+      this.licenseKey.set(status.licenseKey);
     });
   }
 }

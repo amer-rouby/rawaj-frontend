@@ -24,3 +24,20 @@
 .code-field {
   width: 100%;
 }
+
+.store-id-hint {
+  background: #eef2ff;
+  border-inline-start: 3px solid #4338ca;
+  border-radius: 6px;
+  padding: 10px 14px;
+  margin-bottom: 16px;
+}
+
+.store-id-value {
+  font-family: 'Consolas', 'Courier New', monospace;
+  font-size: 15px;
+  color: #4338ca;
+  margin-inline-start: 6px;
+  word-break: break-all;
+  user-select: all;
+}
