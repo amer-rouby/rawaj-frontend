@@ -54,7 +54,12 @@ export class ProfileSettingsComponent implements OnInit {
   constructor() {
     this.profileForm = this.fb.group({
       fullName: ['', [Validators.required, Validators.maxLength(100)]],
-      email: ['', [Validators.required, Validators.email, Validators.maxLength(100)]],
+      // Not required: registration itself never requires an email
+      // (RegisterRequest has no @NotBlank on it), so plenty of real accounts
+      // (e.g. staff created without one) have a blank email - making it
+      // required here permanently disabled their own Save button with no
+      // visible reason why.
+      email: ['', [Validators.email, Validators.maxLength(100)]],
       phone: ['', [Validators.maxLength(50)]],
       profileImageUrl: ['', [Validators.maxLength(255)]],
       jobTitle: ['', [Validators.maxLength(100)]],
