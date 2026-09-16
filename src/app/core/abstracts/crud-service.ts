@@ -59,6 +59,11 @@ export abstract class CrudService<Model extends CrudModel<Model> & { id: number 
     return { ...page, content: page.content.map(item => this.cast(item)) };
   }
 
+  /** Override when the list endpoint paginates at the base URL instead of a `/page` sub-path. */
+  protected getPageUrlSegment(): string {
+    return `${this.getUrlSegment()}/page`;
+  }
+
   load(page = 0, size = 10, search?: string): Observable<PaginatedResponse<Model>> {
     this.isLoading.set(true);
     let params = new HttpParams()
@@ -67,7 +72,7 @@ export abstract class CrudService<Model extends CrudModel<Model> & { id: number 
       .set('size', size);
     if (search?.trim()) params = params.set('search', search.trim());
 
-    return this.http.get<ApiResponse<PaginatedResponse<Model>>>(`${this.getUrlSegment()}/page`, { params }).pipe(
+    return this.http.get<ApiResponse<PaginatedResponse<Model>>>(this.getPageUrlSegment(), { params }).pipe(
       map(response => this.castPage(response.data)),
       tap(result => this.paginatedItems.set(result)),
       finalize(() => this.isLoading.set(false))
