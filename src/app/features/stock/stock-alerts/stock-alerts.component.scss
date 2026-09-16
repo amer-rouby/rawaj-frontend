@@ -78,7 +78,7 @@
 
   &.primary {
     .stat-icon {
-      background: linear-gradient(135deg, #667eea, #764ba2);
+      background: linear-gradient(135deg, var(--color-primary-600, #10b981), var(--color-primary-800, #065f46));
     }
   }
 

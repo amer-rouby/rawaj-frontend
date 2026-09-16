@@ -62,8 +62,8 @@ export class SalesReportComponent implements OnInit {
     datasets: [{
       data: [],
       label: '',
-      borderColor: '#667eea',
-      backgroundColor: 'rgba(102, 126, 234, 0.2)',
+      borderColor: '#10b981',
+      backgroundColor: 'rgba(16, 185, 129, 0.2)',
       tension: 0.4,
       fill: true
     }] as ChartDataset<'line'>[]
