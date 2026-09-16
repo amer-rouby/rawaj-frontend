@@ -22,16 +22,16 @@
     direction: inherit;
 
     &:hover {
-      background: rgba(102, 126, 234, 0.1);
+      background: rgba(var(--color-primary-600-rgb, 5, 150, 105), 0.1);
       transform: translateX(-4px);
     }
 
     &:active {
-      background: rgba(102, 126, 234, 0.15);
+      background: rgba(var(--color-primary-600-rgb, 5, 150, 105), 0.15);
     }
 
     mat-icon[matListItemIcon] {
-      color: var(--color-primary-600, #667eea);
+      color: var(--color-primary-600, #10b981);
       font-size: 24px;
       width: 24px;
       height: 24px;

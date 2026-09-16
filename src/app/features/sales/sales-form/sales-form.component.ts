@@ -403,7 +403,7 @@ export class SalesFormComponent implements OnInit, AfterViewInit, OnDestroy {
       title: this.translate.instant('SALES.QUEUED_TITLE'),
       text: this.translate.instant('SALES.QUEUED_MESSAGE'),
       confirmButtonText: this.translate.instant('COMMON.CONTINUE'),
-      confirmButtonColor: '#667eea'
+      confirmButtonColor: 'var(--color-primary-600, #10b981)'
     });
     this.finalizeSale();
   }
@@ -488,7 +488,7 @@ export class SalesFormComponent implements OnInit, AfterViewInit, OnDestroy {
       html: this.getSuccessAlertHtml(invoiceNumber, totalAmount),
       showConfirmButton: true,
       confirmButtonText: this.translate.instant('COMMON.CONTINUE'),
-      confirmButtonColor: '#667eea',
+      confirmButtonColor: 'var(--color-primary-600, #10b981)',
       timer: 10000,
       timerProgressBar: true,
       didOpen: () => this.setupCopyFunction(),
@@ -509,10 +509,10 @@ export class SalesFormComponent implements OnInit, AfterViewInit, OnDestroy {
         <p style="font-size: 14px; color: #666; margin-bottom: 8px;">
           ${this.translate.instant('SALES.INVOICE_NUMBER')}:
         </p>
-        <div style="display: inline-flex; align-items: center; gap: 10px; background: #f8f9fa; padding: 10px 20px; border-radius: 8px; border: 2px solid #667eea;">
-          <strong style="color: #667eea; font-size: 20px; font-family: monospace;">${invoiceNumber}</strong>
+        <div style="display: inline-flex; align-items: center; gap: 10px; background: #f8f9fa; padding: 10px 20px; border-radius: 8px; border: 2px solid var(--color-primary-600, #10b981);">
+          <strong style="color: var(--color-primary-600, #10b981); font-size: 20px; font-family: monospace;">${invoiceNumber}</strong>
           <button id="copyInvoiceBtn" onclick="copyInvoiceNumber('${invoiceNumber}')"
-                  style="background: #667eea; color: white; border: none; padding: 8px 12px; border-radius: 6px; cursor: pointer;">
+                  style="background: var(--color-primary-600, #10b981); color: white; border: none; padding: 8px 12px; border-radius: 6px; cursor: pointer;">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
               <path d="M4 1.5a.5.5 0 0 1 .5.5v1h6v-1a.5.5 0 0 1 1 0v1h1a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-9a2 2 0 0 1 2-2h1v-1a.5.5 0 0 1 .5-.5z"/>
             </svg>
@@ -526,7 +526,7 @@ export class SalesFormComponent implements OnInit, AfterViewInit, OnDestroy {
         </p>
         <strong style="color: #10b981; font-size: 22px;">${this.formatCurrency(totalAmount)}</strong>
       </div>
-      <div style="margin-top: 10px; font-size: 13px; color: #667eea;">
+      <div style="margin-top: 10px; font-size: 13px; color: var(--color-primary-600, #10b981);">
         <strong>${this.getPaymentMethodLabel(this.paymentMethod())}</strong>
       </div>
     </div>`;
@@ -543,7 +543,7 @@ export class SalesFormComponent implements OnInit, AfterViewInit, OnDestroy {
           btnEl.style.background = '#10b981';
           setTimeout(() => {
             messageEl.style.opacity = '0';
-            btnEl.style.background = '#667eea';
+            btnEl.style.background = 'var(--color-primary-600, #10b981)';
           }, 2000);
         }
       });

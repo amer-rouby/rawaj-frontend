@@ -3,7 +3,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from './language.service';
 import { CurrencyService } from './currency.service';
 import { AuthService } from './auth.service';
-import { getPrintDocumentStyles, getPrintFooterHtml, getPrintLetterheadHtml } from './print-document.util';
+import { getBrandColor, getPrintDocumentStyles, getPrintFooterHtml, getPrintLetterheadHtml } from './print-document.util';
 import { PurchaseOrder } from '../models/purchase-order.model';
 
 export interface PrintOptions {
@@ -150,9 +150,9 @@ export class PrintHelperService {
     .info-label { font-size: 10px; font-weight: 700; color: #64748b; white-space: nowrap; width: 1%; padding-inline-end: 8px; }
     .info-value { font-size: 12px; font-weight: 700; padding-inline-end: 20px; }
     .totals { margin-top: 16px; text-align: ${isArabic ? 'left' : 'right'}; }
-    .totals-inner { display: inline-block; min-width: 260px; border-top: 2px solid #047857; padding-top: 8px; }
+    .totals-inner { display: inline-block; min-width: 260px; border-top: 2px solid ${getBrandColor()}; padding-top: 8px; }
     .totals-row { display: flex; justify-content: space-between; font-size: 14px; font-weight: 700; }
-    .totals-row .amount { color: #047857; }
+    .totals-row .amount { color: ${getBrandColor()}; }
   </style>
 </head>
 <body>

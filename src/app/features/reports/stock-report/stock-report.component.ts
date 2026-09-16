@@ -56,7 +56,7 @@ export class StockReportComponent implements OnInit {
       {
         data: [],
         label: '',
-        backgroundColor: '#667eea',
+        backgroundColor: '#10b981',
         borderColor: '#556cd6',
         borderWidth: 1
       }
