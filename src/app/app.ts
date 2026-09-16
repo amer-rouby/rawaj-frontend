@@ -11,7 +11,7 @@ import { TranslateService } from '@ngx-translate/core';
   styleUrl: './app.scss'
 })
 export class App implements OnInit {
-  protected readonly title = signal('zaki-supermarket-frontend');
+  protected readonly title = signal('rawaj-supermarket-frontend');
 
   private readonly translate = inject(TranslateService);
   readonly direction = signal<'rtl' | 'ltr'>('rtl');

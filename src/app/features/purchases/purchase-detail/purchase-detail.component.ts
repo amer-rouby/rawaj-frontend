@@ -10,7 +10,7 @@ import { PurchaseOrder } from '../../../core/models/purchase-order.model';
 import { ErrorHandlerService } from '../../../core/services/error-handler.service';
 import { CommonModule } from '@angular/common';
 import { CurrencyService } from '../../../core/services/currency.service';
-import { ZakiFeatureSettingsService } from '../../../core/services/settings/zaki-feature-settings.service';
+import { RawajFeatureSettingsService } from '../../../core/services/settings/rawaj-feature-settings.service';
 
 @Component({
   selector: 'app-purchase-detail',
@@ -28,12 +28,12 @@ export class PurchaseDetailComponent implements OnInit {
   readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
   private readonly currencyService = inject(CurrencyService);
-  private readonly zakiFeatureSettingsService = inject(ZakiFeatureSettingsService);
+  private readonly rawajFeatureSettingsService = inject(RawajFeatureSettingsService);
 
   readonly loading = signal(false);
   readonly order = signal<PurchaseOrder | null>(null);
   readonly emailSending = signal(false);
-  readonly emailEnabled = computed(() => this.zakiFeatureSettingsService.flags().emailEnabled);
+  readonly emailEnabled = computed(() => this.rawajFeatureSettingsService.flags().emailEnabled);
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');

@@ -45,7 +45,7 @@
   gap: 16px;
 }
 
-.zaki-insights-card {
+.rawaj-insights-card {
   border-radius: var(--radius-lg, 16px);
   overflow: hidden;
   background: var(--color-surface, #fff);
@@ -59,13 +59,13 @@
   }
 }
 
-.zaki-insights-grid {
+.rawaj-insights-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 20px;
 }
 
-.zaki-insight-item {
+.rawaj-insight-item {
   display: flex;
   align-items: center;
   gap: 12px;
@@ -77,7 +77,7 @@
     flex-shrink: 0;
   }
 
-  .zaki-insight-info {
+  .rawaj-insight-info {
     min-width: 0;
 
     h4 {

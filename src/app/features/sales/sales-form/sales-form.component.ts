@@ -19,7 +19,7 @@ import { CurrencyService } from '../../../core/services/currency.service';
 import { StoreSettingsService } from '../../../core/services/settings/store-settings.service';
 import { CustomerService } from '../../../core/services/customer.service';
 import { Customer } from '../../../core/models/customer.model';
-import { ZakiFeatureSettingsService } from '../../../core/services/settings/zaki-feature-settings.service';
+import { RawajFeatureSettingsService } from '../../../core/services/settings/rawaj-feature-settings.service';
 import { OfflineSalesQueueService } from '../../../core/services/offline-sales-queue.service';
 import { OfflineQueueDialogComponent } from '../offline-queue-dialog/offline-queue-dialog.component';
 
@@ -65,11 +65,11 @@ export class SalesFormComponent implements OnInit, AfterViewInit, OnDestroy {
   private readonly authService = inject(AuthService);
   private readonly errorHandler = inject(ErrorHandlerService);
   private readonly customerService = inject(CustomerService);
-  private readonly zakiFeatureSettingsService = inject(ZakiFeatureSettingsService);
+  private readonly rawajFeatureSettingsService = inject(RawajFeatureSettingsService);
   private readonly offlineQueueService = inject(OfflineSalesQueueService);
   private readonly dialog = inject(MatDialog);
 
-  readonly offlineModeEnabled = computed(() => this.zakiFeatureSettingsService.flags().offlineModeEnabled);
+  readonly offlineModeEnabled = computed(() => this.rawajFeatureSettingsService.flags().offlineModeEnabled);
   readonly isOnline = signal(navigator.onLine);
   readonly offlineQueueCount = computed(() => this.offlineQueueService.queue().length);
   private readonly onlineListener = () => this.isOnline.set(true);
@@ -91,7 +91,7 @@ export class SalesFormComponent implements OnInit, AfterViewInit, OnDestroy {
   readonly discount = signal(0);
   readonly loading = signal(false);
 
-  readonly customerCreditEnabled = computed(() => this.zakiFeatureSettingsService.flags().customerCreditEnabled);
+  readonly customerCreditEnabled = computed(() => this.rawajFeatureSettingsService.flags().customerCreditEnabled);
   readonly isCreditSale = computed(() => this.paymentMethod() === PaymentMethod.CREDIT);
   readonly customers = signal<Customer[]>([]);
   readonly selectedCustomer = signal<Customer | null>(null);
@@ -132,7 +132,7 @@ export class SalesFormComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private readonly enabledPaymentMethodCodes = signal<Set<string>>(new Set(Object.values(PaymentMethod)));
   // CREDIT isn't a payment-gateway method, so it doesn't belong to the store's
-  // enabledPaymentMethods CSV - it's gated purely by the Zaki feature flag.
+  // enabledPaymentMethods CSV - it's gated purely by the Rawaj feature flag.
   readonly paymentMethods = computed(() =>
     this.allPaymentMethodOptions.filter(m =>
       m.value === PaymentMethod.CREDIT ? this.customerCreditEnabled() : this.enabledPaymentMethodCodes().has(m.value)
