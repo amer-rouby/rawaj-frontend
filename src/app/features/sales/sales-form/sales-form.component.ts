@@ -251,7 +251,7 @@ export class SalesFormComponent implements OnInit, AfterViewInit, OnDestroy {
   loadProducts(): void {
     this.productService.getProductsList().subscribe({
       next: (products) => {
-        this.products.set(products.map((p) => ({ ...p, sellPrice: p.sellPrice || 0 })));
+        this.products.set(products.map((p) => new Product({ ...p, sellPrice: p.sellPrice || 0 })));
       },
       error: (err) => this.errorHandler.handleHttpError(err, 'PRODUCTS.LOAD_ERROR')
     });
