@@ -40,18 +40,12 @@
       font-weight: 800;
       color: var(--color-text-primary, #1e293b);
 
-      mat-icon {
-        font-size: 30px;
+      .brand-mark {
         width: 56px;
         height: 56px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
         flex-shrink: 0;
-        color: #fff;
-        background: linear-gradient(135deg, var(--color-primary-500, #6366f1), var(--color-primary-700, #4338ca));
         border-radius: var(--radius-lg, 16px);
-        box-shadow: 0 8px 20px rgba(79, 70, 229, 0.3);
+        box-shadow: 0 8px 20px rgba(5, 150, 105, 0.3);
       }
 
       span {
