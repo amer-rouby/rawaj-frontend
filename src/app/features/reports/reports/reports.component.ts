@@ -7,7 +7,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { PageHeaderComponent } from '../../../shared/components/page-header/page-header.component';
-import { ZakiFeatureSettingsService } from '../../../core/services/settings/zaki-feature-settings.service';
+import { RawajFeatureSettingsService } from '../../../core/services/settings/rawaj-feature-settings.service';
 
 interface ReportCard {
   titleKey: string;
@@ -35,7 +35,7 @@ interface ReportCard {
   styleUrl: './reports.component.scss'
 })
 export class ReportsComponent {
-  private readonly zakiFeatureSettingsService = inject(ZakiFeatureSettingsService);
+  private readonly rawajFeatureSettingsService = inject(RawajFeatureSettingsService);
 
   readonly cols = signal(2);
 
@@ -53,7 +53,7 @@ export class ReportsComponent {
   };
 
   readonly reportCards = computed<ReportCard[]>(() =>
-    this.zakiFeatureSettingsService.flags().anomalyDetectionEnabled
+    this.rawajFeatureSettingsService.flags().anomalyDetectionEnabled
       ? [...this.baseReportCards, this.anomaliesCard]
       : this.baseReportCards
   );

@@ -4,6 +4,7 @@ import { LanguageService } from './language.service';
 import { CurrencyService } from './currency.service';
 import { AuthService } from './auth.service';
 import { getPrintDocumentStyles, getPrintFooterHtml, getPrintLetterheadHtml } from './print-document.util';
+import { PurchaseOrder } from '../models/purchase-order.model';
 
 export interface PrintOptions {
   title: string;
@@ -51,25 +52,140 @@ export class PrintHelperService {
     };
 
     const html = this.generatePrintHtml(options, t, isArabic, dir, lang);
+    this.printHtml(html);
+  }
 
-    // Create a hidden iframe
+  /**
+   * Prints a purchase order via the same native print dialog (pick "Save as
+   * PDF" as the destination) instead of generating the PDF on the server -
+   * no backend round-trip, no server-side rendering dependency, and the
+   * browser already shapes Arabic text correctly since it's the same engine
+   * rendering every other screen of this app.
+   */
+  printPurchaseOrder(order: PurchaseOrder, supplierPhone?: string): void {
+    const isArabic = this.languageService.getCurrentLanguage() === 'ar';
+    const dir = isArabic ? 'rtl' : 'ltr';
+    const lang = isArabic ? 'ar' : 'en';
+    const t = (key: string): string => {
+      const val = this.translate.instant(key);
+      return val && val !== key ? val : key;
+    };
+
+    const storeInfo = this.authService.getStoreInfo();
+    const storeName = storeInfo?.name || t('APP.NAME');
+
+    const statusLabels: Record<string, string> = {
+      DRAFT: t('PURCHASES.STATUS.DRAFT'),
+      PENDING: t('PURCHASES.STATUS.PENDING'),
+      APPROVED: t('PURCHASES.STATUS.APPROVED'),
+      RECEIVED: t('PURCHASES.STATUS.RECEIVED'),
+      CANCELLED: t('PURCHASES.STATUS.CANCELLED')
+    };
+    const priorityLabels: Record<string, string> = {
+      LOW: t('PURCHASES.PRIORITY.LOW'),
+      NORMAL: t('PURCHASES.PRIORITY.NORMAL'),
+      URGENT: t('PURCHASES.PRIORITY.URGENT')
+    };
+
+    const currency = (value: number): string =>
+      new Intl.NumberFormat(isArabic ? 'ar-EG' : 'en-US', {
+        style: 'currency',
+        currency: this.currencyService.getCode(),
+        minimumFractionDigits: 2
+      }).format(value);
+
+    const infoRows = [
+      [t('COMMON.ORDER_NUMBER'), order.orderNumber, t('COMMON.DATE'), order.orderDate],
+      [t('COMMON.SUPPLIER'), order.supplierName, t('COMMON.STATUS'), statusLabels[order.status] || order.status],
+      [
+        order.expectedDeliveryDate ? t('COMMON.EXPECTED_DELIVERY') : t('COMMON.PRIORITY'),
+        order.expectedDeliveryDate || priorityLabels[order.priority] || order.priority,
+        order.paymentTerms ? t('PURCHASES.PAYMENT_TERMS') : t('COMMON.PRIORITY'),
+        order.paymentTerms || priorityLabels[order.priority] || order.priority
+      ]
+    ];
+
+    const infoTableHtml = `
+      <table class="info-table"><tbody>
+        ${infoRows.map(([l1, v1, l2, v2]) => `
+          <tr>
+            <td class="info-label">${l1}</td><td class="info-value">${v1}</td>
+            <td class="info-label">${l2}</td><td class="info-value">${v2}</td>
+          </tr>
+        `).join('')}
+      </tbody></table>
+    `;
+
+    const itemsHtml = `
+      <table class="data-table"><thead><tr>
+        <th>#</th>
+        <th>${t('COMMON.PRODUCT')}</th>
+        <th>${t('COMMON.QUANTITY')}</th>
+        <th>${t('COMMON.UNIT_PRICE')}</th>
+        <th>${t('COMMON.TOTAL')}</th>
+      </tr></thead><tbody>
+        ${order.items.map((item, i) => `
+          <tr>
+            <td>${i + 1}</td>
+            <td>${item.productName}</td>
+            <td>${item.quantity}</td>
+            <td>${currency(item.unitPrice)}</td>
+            <td>${currency(item.totalPrice)}</td>
+          </tr>
+        `).join('')}
+      </tbody></table>
+    `;
+
+    const generatedMeta = `${t('REPORTS.GENERATED') || 'Generated'}: ${new Date().toLocaleDateString(lang === 'ar' ? 'ar-EG' : 'en-US', { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' })}`;
+
+    const html = `<!DOCTYPE html>
+<html dir="${dir}" lang="${lang}">
+<head>
+  <meta charset="UTF-8">
+  <title>${order.orderNumber}</title>
+  <style>
+    ${getPrintDocumentStyles(isArabic)}
+    .info-table { margin-bottom: 18px; }
+    .info-table td { border-bottom: 1px solid #cbd5e1; }
+    .info-label { font-size: 10px; font-weight: 700; color: #64748b; white-space: nowrap; width: 1%; padding-inline-end: 8px; }
+    .info-value { font-size: 12px; font-weight: 700; padding-inline-end: 20px; }
+    .totals { margin-top: 16px; text-align: ${isArabic ? 'left' : 'right'}; }
+    .totals-inner { display: inline-block; min-width: 260px; border-top: 2px solid #4338ca; padding-top: 8px; }
+    .totals-row { display: flex; justify-content: space-between; font-size: 14px; font-weight: 700; }
+    .totals-row .amount { color: #4338ca; }
+  </style>
+</head>
+<body>
+  <div class="print-doc">
+    ${getPrintLetterheadHtml({ name: storeName }, t('PURCHASES.DETAILS'), undefined, generatedMeta)}
+    ${infoTableHtml}
+    ${itemsHtml}
+    <div class="totals"><div class="totals-inner"><div class="totals-row">
+      <span>${t('PURCHASES.ORDER_TOTAL')}</span><span class="amount">${currency(order.totalAmount)}</span>
+    </div></div></div>
+    ${getPrintFooterHtml(t('APP.NAME'), t('REPORTS.GENERATED') || 'Generated', isArabic)}
+  </div>
+</body>
+</html>`;
+
+    this.printHtml(html);
+  }
+
+  private printHtml(html: string): void {
     const iframe = document.createElement('iframe');
     iframe.style.display = 'none';
     iframe.src = 'about:blank';
     document.body.appendChild(iframe);
 
-    // Write content to iframe
     const iframeDoc = iframe.contentDocument || iframe.contentWindow?.document;
     if (iframeDoc) {
       iframeDoc.open();
       iframeDoc.write(html);
       iframeDoc.close();
 
-      // Wait for content to load, then print
       iframe.onload = () => {
         setTimeout(() => {
           iframe.contentWindow?.print();
-          // Remove iframe after printing
           setTimeout(() => {
             document.body.removeChild(iframe);
           }, 100);

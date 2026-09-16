@@ -7,7 +7,7 @@
   },
   "newProjectRoot": "projects",
   "projects": {
-    "zaki-supermarket-frontend": {
+    "rawaj-supermarket-frontend": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -67,10 +67,10 @@
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "zaki-supermarket-frontend:build:production"
+              "buildTarget": "rawaj-supermarket-frontend:build:production"
             },
             "development": {
-              "buildTarget": "zaki-supermarket-frontend:build:development"
+              "buildTarget": "rawaj-supermarket-frontend:build:development"
             }
           },
           "defaultConfiguration": "development"

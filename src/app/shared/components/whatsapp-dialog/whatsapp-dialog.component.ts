@@ -8,6 +8,8 @@ import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { TranslateModule } from '@ngx-translate/core';
 import { WhatsAppService } from '../../../core/services/whatsapp.service';
 import { ErrorHandlerService } from '../../../core/services/error-handler.service';
+import { PrintHelperService } from '../../../core/services/print-helper.service';
+import { PurchaseOrderService } from '../../../core/services/purchase-order.service';
 
 export interface WhatsAppDialogData {
   orderId: number;
@@ -34,6 +36,8 @@ export class WhatsAppDialogComponent {
   private readonly whatsAppService = inject(WhatsAppService);
   private readonly sanitizer = inject(DomSanitizer);
   private readonly errorHandler = inject(ErrorHandlerService);
+  private readonly printHelper = inject(PrintHelperService);
+  private readonly purchaseOrderService = inject(PurchaseOrderService);
 
   readonly loading = signal(false);
   readonly decodedMessage = signal<string>('');
@@ -43,6 +47,8 @@ export class WhatsAppDialogComponent {
   readonly safeUrl = signal<SafeUrl | null>(null);
   readonly opened = signal(false);
   readonly desktopOpened = signal(false);
+  readonly pdfDownloaded = signal(false);
+  readonly downloadingPdf = signal(false);
 
   constructor(
     public dialogRef: MatDialogRef<WhatsAppDialogComponent>,
@@ -105,6 +111,25 @@ export class WhatsAppDialogComponent {
     this.opened.set(true);
     window.open(url, '_blank', 'noopener,noreferrer');
     setTimeout(() => this.dialogRef.close(true), 2000);
+  }
+
+  // Generated client-side (same approach as every other print/PDF surface in
+  // the app - print-helper.service.ts) rather than on the server: no backend
+  // round-trip, and the browser already shapes Arabic text correctly since
+  // it's the same engine rendering every other screen here.
+  onDownloadPdf(): void {
+    this.downloadingPdf.set(true);
+    this.purchaseOrderService.getOrder(this.data.orderId).subscribe({
+      next: (order) => {
+        this.printHelper.printPurchaseOrder(order);
+        this.downloadingPdf.set(false);
+        this.pdfDownloaded.set(true);
+      },
+      error: (err) => {
+        this.downloadingPdf.set(false);
+        this.errorHandler.handleHttpError(err, 'PURCHASES.WHATSAPP_PDF_ERROR');
+      }
+    });
   }
 
   onRetry(): void {
