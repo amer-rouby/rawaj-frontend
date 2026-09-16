@@ -1,9 +1,9 @@
 {
   "APP": {
-    "NAME": "زكي",
+    "NAME": "رواج",
     "SUBTITLE": "نظام إدارة محلات الكمبيوتر والموبايل",
     "VERSION": "الإصدار 1.0.0",
-    "COPYRIGHT": "© 2026 زكي - جميع الحقوق محفوظة"
+    "COPYRIGHT": "© 2026 رواج - جميع الحقوق محفوظة"
   },
   "LICENSE": {
     "MENU_LABEL": "الاشتراك",
@@ -110,7 +110,7 @@
     "RECENT_SALES": "آخر المبيعات",
     "VIEW_ALL": "عرض الكل",
     "ZAKI_INSIGHTS": {
-      "TITLE": "رؤى زكي",
+      "TITLE": "رؤى رواج",
       "SALES_VS_AVERAGE": "مبيعات اليوم مقارنة بمتوسط 30 يوم",
       "HIGH_RISK_STOCKOUT": "منتجات بخطر نفاد مرتفع",
       "REORDER_RECOMMENDATIONS": "طلبات موصى بإعادتها",
@@ -903,7 +903,7 @@
     "CREDIT_LIMIT_EXCEEDED": "تم تجاوز حد الائتمان للعميل {{customerName}}: الرصيد الحالي {{currentBalance}} + {{amount}} سيتجاوز الحد {{limit}}",
     "FEATURE_DISABLED_CUSTOMER_CREDIT": "ميزة إدارة ائتمان العملاء غير مفعّلة لهذا المتجر",
     "FEATURE_DISABLED_ANOMALY_DETECTION": "ميزة كشف الأنشطة غير المعتادة غير مفعّلة لهذا المتجر",
-    "FEATURE_DISABLED_AI_ASSISTANT": "ميزة مساعد زكي غير مفعّلة لهذا المتجر",
+    "FEATURE_DISABLED_AI_ASSISTANT": "ميزة مساعد رواج غير مفعّلة لهذا المتجر",
     "FEATURE_DISABLED_DASHBOARD_INSIGHTS": "ميزة إحصائيات لوحة التحكم غير مفعّلة لهذا المتجر",
     "FEATURE_DISABLED_STOCK_PREDICTION": "ميزة توقع المخزون غير مفعّلة لهذا المتجر",
     "FEATURE_DISABLED_REORDER_RECOMMENDATIONS": "ميزة توصيات إعادة الطلب غير مفعّلة لهذا المتجر",
@@ -946,7 +946,7 @@
     "NOTIFICATION_MARK_READ_UNAUTHORIZED": "غير مصرح لك بتحديد هذا الإشعار كمقروء"
   },
   "FOOTER": {
-    "COPYRIGHT": "© 2026 زكي",
+    "COPYRIGHT": "© 2026 رواج",
     "ALL_RIGHTS_RESERVED": "جميع الحقوق محفوظة",
     "VERSION": "الإصدار",
     "POWERED_BY": "تم التطوير بواسطة"
@@ -1198,8 +1198,8 @@
     "LOAD_ERROR": "فشل تحميل النسخ الاحتياطية"
   },
   "ZAKI_FEATURES": {
-    "TITLE": "ميزات Zaki الذكية",
-    "SUBTITLE": "فعّل أو عطّل ميزات Zaki الذكية لهذا المتجر",
+    "TITLE": "ميزات Rawaj الذكية",
+    "SUBTITLE": "فعّل أو عطّل ميزات Rawaj الذكية لهذا المتجر",
     "LOAD_ERROR": "فشل في تحميل إعدادات الميزات",
     "STOCK_PREDICTION": "توقع نفاد المخزون",
     "REORDER_RECOMMENDATIONS": "توصيات إعادة الطلب",
@@ -1211,7 +1211,7 @@
     "REALTIME_UPDATES": "تحديثات المخزون اللحظية",
     "VOICE_SEARCH": "البحث الصوتي عن المنتجات",
     "CUSTOMER_CREDIT": "حسابات العملاء والآجل",
-    "AI_ASSISTANT": "مساعد Zaki",
+    "AI_ASSISTANT": "مساعد Rawaj",
     "E_INVOICE": "الفاتورة الإلكترونية المصرية (ETA)",
     "OFFLINE_MODE": "وضع عدم الاتصال",
     "EMAIL": "إرسال البريد الإلكتروني",
@@ -1226,7 +1226,7 @@
       "REALTIME_UPDATES": "تحديث شاشات المخزون لحظيًا بدون تحديث يدوي",
       "VOICE_SEARCH": "البحث عن منتج بنطق اسمه",
       "CUSTOMER_CREDIT": "تتبع أرصدة العملاء والمبيعات الآجلة",
-      "AI_ASSISTANT": "اسأل Zaki عن بيانات متجرك",
+      "AI_ASSISTANT": "اسأل Rawaj عن بيانات متجرك",
       "E_INVOICE": "إرسال الفواتير لمصلحة الضرائب المصرية (يحتاج بيانات دخول ETA خاصة بك)",
       "OFFLINE_MODE": "إبقاء نقطة البيع تعمل أثناء انقطاع الإنترنت المؤقت",
       "EMAIL": "إرسال أوامر الشراء للموردين بالبريد الإلكتروني (يحتاج بيانات SMTP خاصة بك)"
@@ -1306,7 +1306,7 @@
     "RESOLVE_ERROR": "فشل حل التنبيه"
   },
   "ASSISTANT": {
-    "TITLE": "مساعد زكي",
+    "TITLE": "مساعد رواج",
     "WELCOME": "اسألني عن بيانات متجرك - المبيعات، المخزون، الصلاحية، وأكثر.",
     "PLACEHOLDER": "اكتب سؤالك...",
     "ERROR": "حدث خطأ ما. حاول مرة أخرى."
@@ -1800,6 +1800,10 @@
     "WHATSAPP_OPEN_WEB": "فتح في المتصفح (بديل)",
     "WHATSAPP_OPEN_WEB_DONE": "تم ✓",
     "WHATSAPP_HINT_DESKTOP": "يفتح واتساب ديسكتوب مباشرة مع الرسالة جاهزة للإرسال",
+    "WHATSAPP_DOWNLOAD_PDF": "طباعة / حفظ أمر الشراء كـ PDF",
+    "WHATSAPP_DOWNLOAD_PDF_DONE": "تم ✓",
+    "WHATSAPP_HINT_PDF": "هتفتح نافذة الطباعة - اختار \"حفظ كـ PDF\" كوجهة الطباعة، واحفظ الملف. بعد ما تفتح واتساب أرفقه يدويًا في المحادثة - واتساب مش بيدعم إرفاق ملف تلقائي من رابط",
+    "WHATSAPP_PDF_ERROR": "فشل تجهيز أمر الشراء للطباعة",
     "WHATSAPP_SUCCESS": "تم فتح واتساب بنجاح",
     "WHATSAPP_SUCCESS_HINT": "الرسالة جاهزة للإرسال",
     "WHATSAPP_CLOSE": "إغلاق",
@@ -1882,7 +1886,7 @@
     }
   },
   "STORE": {
-    "DEFAULT_NAME": "زكي",
+    "DEFAULT_NAME": "رواج",
     "SETTINGS": "إعدادات المتجر",
     "NAME": "اسم المتجر",
     "ADDRESS": "العنوان",

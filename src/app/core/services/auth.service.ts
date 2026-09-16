@@ -332,7 +332,7 @@ export class AuthService {
     if (user?.storeId) {
       return {
         id: user.storeId,
-        name: user.storeName || 'زكي',
+        name: user.storeName || 'رواج',
         address: '',
         phone: '',
         email: ''

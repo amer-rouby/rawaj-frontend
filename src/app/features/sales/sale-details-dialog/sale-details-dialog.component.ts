@@ -11,7 +11,7 @@ import { InvoicePrintService, PrintableSale } from '../../../core/services/invoi
 import { ErrorHandlerService } from '../../../core/services/error-handler.service';
 import { LanguageService } from '../../../core/services/language.service';
 import { CurrencyService } from '../../../core/services/currency.service';
-import { ZakiFeatureSettingsService } from '../../../core/services/settings/zaki-feature-settings.service';
+import { RawajFeatureSettingsService } from '../../../core/services/settings/rawaj-feature-settings.service';
 import { EInvoiceService } from '../../../core/services/einvoice.service';
 import { EInvoiceSubmission } from '../../../core/models/einvoice.model';
 
@@ -30,11 +30,11 @@ export class SaleDetailsDialogComponent {
   private readonly errorHandler = inject(ErrorHandlerService);
   private readonly languageService = inject(LanguageService);
   private readonly currencyService = inject(CurrencyService);
-  private readonly zakiFeatureSettingsService = inject(ZakiFeatureSettingsService);
+  private readonly rawajFeatureSettingsService = inject(RawajFeatureSettingsService);
   private readonly eInvoiceService = inject(EInvoiceService);
 
   readonly storeSettings = signal<StoreSettings | null>(null);
-  readonly eInvoiceEnabled = computed(() => this.zakiFeatureSettingsService.flags().eInvoiceEnabled);
+  readonly eInvoiceEnabled = computed(() => this.rawajFeatureSettingsService.flags().eInvoiceEnabled);
   readonly eInvoiceSubmission = signal<EInvoiceSubmission | null>(null);
   readonly eInvoiceLoading = signal(false);
 

@@ -51,6 +51,21 @@
     <span>{{'PURCHASES.WHATSAPP_SEND_TO' | translate}}: <strong dir="ltr">{{ phoneNumber() }}</strong></span>
   </div>
 
+  <div class="pdf-download-section">
+    <button class="pdf-btn" (click)="onDownloadPdf()" [disabled]="downloadingPdf()">
+      @if (downloadingPdf()) {
+      <mat-spinner diameter="18"></mat-spinner>
+      } @else if (pdfDownloaded()) {
+      <mat-icon>check_circle</mat-icon>
+      <span>{{'PURCHASES.WHATSAPP_DOWNLOAD_PDF_DONE' | translate}}</span>
+      } @else {
+      <mat-icon>picture_as_pdf</mat-icon>
+      <span>{{'PURCHASES.WHATSAPP_DOWNLOAD_PDF' | translate}}</span>
+      }
+    </button>
+    <p class="hint">{{'PURCHASES.WHATSAPP_HINT_PDF' | translate}}</p>
+  </div>
+
   <div class="open-whatsapp-section">
     <button class="desktop-btn" (click)="onOpenDesktop()" [disabled]="desktopOpened()">
       @if (desktopOpened()) {

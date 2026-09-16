@@ -4,11 +4,11 @@ import { MaterialModule } from '../../../shared/material.module';
 import { LanguageService } from '../../../core/services/language.service';
 import { formatCurrency as formatCurrencyAmount } from '../../../core/utils/format.util';
 import { DashboardStats } from '../../../core/models/dashboard.model';
-import { ZakiInsights } from '../../../core/models/dashboard.model';
+import { RawajInsights } from '../../../core/models/dashboard.model';
 
 export interface DailyBriefDialogData {
   stats: DashboardStats | null;
-  insights: ZakiInsights | null;
+  insights: RawajInsights | null;
 }
 
 @Component({

@@ -3,11 +3,11 @@ import { FormsModule } from '@angular/forms';
 import { PageHeaderComponent } from '../../../shared/components/page-header/page-header.component';
 import { MaterialModule } from '../../../shared/material.module';
 import { ErrorHandlerService } from '../../../core/services/error-handler.service';
-import { ZakiFeatureSettingsService } from '../../../core/services/settings/zaki-feature-settings.service';
-import { ZakiFeatureSettings, ZakiFeatureSettingsRequest } from '../../../core/models/settings/zaki-feature-settings.model';
+import { RawajFeatureSettingsService } from '../../../core/services/settings/rawaj-feature-settings.service';
+import { RawajFeatureSettings, RawajFeatureSettingsRequest } from '../../../core/models/settings/rawaj-feature-settings.model';
 
 interface FeatureToggle {
-  key: keyof ZakiFeatureSettingsRequest;
+  key: keyof RawajFeatureSettingsRequest;
   icon: string;
   label: string;
   description: string;
@@ -15,16 +15,16 @@ interface FeatureToggle {
 }
 
 @Component({
-  selector: 'app-zaki-features-settings',
+  selector: 'app-rawaj-features-settings',
   standalone: true,
   imports: [MaterialModule, PageHeaderComponent, FormsModule],
-  templateUrl: './zaki-features-settings.component.html',
+  templateUrl: './rawaj-features-settings.component.html',
   changeDetection: ChangeDetectionStrategy.Eager,
-  styleUrl: './zaki-features-settings.component.scss'
+  styleUrl: './rawaj-features-settings.component.scss'
 })
-export class ZakiFeaturesSettingsComponent implements OnInit {
+export class RawajFeaturesSettingsComponent implements OnInit {
   private readonly errorHandler = inject(ErrorHandlerService);
-  private readonly zakiFeatureSettingsService = inject(ZakiFeatureSettingsService);
+  private readonly rawajFeatureSettingsService = inject(RawajFeatureSettingsService);
 
   readonly loading = signal(false);
   readonly saving = signal(false);
@@ -38,7 +38,7 @@ export class ZakiFeaturesSettingsComponent implements OnInit {
   loadSettings(): void {
     this.loading.set(true);
 
-    this.zakiFeatureSettingsService.getSettings().subscribe({
+    this.rawajFeatureSettingsService.getSettings().subscribe({
       next: (settings) => {
         this.toggles = this.buildToggles(settings);
         this.loading.set(false);
@@ -50,7 +50,7 @@ export class ZakiFeaturesSettingsComponent implements OnInit {
     });
   }
 
-  private buildToggles(settings: ZakiFeatureSettings): FeatureToggle[] {
+  private buildToggles(settings: RawajFeatureSettings): FeatureToggle[] {
     return [
       {
         key: 'stockPredictionEnabled', icon: 'psychology',
@@ -128,12 +128,12 @@ export class ZakiFeaturesSettingsComponent implements OnInit {
   onSave(): void {
     this.saving.set(true);
 
-    const request: ZakiFeatureSettingsRequest = this.toggles.reduce((acc, toggle) => {
+    const request: RawajFeatureSettingsRequest = this.toggles.reduce((acc, toggle) => {
       (acc as any)[toggle.key] = toggle.enabled;
       return acc;
-    }, {} as ZakiFeatureSettingsRequest);
+    }, {} as RawajFeatureSettingsRequest);
 
-    this.zakiFeatureSettingsService.updateSettings(request).subscribe({
+    this.rawajFeatureSettingsService.updateSettings(request).subscribe({
       next: () => {
         this.saving.set(false);
         this.errorHandler.showSuccess('SETTINGS.SAVE_SUCCESS');

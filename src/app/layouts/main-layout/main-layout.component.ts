@@ -10,7 +10,7 @@ import { SidebarComponent } from '../../shared/components/sidebar/sidebar.compon
 import { FooterComponent } from '../../shared/components/footer/footer.component';
 import { LoadingSpinnerComponent } from '../../shared/components/loading-spinner/loading-spinner.component';
 import { LanguageService } from '../../core/services/language.service';
-import { ZakiFeatureSettingsService } from '../../core/services/settings/zaki-feature-settings.service';
+import { RawajFeatureSettingsService } from '../../core/services/settings/rawaj-feature-settings.service';
 import { AssistantChatDialogComponent } from '../../features/assistant/assistant-chat-dialog/assistant-chat-dialog.component';
 import { inject } from '@angular/core';
 import { Subscription } from 'rxjs';
@@ -35,10 +35,10 @@ import { Subscription } from 'rxjs';
 })
 export class MainLayoutComponent implements OnInit, OnDestroy {
   private readonly languageService = inject(LanguageService);
-  private readonly zakiFeatureSettingsService = inject(ZakiFeatureSettingsService);
+  private readonly rawajFeatureSettingsService = inject(RawajFeatureSettingsService);
   private readonly dialog = inject(MatDialog);
 
-  readonly aiAssistantEnabled = computed(() => this.zakiFeatureSettingsService.flags().aiAssistantEnabled);
+  readonly aiAssistantEnabled = computed(() => this.rawajFeatureSettingsService.flags().aiAssistantEnabled);
 
   readonly currentLang = signal<string>(this.languageService.getCurrentLanguage());
   readonly isSidebarCollapsed = signal(false);
@@ -50,7 +50,7 @@ export class MainLayoutComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.checkScreenSize();
     window.addEventListener('resize', () => this.checkScreenSize());
-    this.zakiFeatureSettingsService.getSettings().subscribe();
+    this.rawajFeatureSettingsService.getSettings().subscribe();
 
     this.langSubscription = this.languageService.currentLang$.subscribe(lang => {
       this.currentLang.set(lang);
