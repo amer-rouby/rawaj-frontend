@@ -60,19 +60,3 @@ export interface SendEmailResponse {
   message: string;
 }
 
-export interface Supplier {
-  id: number;
-  name: string;
-  contactPerson?: string;
-  phone?: string;
-  email?: string;
-  address?: string;
-  city?: string;
-  status: SupplierStatus;
-  notes?: string;
-  storeId: number;
-  createdAt: string;
-  updatedAt: string;
-}
-
-export type SupplierStatus = 'ACTIVE' | 'INACTIVE' | 'BLOCKED';
