@@ -12,7 +12,7 @@ export interface PrintStoreInfo {
   email?: string;
 }
 
-const BRAND = '#4338ca';
+const BRAND = '#047857';
 const TEXT_PRIMARY = '#1e293b';
 const TEXT_SECONDARY = '#64748b';
 const BORDER = '#cbd5e1';
