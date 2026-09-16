@@ -8,7 +8,7 @@ import { PageHeaderComponent } from '../../../shared/components/page-header/page
 import { MaterialModule } from '../../../shared/material.module';
 import { ConfirmDialogService } from '../../../shared/services/confirm-dialog.service';
 import { SupplierService } from '../../../core/services/supplier.service';
-import { Supplier } from '../../../core/models/purchase-order.model';
+import { Supplier } from '../../../core/models/supplier.model';
 import { SupplierRequest } from '../../../core/models/purchase-request.model';
 import { ErrorHandlerService } from '../../../core/services/error-handler.service';
 import { TableLoadingComponent } from '../../../shared/components/table-loading/table-loading.component';
