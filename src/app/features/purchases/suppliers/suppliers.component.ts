@@ -14,6 +14,7 @@ import { ErrorHandlerService } from '../../../core/services/error-handler.servic
 import { TableLoadingComponent } from '../../../shared/components/table-loading/table-loading.component';
 import { EmptyStateComponent } from '../../../shared/components/empty-state/empty-state.component';
 import { DemandPredictionService, SupplierReorderGroup } from '../../../core/services/demand-prediction.service';
+import { RawajFeatureSettingsService } from '../../../core/services/settings/rawaj-feature-settings.service';
 
 @Component({
   selector: 'app-suppliers',
@@ -39,6 +40,7 @@ export class SuppliersComponent implements OnInit {
   private readonly fb = inject(FormBuilder);
   private readonly errorHandler = inject(ErrorHandlerService);
   private readonly predictionService = inject(DemandPredictionService);
+  private readonly rawajFeatureSettingsService = inject(RawajFeatureSettingsService);
 
   readonly loading = signal(false);
   readonly recommendationGroups = signal<SupplierReorderGroup[]>([]);
@@ -101,6 +103,9 @@ export class SuppliersComponent implements OnInit {
   }
 
   loadRecommendations(): void {
+    if (!this.rawajFeatureSettingsService.flags().supplierRecommendationsEnabled) {
+      return;
+    }
     this.recommendationsLoading.set(true);
     this.predictionService.getReorderRecommendationsBySupplier().subscribe({
       next: (data) => {

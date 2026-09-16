@@ -5,6 +5,7 @@ import { MaterialModule } from '../../../shared/material.module';
 import { CommonModule } from '@angular/common';
 import { DemandPrediction, DemandPredictionService, SalesHistoryPoint } from '../../../core/services/demand-prediction.service';
 import { ErrorHandlerService } from '../../../core/services/error-handler.service';
+import { RawajFeatureSettingsService } from '../../../core/services/settings/rawaj-feature-settings.service';
 
 @Component({
   selector: 'app-prediction-detail',
@@ -17,6 +18,7 @@ import { ErrorHandlerService } from '../../../core/services/error-handler.servic
 export class PredictionDetailComponent implements OnInit {
   private readonly predictionService = inject(DemandPredictionService);
   private readonly errorHandler = inject(ErrorHandlerService);
+  private readonly rawajFeatureSettingsService = inject(RawajFeatureSettingsService);
   readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
 
@@ -25,6 +27,10 @@ export class PredictionDetailComponent implements OnInit {
   readonly salesHistory = signal<SalesHistoryPoint[]>([]);
 
   ngOnInit(): void {
+    if (!this.rawajFeatureSettingsService.flags().stockPredictionEnabled) {
+      this.router.navigate(['/stock/predictions']);
+      return;
+    }
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
       this.loadPredictionDetail(+id);
