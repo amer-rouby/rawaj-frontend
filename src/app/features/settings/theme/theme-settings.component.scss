@@ -1,0 +1,107 @@
+.theme-settings-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.theme-card {
+  border-radius: var(--radius-xl, 20px);
+
+  mat-card-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--color-text-primary, #1e293b);
+
+    mat-icon {
+      color: var(--color-primary-600, #059669);
+    }
+  }
+}
+
+.mode-toggle {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.mode-option,
+.color-option {
+  cursor: pointer;
+  border: 1.5px solid var(--color-border, #e2e8f0);
+  background: var(--color-surface, #fff);
+  border-radius: var(--radius-md, 12px);
+  transition: border-color 0.15s ease, background 0.15s ease;
+
+  &.active {
+    border-color: var(--color-primary-600, #059669);
+    background: var(--color-primary-50, #ecfdf5);
+  }
+}
+
+.mode-option {
+  flex: 1;
+  min-width: 140px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 18px 12px;
+
+  mat-icon {
+    font-size: 28px;
+    width: 28px;
+    height: 28px;
+    color: var(--color-text-secondary, #64748b);
+  }
+
+  &.active mat-icon {
+    color: var(--color-primary-600, #059669);
+  }
+
+  span {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--color-text-primary, #1e293b);
+  }
+}
+
+.color-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  gap: 12px;
+}
+
+.color-option {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 16px 10px;
+
+  .swatch {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  }
+
+  .label {
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--color-text-primary, #1e293b);
+  }
+
+  .check {
+    position: absolute;
+    top: 6px;
+    inset-inline-end: 6px;
+    font-size: 18px;
+    width: 18px;
+    height: 18px;
+    color: var(--color-primary-600, #059669);
+  }
+}

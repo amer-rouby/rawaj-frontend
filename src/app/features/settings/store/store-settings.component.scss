@@ -45,7 +45,7 @@ mat-card {
   color: var(--mat-sys-on-surface);
   margin: 0 0 16px;
   padding-inline-start: 8px;
-  border-inline-start: 4px solid #667eea;
+  border-inline-start: 4px solid var(--color-primary-600, #10b981);
 }
 
 .section-hint {

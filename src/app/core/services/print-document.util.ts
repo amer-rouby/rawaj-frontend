@@ -12,7 +12,16 @@ export interface PrintStoreInfo {
   email?: string;
 }
 
-const BRAND = '#4338ca';
+// The print iframe is a separate document that can't inherit the app's CSS
+// variables, so the current theme's color is read off <body> here (where it
+// IS live) and baked into the generated markup as a literal, once per print.
+export function getBrandColor(): string {
+  const fallback = '#047857';
+  if (typeof document === 'undefined') return fallback;
+  const value = getComputedStyle(document.body).getPropertyValue('--color-primary-700').trim();
+  return value || fallback;
+}
+
 const TEXT_PRIMARY = '#1e293b';
 const TEXT_SECONDARY = '#64748b';
 const BORDER = '#cbd5e1';
@@ -38,10 +47,10 @@ export function getPrintDocumentStyles(isArabic: boolean): string {
     body { direction: ${dir}; padding: 12mm 10mm; font-size: 12px; line-height: 1.5; }
     .print-doc { max-width: 190mm; margin: 0 auto; }
 
-    .letterhead { text-align: center; padding-bottom: 10px; margin-bottom: 18px; border-bottom: 2px solid ${BRAND}; }
+    .letterhead { text-align: center; padding-bottom: 10px; margin-bottom: 18px; border-bottom: 2px solid ${getBrandColor()}; }
     .ph-name { font-size: 20px; font-weight: 700; color: ${TEXT_PRIMARY}; }
     .ph-meta { font-size: 11px; color: ${TEXT_SECONDARY}; margin-top: 4px; }
-    .doc-title { font-size: 16px; font-weight: 700; color: ${BRAND}; margin-top: 10px; }
+    .doc-title { font-size: 16px; font-weight: 700; color: ${getBrandColor()}; margin-top: 10px; }
     .doc-subtitle { font-size: 12px; color: ${TEXT_SECONDARY}; margin-top: 2px; }
     .doc-meta { font-size: 10px; color: ${TEXT_SECONDARY}; margin-top: 4px; }
 
@@ -49,7 +58,7 @@ export function getPrintDocumentStyles(isArabic: boolean): string {
     thead { display: table-header-group; }
     thead th {
       background: ${TABLE_HEADER_BG}; color: ${TEXT_PRIMARY}; font-weight: 700; font-size: 11px;
-      text-align: ${textAlign}; padding: 8px; border-bottom: 2px solid ${BRAND};
+      text-align: ${textAlign}; padding: 8px; border-bottom: 2px solid ${getBrandColor()};
     }
     tbody tr { page-break-inside: avoid; }
     tbody td { padding: 7px 8px; border-bottom: 1px solid ${BORDER}; text-align: ${textAlign}; font-size: 11.5px; }

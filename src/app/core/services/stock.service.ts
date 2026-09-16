@@ -1,108 +1,97 @@
-import { Injectable, inject } from '@angular/core';
-import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { AuthService } from './auth.service';
+import { CrudService } from '../abstracts/crud-service';
 import { environment } from '../../../environments/environment';
 import { StockBatch, StockAdjustmentHistory } from '../models/stock.model';
 import { ApiResponse, PaginatedResponse } from '../models/api-response.model';
 import { Product } from '../models/product.model';
 
+/**
+ * Every method here takes storeId explicitly rather than resolving it internally like other
+ * CrudService entities do - that's the existing convention its 5 consumers already rely on,
+ * so it's kept as-is rather than forced to match and requiring consumer changes.
+ */
 @Injectable({
   providedIn: 'root'
 })
-export class StockBatchService {
-  private readonly http = inject(HttpClient);
-  private readonly authService = inject(AuthService);
-  private readonly apiUrl = `${environment.apiUrl}/stock/batches`;
-
-  private getAuthHeaders(): HttpHeaders {
-    const token = this.authService.getToken();
-    return new HttpHeaders({
-      'Authorization': token ? `Bearer ${token}` : '',
-      'Content-Type': 'application/json'
-    });
+export class StockBatchService extends CrudService<StockBatch> {
+  protected getUrlSegment(): string {
+    return `${environment.apiUrl}/stock/batches`;
   }
 
-  private getCommonParams(storeId: number): HttpParams {
-    return new HttpParams().set('storeId', storeId);
+  protected createNewInstance(): StockBatch {
+    return new StockBatch({ status: 'ACTIVE' });
+  }
+
+  private toBatchPayload(batch: Partial<StockBatch>): object {
+    const { id, createdAt, updatedAt, storeId, productName, version, ...rest } = batch as Record<string, unknown>;
+    void id; void createdAt; void updatedAt; void storeId; void productName; void version;
+    return rest;
   }
 
   getBatches(storeId: number, page: number = 0, size: number = 20): Observable<PaginatedResponse<StockBatch>> {
-    const params = this.getCommonParams(storeId)
-      .set('page', page)
-      .set('size', size);
-    return this.http
-      .get<ApiResponse<PaginatedResponse<StockBatch>>>(this.apiUrl, { headers: this.getAuthHeaders(), params })
-      .pipe(map((response) => response.data));
+    const params = new HttpParams().set('storeId', storeId).set('page', page).set('size', size);
+    return this.http.get<ApiResponse<PaginatedResponse<StockBatch>>>(this.getUrlSegment(), { params }).pipe(
+      map(response => {
+        const page = response.data;
+        return { ...page, content: page.content.map(item => this.cast(item)) };
+      })
+    );
   }
 
   getBatch(id: number, storeId: number): Observable<StockBatch> {
-    const params = new HttpParams().set('storeId', storeId);
-    return this.http
-      .get<ApiResponse<StockBatch>>(`${this.apiUrl}/${id}`, { headers: this.getAuthHeaders(), params })
-      .pipe(map((response) => response.data));
+    return this.http.get<ApiResponse<StockBatch>>(`${this.getUrlSegment()}/${id}`, {
+      params: new HttpParams().set('storeId', storeId)
+    }).pipe(map(response => this.cast(response.data)));
   }
 
   createBatch(batch: Partial<StockBatch>, storeId: number): Observable<StockBatch> {
-    const params = new HttpParams().set('storeId', storeId);
-    return this.http
-      .post<ApiResponse<StockBatch>>(this.apiUrl, batch, { headers: this.getAuthHeaders(), params })
-      .pipe(map((response) => response.data));
+    return this.http.post<ApiResponse<StockBatch>>(this.getUrlSegment(), this.toBatchPayload(batch), {
+      params: new HttpParams().set('storeId', storeId)
+    }).pipe(map(response => this.cast(response.data)));
   }
 
   updateBatch(id: number, batch: Partial<StockBatch>, storeId: number): Observable<StockBatch> {
-    const params = new HttpParams().set('storeId', storeId);
-    return this.http
-      .put<ApiResponse<StockBatch>>(`${this.apiUrl}/${id}`, batch, { headers: this.getAuthHeaders(), params })
-      .pipe(map((response) => response.data));
+    return this.http.put<ApiResponse<StockBatch>>(`${this.getUrlSegment()}/${id}`, this.toBatchPayload(batch), {
+      params: new HttpParams().set('storeId', storeId)
+    }).pipe(map(response => this.cast(response.data)));
   }
 
   deleteBatch(id: number, storeId: number): Observable<void> {
-    const params = new HttpParams().set('storeId', storeId);
-    return this.http
-      .delete<ApiResponse<void>>(`${this.apiUrl}/${id}`, { headers: this.getAuthHeaders(), params })
-      .pipe(map((response) => response.data));
+    return this.http.delete<ApiResponse<void>>(`${this.getUrlSegment()}/${id}`, {
+      params: new HttpParams().set('storeId', storeId)
+    }).pipe(map(response => response.data));
   }
 
   getProducts(storeId: number = 4): Observable<Product[]> {
-    const params = new HttpParams().set('storeId', storeId);
-    return this.http
-      .get<ApiResponse<Product[]>>(`${environment.apiUrl}/products`, { headers: this.getAuthHeaders(), params })
-      .pipe(map((response) => response.data));
+    return this.http.get<ApiResponse<Product[]>>(`${environment.apiUrl}/products`, {
+      params: new HttpParams().set('storeId', storeId)
+    }).pipe(map(response => response.data));
   }
 
   getExpiringBatches(storeId: number, days: number = 30): Observable<StockBatch[]> {
-    const params = this.getCommonParams(storeId).set('days', days);
-    return this.http
-      .get<ApiResponse<StockBatch[]>>(`${this.apiUrl}/expiring`, { headers: this.getAuthHeaders(), params })
-      .pipe(map((response) => response.data));
+    return this.http.get<ApiResponse<StockBatch[]>>(`${this.getUrlSegment()}/expiring`, {
+      params: new HttpParams().set('storeId', storeId).set('days', days)
+    }).pipe(map(response => (response.data || []).map(item => this.cast(item))));
   }
 
   getExpiredBatches(storeId: number): Observable<StockBatch[]> {
-    const params = this.getCommonParams(storeId);
-    return this.http
-      .get<ApiResponse<StockBatch[]>>(`${this.apiUrl}/expired`, { headers: this.getAuthHeaders(), params })
-      .pipe(map((response) => response.data));
+    return this.http.get<ApiResponse<StockBatch[]>>(`${this.getUrlSegment()}/expired`, {
+      params: new HttpParams().set('storeId', storeId)
+    }).pipe(map(response => (response.data || []).map(item => this.cast(item))));
   }
 
-  adjustStock(batchId: number, adjustment: any, storeId: number): Observable<StockBatch> {
-    const params = new HttpParams().set('storeId', storeId);
-    return this.http
-      .post<ApiResponse<StockBatch>>(`${this.apiUrl}/${batchId}/adjust`, adjustment, {
-        headers: this.getAuthHeaders(),
-        params
-      })
-      .pipe(map((response) => response.data));
+  adjustStock(batchId: number, adjustment: unknown, storeId: number): Observable<StockBatch> {
+    return this.http.post<ApiResponse<StockBatch>>(`${this.getUrlSegment()}/${batchId}/adjust`, adjustment, {
+      params: new HttpParams().set('storeId', storeId)
+    }).pipe(map(response => this.cast(response.data)));
   }
 
   getAdjustmentHistory(batchId: number, storeId: number): Observable<StockAdjustmentHistory[]> {
-    const params = new HttpParams().set('storeId', storeId);
-    return this.http
-      .get<ApiResponse<StockAdjustmentHistory[]>>(`${this.apiUrl}/${batchId}/adjustments`, {
-        headers: this.getAuthHeaders(),
-        params
-      })
-      .pipe(map((response) => response.data));
+    return this.http.get<ApiResponse<StockAdjustmentHistory[]>>(`${this.getUrlSegment()}/${batchId}/adjustments`, {
+      params: new HttpParams().set('storeId', storeId)
+    }).pipe(map(response => response.data));
   }
 }

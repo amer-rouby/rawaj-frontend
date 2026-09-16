@@ -226,7 +226,7 @@ export class QuickAddScanComponent implements OnInit, AfterViewInit {
       next: () => {
         this.saving.set(false);
         this.allProducts.update(list => list.map(p =>
-          p.id === product.id ? { ...p, totalStock: (p.totalStock || 0) + quantity } : p
+          p.id === product.id ? new Product({ ...p, totalStock: (p.totalStock || 0) + quantity }) : p
         ));
         this.logEntry(product.barcode || '', product.name, 'restock', quantity);
         this.errorHandler.showSuccess('STOCK.SUCCESS_ADD');

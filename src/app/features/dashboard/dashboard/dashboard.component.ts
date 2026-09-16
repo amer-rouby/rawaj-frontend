@@ -64,10 +64,14 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   loadRawajInsights(): void {
+    if (!this.rawajFeatureSettingsService.flags().dashboardInsightsEnabled) {
+      return;
+    }
     this.dashboardService.getRawajInsights()
       .pipe(takeUntil(this.destroy$))
       .subscribe({
-        next: (data) => this.insights.set(data)
+        next: (data) => this.insights.set(data),
+        error: () => { }
       });
   }
 

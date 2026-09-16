@@ -6,5 +6,11 @@ export const LICENSE_ROUTES: Routes = [
     loadComponent: () =>
       import('./license-renew/license-renew.component')
         .then(m => m.LicenseRenewComponent)
+  },
+  {
+    path: 'generate',
+    loadComponent: () =>
+      import('./license-generate/license-generate.component')
+        .then(m => m.LicenseGenerateComponent)
   }
 ];

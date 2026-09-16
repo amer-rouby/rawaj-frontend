@@ -10,6 +10,7 @@ import { ErrorHandlerService } from '../../../core/services/error-handler.servic
 import { TableLoadingComponent } from '../../../shared/components/table-loading/table-loading.component';
 import { EmptyStateComponent } from '../../../shared/components/empty-state/empty-state.component';
 import { Anomaly, AnomalyCounts, AnomalyStatus, AnomalyType } from '../../../core/models/anomaly.model';
+import { RawajFeatureSettingsService } from '../../../core/services/settings/rawaj-feature-settings.service';
 
 @Component({
   selector: 'app-anomalies',
@@ -32,6 +33,7 @@ export class AnomaliesComponent implements OnInit {
   private readonly anomalyService = inject(AnomalyService);
   private readonly confirmDialog = inject(ConfirmDialogService);
   private readonly errorHandler = inject(ErrorHandlerService);
+  private readonly rawajFeatureSettingsService = inject(RawajFeatureSettingsService);
 
   readonly loading = signal(false);
   readonly anomalies = signal<Anomaly[]>([]);
@@ -50,6 +52,9 @@ export class AnomaliesComponent implements OnInit {
   }
 
   loadAnomalies(): void {
+    if (!this.rawajFeatureSettingsService.flags().anomalyDetectionEnabled) {
+      return;
+    }
     this.loading.set(true);
     const status = this.filterForm.get('status')?.value;
     const type = this.filterForm.get('type')?.value;
@@ -72,8 +77,12 @@ export class AnomaliesComponent implements OnInit {
   }
 
   loadCounts(): void {
+    if (!this.rawajFeatureSettingsService.flags().anomalyDetectionEnabled) {
+      return;
+    }
     this.anomalyService.getCounts().subscribe({
-      next: (data) => this.counts.set(data)
+      next: (data) => this.counts.set(data),
+      error: () => { }
     });
   }
 
