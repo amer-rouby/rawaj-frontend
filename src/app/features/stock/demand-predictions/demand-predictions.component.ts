@@ -12,6 +12,7 @@ import { EditPredictionDialogComponent } from '../edit-prediction-dialog/edit-pr
 import { ErrorHandlerService } from '../../../core/services/error-handler.service';
 import { TableLoadingComponent } from '../../../shared/components/table-loading/table-loading.component';
 import { EmptyStateComponent } from '../../../shared/components/empty-state/empty-state.component';
+import { RawajFeatureSettingsService } from '../../../core/services/settings/rawaj-feature-settings.service';
 
 @Component({
   selector: 'app-demand-predictions',
@@ -33,6 +34,7 @@ export class DemandPredictionsComponent implements OnInit {
   private readonly dialog = inject(MatDialog);
   private readonly confirmDialog = inject(ConfirmDialogService);
   private readonly errorHandler = inject(ErrorHandlerService);
+  private readonly rawajFeatureSettingsService = inject(RawajFeatureSettingsService);
 
   readonly router = inject(Router);
   readonly loading = signal(false);
@@ -63,6 +65,9 @@ export class DemandPredictionsComponent implements OnInit {
   }
 
   loadPredictions(): void {
+    if (!this.rawajFeatureSettingsService.flags().stockPredictionEnabled) {
+      return;
+    }
     this.loading.set(true);
     this.predictionService.getPredictionsWithPagination(this.pageIndex(), this.pageSize()).subscribe({
       next: (data) => {
@@ -78,6 +83,9 @@ export class DemandPredictionsComponent implements OnInit {
   }
 
   loadStats(): void {
+    if (!this.rawajFeatureSettingsService.flags().stockPredictionEnabled) {
+      return;
+    }
     this.predictionService.getAccuracyStats().subscribe({
       next: (data) => this.stats.set(data),
       error: () => { }
@@ -91,6 +99,9 @@ export class DemandPredictionsComponent implements OnInit {
   }
 
   loadReorderRecommendations(): void {
+    if (!this.rawajFeatureSettingsService.flags().reorderRecommendationsEnabled) {
+      return;
+    }
     this.reorderLoading.set(true);
     this.predictionService.getReorderRecommendations().subscribe({
       next: (data) => {

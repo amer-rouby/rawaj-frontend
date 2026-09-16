@@ -14,17 +14,17 @@
       <div class="filters-grid">
         <mat-form-field appearance="outline" class="search-field">
           <mat-label>{{'COMMON.SEARCH' | translate}}</mat-label>
-          <input matInput [(ngModel)]="searchQuery" (keyup.enter)="onSearch()"
+          <input matInput [(ngModel)]="searchQuery" (ngModelChange)="onSearchInput()" (keyup.enter)="onSearchInput()"
             [placeholder]="'USERS.SEARCH_PLACEHOLDER' | translate">
           <mat-icon matSuffix>search</mat-icon>
         </mat-form-field>
 
-        <button mat-raised-button color="primary" (click)="onSearch()" [disabled]="loading()">
+        <button mat-raised-button color="primary" (click)="onSearchInput()" [disabled]="loading()">
           <mat-icon>search</mat-icon>
           {{'COMMON.SEARCH' | translate}}
         </button>
 
-        <button mat-button (click)="loadUsers()" [disabled]="loading()">
+        <button mat-button (click)="refresh()" [disabled]="loading()">
           <mat-icon>refresh</mat-icon>
           {{'COMMON.REFRESH' | translate}}
         </button>
@@ -45,12 +45,12 @@
     }
     <mat-card-header>
       <mat-card-title>{{'USERS.ALL_USERS' | translate}}</mat-card-title>
-      <mat-card-subtitle>{{users().length}} {{'USERS.COUNT' | translate}}</mat-card-subtitle>
+      <mat-card-subtitle>{{totalElements()}} {{'USERS.COUNT' | translate}}</mat-card-subtitle>
     </mat-card-header>
 
     <mat-card-content [class.list-content-refreshing]="loading()">
       <div class="table-wrapper">
-        <table mat-table [dataSource]="pagedUsers()" class="data-table" matSort>
+        <table mat-table [dataSource]="users()" class="data-table" matSort>
 
           <!-- Full Name -->
           <ng-container matColumnDef="fullName">
@@ -138,7 +138,7 @@
       </div>
 
       @if (hasPagination()) {
-      <mat-paginator [length]="users().length" [pageIndex]="page()" [pageSize]="size()"
+      <mat-paginator [length]="totalElements()" [pageIndex]="page()" [pageSize]="size()"
         [pageSizeOptions]="[5, 10, 25, 50]" [disabled]="loading()" (page)="onPageChange($event)" showFirstLastButtons>
       </mat-paginator>
       }

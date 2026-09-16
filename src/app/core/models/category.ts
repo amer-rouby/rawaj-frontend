@@ -1,28 +1,30 @@
-export interface Category {
-  id: number;
-  name: string;
-  nameAr?: string;
-  nameEn?: string;
-  description?: string;
-  icon?: string;
-  color?: string;
-  isActive: boolean;
-  storeId: number;
-  createdAt: string;
-  updatedAt?: string;
-}
+import { Validators } from '@angular/forms';
+import { CrudModel } from '../abstracts/crud-model';
 
-export interface CategoryRequest {
-  name: string;
-  nameAr?: string;
-  nameEn?: string;
-  description?: string;
-  icon?: string;
-  color?: string;
-  storeId: number;
-  isActive?: boolean;
-}
+export class Category extends CrudModel<Category> {
+  declare name: string;
+  declare nameAr?: string;
+  declare nameEn?: string;
+  declare description?: string | null;
+  declare icon?: string;
+  declare color?: string;
+  declare isActive: boolean;
+  declare storeId: number;
+  declare createdAt: string;
+  declare updatedAt?: string;
 
-export interface CategoriesCountResponse {
-  count: number;
+  constructor(init?: Partial<Category>) {
+    super();
+    Object.assign(this, init);
+  }
+
+  buildFormControls(): object {
+    return {
+      name: [this.name ?? '', [Validators.required, Validators.minLength(2)]],
+      description: [this.description ?? ''],
+      icon: [this.icon ?? 'category'],
+      color: [this.color ?? '#667eea'],
+      isActive: [this.isActive ?? true]
+    };
+  }
 }

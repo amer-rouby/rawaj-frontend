@@ -189,9 +189,9 @@
           font-size: 13px;
 
           &.active {
-            background: var(--color-primary-600, #667eea);
+            background: var(--color-primary-600, #10b981);
             color: white;
-            border-color: var(--color-primary-600, #667eea);
+            border-color: var(--color-primary-600, #10b981);
           }
 
           &:hover:not(.active) {

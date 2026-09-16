@@ -1,23 +1,49 @@
-export interface StockBatch {
-  id: number;
-  productId: number;
-  productName?: string;
-  batchNumber: string;
-  quantityCurrent: number;
-  quantityInitial: number;
-  expiryDate: string;
-  productionDate?: string;
-  location?: string;
-  shelf?: string;
-  warehouse?: string;
-  notes?: string;
-  status: 'ACTIVE' | 'EXPIRED' | 'DISCARDED' | 'GOOD' | 'LOW' | 'EXPIRING_SOON';
-  createdAt?: string;
-  updatedAt?: string;
-  storeId?: number;
-  buyPrice?: number;
-  sellPrice?: number;
-  version?: number;
+import { Validators } from '@angular/forms';
+import { CrudModel } from '../abstracts/crud-model';
+
+export type StockBatchStatus = 'ACTIVE' | 'EXPIRED' | 'DISCARDED' | 'GOOD' | 'LOW' | 'EXPIRING_SOON';
+
+export class StockBatch extends CrudModel<StockBatch> {
+  declare productId: number;
+  declare productName?: string;
+  declare batchNumber: string;
+  declare quantityCurrent: number;
+  declare quantityInitial: number;
+  declare expiryDate: string;
+  declare productionDate?: string;
+  declare location?: string;
+  declare shelf?: string;
+  declare warehouse?: string;
+  declare notes?: string;
+  declare status: StockBatchStatus;
+  declare createdAt?: string;
+  declare updatedAt?: string;
+  declare storeId?: number;
+  declare buyPrice?: number;
+  declare sellPrice?: number;
+  declare version?: number;
+
+  constructor(init?: Partial<StockBatch>) {
+    super();
+    Object.assign(this, init);
+  }
+
+  buildFormControls(): object {
+    return {
+      productId: [this.productId ?? null, Validators.required],
+      batchNumber: [this.batchNumber ?? '', Validators.required],
+      quantityInitial: [this.quantityInitial ?? 0, [Validators.required, Validators.min(0)]],
+      quantityCurrent: [this.quantityCurrent ?? 0],
+      expiryDate: [this.expiryDate ?? '', Validators.required],
+      productionDate: [this.productionDate ?? ''],
+      location: [this.location ?? ''],
+      shelf: [this.shelf ?? ''],
+      warehouse: [this.warehouse ?? ''],
+      buyPrice: [this.buyPrice ?? 0],
+      sellPrice: [this.sellPrice ?? 0],
+      notes: [this.notes ?? '']
+    };
+  }
 }
 
 export interface StockBatchResponse {

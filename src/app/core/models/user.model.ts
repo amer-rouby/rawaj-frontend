@@ -1,15 +1,5 @@
-export interface User {
-  id: number;
-  storeId: number;
-  username: string;
-  fullName: string;
-  email?: string;
-  phone?: string;
-  role: UserRole;
-  isActive: boolean;
-  createdAt: string;
-  lastLoginAt?: string;
-}
+import { Validators } from '@angular/forms';
+import { CrudModel } from '../abstracts/crud-model';
 
 export enum UserRole {
   ADMIN = 'ADMIN',
@@ -39,32 +29,37 @@ export interface RegisterData {
   fullName: string;
   storeId?: number | null;
 }
-export interface User {
-  id: number;
-  username: string;
-  fullName: string;
-  email?: string;
-  phone?: string;
-  role: UserRole;
-  isActive: boolean;
-  storeId: number;
-  storeName?: string;
-  lastLoginAt?: string;
-  createdAt: string;
-  updatedAt?: string;
-}
 
-export interface UserRequest {
-  username: string;
-  password?: string;
-  fullName: string;
-  email?: string;
-  phone?: string;
-  role: UserRole;
-  storeId: number;
-  isActive?: boolean;
-}
+export class User extends CrudModel<User> {
+  declare storeId: number;
+  declare storeName?: string;
+  declare username: string;
+  declare fullName: string;
+  declare email?: string | null;
+  declare phone?: string | null;
+  declare role: UserRole;
+  declare isActive: boolean;
+  declare lastLoginAt?: string;
+  declare createdAt: string;
+  declare updatedAt?: string;
+  /** Write-only - only ever sent to the server, never comes back in a response. */
+  declare password?: string;
 
-export interface UsersCountResponse {
-  count: number;
+  constructor(init?: Partial<User>) {
+    super();
+    Object.assign(this, init);
+  }
+
+  buildFormControls(): object {
+    const isEdit = !!this.id;
+    return {
+      username: [this.username ?? '', [Validators.required, Validators.minLength(3)]],
+      password: ['', isEdit ? [] : [Validators.required, Validators.minLength(6)]],
+      fullName: [this.fullName ?? '', [Validators.required, Validators.minLength(2)]],
+      email: [this.email ?? '', Validators.email],
+      phone: [this.phone ?? ''],
+      role: [this.role ?? UserRole.CASHIER, Validators.required],
+      isActive: [this.isActive ?? true]
+    };
+  }
 }

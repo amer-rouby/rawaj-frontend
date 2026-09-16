@@ -12,7 +12,7 @@ import { SearchableSelectComponent } from '../../../shared/components/searchable
 import { PurchaseOrderService } from '../../../core/services/purchase-order.service';
 import { SupplierService } from '../../../core/services/supplier.service';
 import { ProductService } from '../../../core/services/product.service';
-import { Supplier } from '../../../core/models/purchase-order.model';
+import { Supplier } from '../../../core/models/supplier.model';
 import { Product } from '../../../core/models/product.model';
 
 @Component({

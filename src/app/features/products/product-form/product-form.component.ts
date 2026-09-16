@@ -141,8 +141,7 @@ export class ProductFormComponent implements OnInit, AfterViewInit {
 
     this.loading.set(true);
     this.productService.getProduct(id).subscribe({
-      next: (response: any) => {
-        const data = response.data;
+      next: (data) => {
         this.product.set({
           name: data.name || '',
           barcode: data.barcode || '',
@@ -153,7 +152,7 @@ export class ProductFormComponent implements OnInit, AfterViewInit {
           buyPrice: data.buyPrice || 0
         });
 
-        const extra = data.extraAttributes || {};
+        const extra = (data.extraAttributes || {}) as Record<string, string>;
         this.extraFields.set({
           manufacturer: extra['manufacturer'] || '',
           description: extra['description'] || '',
@@ -212,9 +211,9 @@ export class ProductFormComponent implements OnInit, AfterViewInit {
       : this.productService.createProduct(payload);
 
     request$.subscribe({
-      next: (response: any) => {
+      next: () => {
         this.loading.set(false);
-        const msg = response.message || (this.isEditMode() ? 'PRODUCTS.UPDATE_SUCCESS' : 'PRODUCTS.ADD_SUCCESS');
+        const msg = this.isEditMode() ? 'PRODUCTS.UPDATE_SUCCESS' : 'PRODUCTS.ADD_SUCCESS';
         this.errorHandler.showSuccess(msg);
         this.router.navigate(['/products']);
       },

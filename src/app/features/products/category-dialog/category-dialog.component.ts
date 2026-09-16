@@ -1,82 +1,35 @@
-import { Component, inject, signal, ChangeDetectionStrategy } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from '../../../shared/material.module';
-import { CategoryService } from '../../../core/services/category.service';
-import { CategoryRequest } from '../../../core/models/category';
-import { ErrorHandlerService } from '../../../core/services/error-handler.service';
+import { ModelDialog } from '../../../core/abstracts/model-dialog';
+import { Category } from '../../../core/models/category';
+import { CategoryFormContract } from '../../../core/models/category-form.contract';
 
 @Component({
   selector: 'app-category-dialog',
   standalone: true,
   imports: [MaterialModule, ReactiveFormsModule],
-  templateUrl: "./category-dialog.component.html",
+  templateUrl: './category-dialog.component.html',
   changeDetection: ChangeDetectionStrategy.Eager,
-  styleUrl: "./category-dialog.component.scss"
+  styleUrl: './category-dialog.component.scss'
 })
-export class CategoryDialogComponent {
-  private readonly fb = inject(FormBuilder);
-  private readonly dialogRef = inject(MatDialogRef<CategoryDialogComponent>);
-  private readonly categoryService = inject(CategoryService);
-  private readonly errorHandler = inject(ErrorHandlerService);
-  readonly data = inject(MAT_DIALOG_DATA);
+export class CategoryDialogComponent extends ModelDialog<Category, CategoryFormContract> {
+  form!: FormGroup<CategoryFormContract>;
+  successKey = this.isCreate() ? 'CATEGORIES.ADD_SUCCESS' : 'CATEGORIES.UPDATE_SUCCESS';
+  errorKey = this.isCreate() ? 'CATEGORIES.ADD_ERROR' : 'CATEGORIES.UPDATE_ERROR';
 
-  readonly loading = signal(false);
-
-  readonly form: FormGroup = this.fb.group({
-    name: ['', [Validators.required, Validators.minLength(2)]],
-    description: [''],
-    icon: ['category'],
-    color: ['#667eea'],
-    isActive: [true]
-  });
-
-  constructor() {
-    if (this.data?.category) {
-      this.form.patchValue({
-        name: this.data.category.name,
-        description: this.data.category.description,
-        icon: this.data.category.icon,
-        color: this.data.category.color,
-        isActive: this.data.category.isActive
-      });
-    }
+  buildForm(): void {
+    this.form = this.fb.group<CategoryFormContract>(
+      this.model().buildFormControls() as unknown as CategoryFormContract
+    );
   }
 
-  onSubmit(): void {
-    if (this.form.invalid || this.loading()) return;
-
-    this.loading.set(true);
-    const formValue = this.form.value;
-
-    const request: CategoryRequest = {
-      name: formValue.name,
-      nameAr: formValue.name,
-      nameEn: formValue.name,
-      description: formValue.description,
-      icon: formValue.icon,
-      color: formValue.color,
-      isActive: formValue.isActive,
-      storeId: this.data?.storeId || 1
-    };
-
-    const operation = this.data?.category
-      ? this.categoryService.updateCategory(this.data.category.id, request)
-      : this.categoryService.createCategory(request);
-
-    operation.subscribe({
-      next: (result) => {
-        this.loading.set(false);
-        const successKey = this.data?.category ? 'CATEGORIES.UPDATE_SUCCESS' : 'CATEGORIES.ADD_SUCCESS';
-        this.errorHandler.showSuccess(successKey);
-        this.dialogRef.close(result);
-      },
-      error: (error) => {
-        this.loading.set(false);
-        const errorKey = this.data?.category ? 'CATEGORIES.UPDATE_ERROR' : 'CATEGORIES.ADD_ERROR';
-        this.errorHandler.handleHttpError(error, errorKey);
-        console.error('Category error:', error);
-      }
+  prepareModel(): Category {
+    return new Category({
+      ...this.model(),
+      ...this.form.getRawValue(),
+      nameAr: this.form.getRawValue().name,
+      nameEn: this.form.getRawValue().name
     });
   }
 }
