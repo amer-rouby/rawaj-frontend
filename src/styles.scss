@@ -9,7 +9,7 @@
 @include mat.core();
 
 $theme: mat.define-theme((color: (theme-type: light,
-        primary: mat.$violet-palette,
+        primary: mat.$green-palette,
         tertiary: mat.$blue-palette,
       ),
       typography: (brand-family: 'Cairo, sans-serif',
@@ -20,7 +20,7 @@ $theme: mat.define-theme((color: (theme-type: light,
 @include mat.all-component-themes($theme);
 
 $dark-theme: mat.define-theme((color: (theme-type: dark,
-        primary: mat.$violet-palette,
+        primary: mat.$green-palette,
         tertiary: mat.$blue-palette,
       ),
       typography: (brand-family: 'Cairo, sans-serif',
@@ -42,12 +42,12 @@ $dark-theme: mat.define-theme((color: (theme-type: dark,
 // primary actions actually read as primary.
 .mat-mdc-raised-button {
   &.mat-primary {
-    background-color: #4f46e5 !important;
+    background-color: #059669 !important;
     color: #fff !important;
   }
 
   &.mat-accent {
-    background-color: #6366f1 !important;
+    background-color: #10b981 !important;
     color: #fff !important;
   }
 
@@ -79,14 +79,14 @@ body {
 // used by components that already read var(--...), e.g. header).
 // ============================================================
 :root {
-  --color-primary-50: #eef2ff;
-  --color-primary-100: #e0e7ff;
-  --color-primary-200: #c7d2fe;
-  --color-primary-500: #6366f1;
-  --color-primary-600: #4f46e5;
-  --color-primary-700: #4338ca;
-  --color-primary-800: #3730a3;
-  --color-primary-900: #312e81;
+  --color-primary-50: #ecfdf5;
+  --color-primary-100: #d1fae5;
+  --color-primary-200: #a7f3d0;
+  --color-primary-500: #10b981;
+  --color-primary-600: #059669;
+  --color-primary-700: #047857;
+  --color-primary-800: #065f46;
+  --color-primary-900: #064e3b;
 
   --color-slate-50: #f8fafc;
   --color-slate-100: #f1f5f9;
@@ -136,14 +136,14 @@ body {
 // Toggled by ThemeService via a `dark-theme` class on <body>.
 // ============================================================
 body.dark-theme {
-  --color-primary-50: #1e1b4b;
-  --color-primary-100: #312e81;
-  --color-primary-200: #3730a3;
-  --color-primary-500: #818cf8;
-  --color-primary-600: #6366f1;
-  --color-primary-700: #a5b4fc;
-  --color-primary-800: #c7d2fe;
-  --color-primary-900: #e0e7ff;
+  --color-primary-50: #064e3b;
+  --color-primary-100: #065f46;
+  --color-primary-200: #047857;
+  --color-primary-500: #34d399;
+  --color-primary-600: #10b981;
+  --color-primary-700: #a7f3d0;
+  --color-primary-800: #d1fae5;
+  --color-primary-900: #ecfdf5;
 
   --color-slate-50: #1e293b;
   --color-slate-100: #273549;
@@ -255,10 +255,10 @@ mat-icon {
 
 // Color Variables — Deep Slate Blue / Indigo (kept as SCSS aliases of the
 // :root custom properties above so existing usages below keep working)
-$primary: #4f46e5;
-$primary-dark: #4338ca;
-$primary-light: #eef2ff;
-$accent: #6366f1;
+$primary: #059669;
+$primary-dark: #047857;
+$primary-light: #ecfdf5;
+$accent: #10b981;
 $success: #10b981;
 $warning: #f59e0b;
 $error: #ef4444;

@@ -192,7 +192,7 @@ ${this.getPrintStyles(isArabic)}
   .totals { margin-top: 14px; padding: 14px 16px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; }
   .total-row { display: flex; justify-content: space-between; margin-bottom: 6px; font-size: 13px; }
   .total-row.final {
-    font-size: 16px; font-weight: 700; color: #4338ca; padding-top: 8px;
+    font-size: 16px; font-weight: 700; color: #047857; padding-top: 8px;
     border-top: 1px solid #cbd5e1; margin-top: 8px; margin-bottom: 0;
   }
   .thank-you { text-align: center; font-weight: 700; margin-top: 18px; font-size: 13px; }
