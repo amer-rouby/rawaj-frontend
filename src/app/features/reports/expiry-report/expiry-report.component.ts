@@ -15,6 +15,7 @@ import { LanguageService } from '../../../core/services/language.service';
 import { CurrencyService } from '../../../core/services/currency.service';
 import { PrintHelperService } from '../../../core/services/print-helper.service';
 import { PricingRecommendationService, PricingRecommendation } from '../../../core/services/pricing-recommendation.service';
+import { RawajFeatureSettingsService } from '../../../core/services/settings/rawaj-feature-settings.service';
 
 
 @Component({
@@ -38,6 +39,7 @@ export class ExpiryReportComponent implements OnInit {
   private readonly currencyService = inject(CurrencyService);
   private readonly printHelper = inject(PrintHelperService);
   private readonly pricingRecommendationService = inject(PricingRecommendationService);
+  private readonly rawajFeatureSettingsService = inject(RawajFeatureSettingsService);
 
   readonly reportType = signal<'DAILY' | 'MONTHLY' | 'YEARLY' | 'CUSTOM'>('CUSTOM');
   readonly expiryData = signal<ExpiryData | null>(null);
@@ -69,6 +71,9 @@ export class ExpiryReportComponent implements OnInit {
   }
 
   loadPricingRecommendations(): void {
+    if (!this.rawajFeatureSettingsService.flags().pricingRecommendationsEnabled) {
+      return;
+    }
     this.pricingLoading.set(true);
     this.pricingRecommendationService.getRecommendations().subscribe({
       next: (data) => {
