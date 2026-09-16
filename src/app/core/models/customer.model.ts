@@ -1,18 +1,36 @@
+import { Validators } from '@angular/forms';
+import { CrudModel } from '../abstracts/crud-model';
+
 export type CustomerStatus = 'ACTIVE' | 'INACTIVE' | 'BLOCKED';
 
-export interface Customer {
-  id: number;
-  name: string;
-  phone?: string;
-  email?: string;
-  creditLimit: number;
-  currentBalance: number;
-  availableCredit: number;
-  status: CustomerStatus;
-  notes?: string;
-  storeId: number;
-  createdAt: string;
-  updatedAt: string;
+export class Customer extends CrudModel<Customer> {
+  declare name: string;
+  declare phone?: string;
+  declare email?: string;
+  declare creditLimit: number;
+  declare currentBalance: number;
+  declare availableCredit: number;
+  declare status: CustomerStatus;
+  declare notes?: string;
+  declare storeId: number;
+  declare createdAt: string;
+  declare updatedAt: string;
+
+  constructor(init?: Partial<Customer>) {
+    super();
+    Object.assign(this, init);
+  }
+
+  buildFormControls(): object {
+    return {
+      name: [this.name ?? '', Validators.required],
+      phone: [this.phone ?? ''],
+      email: [this.email ?? '', [Validators.email]],
+      creditLimit: [this.creditLimit ?? 0],
+      status: [this.status ?? 'ACTIVE'],
+      notes: [this.notes ?? '']
+    };
+  }
 }
 
 export interface CustomerRequest {
