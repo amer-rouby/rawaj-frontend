@@ -1,24 +1,43 @@
-export interface PurchaseOrder {
-  id: number;
-  orderNumber: string;
-  storeId: number;
-  supplierId: number;
-  supplierName: string;
-  orderDate: string;
-  expectedDeliveryDate?: string;
-  actualDeliveryDate?: string;
-  totalAmount: number;
-  status: PurchaseOrderStatus;
-  priority: PurchaseOrderPriority;
-  paymentTerms?: string;
-  notes?: string;
-  sourceType?: string;
-  sourceId?: number;
-  createdById?: number;
-  createdByFullName?: string;
-  createdAt: string;
-  updatedAt: string;
-  items: PurchaseOrderItem[];
+import { Validators } from '@angular/forms';
+import { CrudModel } from '../abstracts/crud-model';
+
+export class PurchaseOrder extends CrudModel<PurchaseOrder> {
+  declare orderNumber: string;
+  declare storeId: number;
+  declare supplierId: number;
+  declare supplierName: string;
+  declare orderDate: string;
+  declare expectedDeliveryDate?: string;
+  declare actualDeliveryDate?: string;
+  declare totalAmount: number;
+  declare status: PurchaseOrderStatus;
+  declare priority: PurchaseOrderPriority;
+  declare paymentTerms?: string;
+  declare notes?: string;
+  declare sourceType?: string;
+  declare sourceId?: number;
+  declare createdById?: number;
+  declare createdByFullName?: string;
+  declare createdAt: string;
+  declare updatedAt: string;
+  declare items: PurchaseOrderItem[];
+
+  constructor(init?: Partial<PurchaseOrder>) {
+    super();
+    Object.assign(this, init);
+  }
+
+  /** The real create/edit form manages `items` as its own FormArray, not through this. */
+  buildFormControls(): object {
+    return {
+      supplierId: [this.supplierId ?? null, Validators.required],
+      orderDate: [this.orderDate ?? ''],
+      expectedDeliveryDate: [this.expectedDeliveryDate ?? ''],
+      priority: [this.priority ?? 'NORMAL'],
+      paymentTerms: [this.paymentTerms ?? ''],
+      notes: [this.notes ?? '']
+    };
+  }
 }
 
 export type PurchaseOrderStatus =
