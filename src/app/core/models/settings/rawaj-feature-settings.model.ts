@@ -1,4 +1,4 @@
-export interface ZakiFeatureSettings {
+export interface RawajFeatureSettings {
   id: number;
   storeId: number;
   stockPredictionEnabled: boolean;
@@ -18,4 +18,4 @@ export interface ZakiFeatureSettings {
   updatedAt?: string;
 }
 
-export type ZakiFeatureSettingsRequest = Partial<Omit<ZakiFeatureSettings, 'id' | 'storeId' | 'updatedAt'>>;
+export type RawajFeatureSettingsRequest = Partial<Omit<RawajFeatureSettings, 'id' | 'storeId' | 'updatedAt'>>;

@@ -4,7 +4,7 @@ import { Observable, of, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { AuthService } from './auth.service';
 import { environment } from '../../../environments/environment';
-import { DashboardStats, ZakiInsights } from '../models/dashboard.model';
+import { DashboardStats, RawajInsights } from '../models/dashboard.model';
 import { ApiResponse } from '../models';
 
 @Injectable({
@@ -45,11 +45,11 @@ export class DashboardService {
     );
   }
 
-  getZakiInsights(): Observable<ZakiInsights | null> {
+  getRawajInsights(): Observable<RawajInsights | null> {
     const storeId = this.getStoreId();
 
-    return this.http.get<ApiResponse<ZakiInsights>>(
-      `${this.baseUrl}/zaki-insights?storeId=${storeId}`,
+    return this.http.get<ApiResponse<RawajInsights>>(
+      `${this.baseUrl}/rawaj-insights?storeId=${storeId}`,
       this.getAuthHeaders()
     ).pipe(
       map(response => response.data),

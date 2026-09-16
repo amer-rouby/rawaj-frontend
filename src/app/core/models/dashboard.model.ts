@@ -53,7 +53,7 @@ export interface ChartPoint {
   orders: number;
 }
 
-export interface ZakiInsights {
+export interface RawajInsights {
   todayRevenue: number;
   averageDailyRevenue30d: number;
   salesDeltaPercent: number | null;

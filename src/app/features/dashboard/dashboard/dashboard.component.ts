@@ -10,9 +10,9 @@ import { MaterialModule } from '../../../shared/material.module';
 import { formatCurrency as formatCurrencyAmount, formatDateTime } from '../../../core/utils/format.util';
 import { DashboardService } from '../../../core/services/dashboard.service';
 import { LanguageService } from '../../../core/services/language.service';
-import { DashboardStats, ZakiInsights } from '../../../core/models/dashboard.model';
+import { DashboardStats, RawajInsights } from '../../../core/models/dashboard.model';
 import { ErrorHandlerService } from '../../../core/services/error-handler.service';
-import { ZakiFeatureSettingsService } from '../../../core/services/settings/zaki-feature-settings.service';
+import { RawajFeatureSettingsService } from '../../../core/services/settings/rawaj-feature-settings.service';
 import { DailyBriefDialogComponent } from '../daily-brief-dialog/daily-brief-dialog.component';
 
 @Component({
@@ -36,15 +36,15 @@ export class DashboardComponent implements OnInit, OnDestroy {
   private readonly router = inject(Router);
   private readonly errorHandler = inject(ErrorHandlerService);
   private readonly dialog = inject(MatDialog);
-  private readonly zakiFeatureSettingsService = inject(ZakiFeatureSettingsService);
+  private readonly rawajFeatureSettingsService = inject(RawajFeatureSettingsService);
   private readonly destroy$ = new Subject<void>();
 
-  readonly dailyBriefEnabled = computed(() => this.zakiFeatureSettingsService.flags().dailyBriefEnabled);
+  readonly dailyBriefEnabled = computed(() => this.rawajFeatureSettingsService.flags().dailyBriefEnabled);
 
   readonly stats = signal<DashboardStats | null>(null);
   readonly loading = signal(true);
   readonly error = signal('');
-  readonly insights = signal<ZakiInsights | null>(null);
+  readonly insights = signal<RawajInsights | null>(null);
 
   readonly hasError = computed(() => this.error().length > 0 && !this.loading());
   readonly showStats = computed(() => !this.loading() && !this.error() && !!this.stats());
@@ -60,11 +60,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.loadDashboardStats();
-    this.loadZakiInsights();
+    this.loadRawajInsights();
   }
 
-  loadZakiInsights(): void {
-    this.dashboardService.getZakiInsights()
+  loadRawajInsights(): void {
+    this.dashboardService.getRawajInsights()
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (data) => this.insights.set(data)
@@ -97,7 +97,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   refreshData(): void {
     this.loadDashboardStats();
-    this.loadZakiInsights();
+    this.loadRawajInsights();
     this.errorHandler.showSuccess('DASHBOARD.REFRESH_SUCCESS');
   }
 
