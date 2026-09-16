@@ -2,7 +2,7 @@
   <!-- Header -->
   <div class="dialog-header">
     <h2 mat-dialog-title>
-      {{ data?.category ? ('CATEGORIES.EDIT_TITLE' | translate) : ('CATEGORIES.ADD_TITLE' | translate) }}
+      {{ isCreate() ? ('CATEGORIES.ADD_TITLE' | translate) : ('CATEGORIES.EDIT_TITLE' | translate) }}
     </h2>
     <button mat-icon-button mat-dialog-close>
       <mat-icon>close</mat-icon>
@@ -59,9 +59,9 @@
       @if (loading()) {
       <mat-spinner diameter="20"></mat-spinner>
       } @else {
-      <mat-icon>{{ data?.category ? 'save' : 'add' }}</mat-icon>
+      <mat-icon>{{ isCreate() ? 'add' : 'save' }}</mat-icon>
       }
-      {{ data?.category ? ('COMMON.SAVE' | translate) : ('COMMON.ADD' | translate) }}
+      {{ isCreate() ? ('COMMON.ADD' | translate) : ('COMMON.SAVE' | translate) }}
     </button>
   </div>
 </div>
