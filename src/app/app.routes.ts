@@ -104,7 +104,7 @@ export const routes: Routes = [
         loadComponent: () =>
           import('./features/notification-bell/notifications.component')
             .then(m => m.NotificationsComponent),
-        title: 'التنبيهات - زكي'
+        title: 'التنبيهات - رواج'
       },
       {
         path: 'help',

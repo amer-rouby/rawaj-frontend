@@ -59,9 +59,9 @@ export const SETTINGS_ROUTES: Routes = [
     canActivate: [authGuard]
   },
   {
-    path: 'zaki-features',
-    loadComponent: () => import('./zaki-features/zaki-features-settings.component')
-      .then(m => m.ZakiFeaturesSettingsComponent),
+    path: 'rawaj-features',
+    loadComponent: () => import('./rawaj-features/rawaj-features-settings.component')
+      .then(m => m.RawajFeaturesSettingsComponent),
     canActivate: [authGuard, roleGuard],
     data: { roles: ['ADMIN'] }
   }

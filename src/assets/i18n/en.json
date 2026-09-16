@@ -1,9 +1,9 @@
 {
   "APP": {
-    "NAME": "Zaki Supermarket",
+    "NAME": "Rawaj Supermarket",
     "SUBTITLE": "Store Management System",
     "VERSION": "Version 1.0.0",
-    "COPYRIGHT": "© 2026 Zaki Supermarket - All Rights Reserved"
+    "COPYRIGHT": "© 2026 Rawaj Supermarket - All Rights Reserved"
   },
   "LICENSE": {
     "MENU_LABEL": "Subscription",
@@ -110,7 +110,7 @@
     "RECENT_SALES": "Recent Sales",
     "VIEW_ALL": "View All",
     "ZAKI_INSIGHTS": {
-      "TITLE": "Zaki Insights",
+      "TITLE": "Rawaj Insights",
       "SALES_VS_AVERAGE": "Today's sales vs 30-day average",
       "HIGH_RISK_STOCKOUT": "Products at high stockout risk",
       "REORDER_RECOMMENDATIONS": "Recommended reorders",
@@ -904,7 +904,7 @@
     "CREDIT_LIMIT_EXCEEDED": "Credit limit exceeded for customer {{customerName}}: current balance {{currentBalance}} + {{amount}} would exceed limit {{limit}}",
     "FEATURE_DISABLED_CUSTOMER_CREDIT": "Customer credit management feature is disabled for this store",
     "FEATURE_DISABLED_ANOMALY_DETECTION": "Anomaly detection feature is disabled for this store",
-    "FEATURE_DISABLED_AI_ASSISTANT": "Zaki assistant feature is disabled for this store",
+    "FEATURE_DISABLED_AI_ASSISTANT": "Rawaj assistant feature is disabled for this store",
     "FEATURE_DISABLED_DASHBOARD_INSIGHTS": "Dashboard insights feature is disabled for this store",
     "FEATURE_DISABLED_STOCK_PREDICTION": "Stock prediction feature is disabled for this store",
     "FEATURE_DISABLED_REORDER_RECOMMENDATIONS": "Reorder recommendations feature is disabled for this store",
@@ -947,7 +947,7 @@
     "NOTIFICATION_MARK_READ_UNAUTHORIZED": "You are not authorized to mark this notification as read"
   },
   "FOOTER": {
-    "COPYRIGHT": "© 2026 Zaki Supermarket",
+    "COPYRIGHT": "© 2026 Rawaj Supermarket",
     "ALL_RIGHTS_RESERVED": "All Rights Reserved",
     "VERSION": "Version",
     "POWERED_BY": "Developed by"
@@ -1199,8 +1199,8 @@
     "LOAD_ERROR": "Failed to load backups"
   },
   "ZAKI_FEATURES": {
-    "TITLE": "Zaki AI Features",
-    "SUBTITLE": "Turn Zaki's smart features on or off for this store",
+    "TITLE": "Rawaj AI Features",
+    "SUBTITLE": "Turn Rawaj's smart features on or off for this store",
     "LOAD_ERROR": "Failed to load feature settings",
     "STOCK_PREDICTION": "Stock Prediction",
     "REORDER_RECOMMENDATIONS": "Reorder Recommendations",
@@ -1212,7 +1212,7 @@
     "REALTIME_UPDATES": "Real-Time Inventory Updates",
     "VOICE_SEARCH": "Voice Product Search",
     "CUSTOMER_CREDIT": "Customer Credit & Debt",
-    "AI_ASSISTANT": "Zaki Assistant",
+    "AI_ASSISTANT": "Rawaj Assistant",
     "E_INVOICE": "Egyptian E-Invoice (ETA)",
     "OFFLINE_MODE": "Offline Mode",
     "EMAIL": "Email Sending",
@@ -1227,7 +1227,7 @@
       "REALTIME_UPDATES": "Update stock screens live without a manual refresh",
       "VOICE_SEARCH": "Search for products by speaking their name",
       "CUSTOMER_CREDIT": "Track customer balances and credit sales",
-      "AI_ASSISTANT": "Ask Zaki questions about your store's data",
+      "AI_ASSISTANT": "Ask Rawaj questions about your store's data",
       "E_INVOICE": "Submit sales to the Egyptian Tax Authority (requires your own ETA credentials)",
       "OFFLINE_MODE": "Keep the POS working during a temporary internet loss",
       "EMAIL": "Send purchase orders to suppliers by email (requires your own SMTP credentials)"
@@ -1307,7 +1307,7 @@
     "RESOLVE_ERROR": "Failed to resolve alert"
   },
   "ASSISTANT": {
-    "TITLE": "Zaki Assistant",
+    "TITLE": "Rawaj Assistant",
     "WELCOME": "Ask me about your store's data - sales, stock, expiry, and more.",
     "PLACEHOLDER": "Ask a question...",
     "ERROR": "Something went wrong. Please try again."
@@ -1801,6 +1801,10 @@
     "WHATSAPP_OPEN_WEB": "Open in Browser (fallback)",
     "WHATSAPP_OPEN_WEB_DONE": "Done ✓",
     "WHATSAPP_HINT_DESKTOP": "Opens WhatsApp Desktop directly with the message ready to send",
+    "WHATSAPP_DOWNLOAD_PDF": "Print / Save Purchase Order as PDF",
+    "WHATSAPP_DOWNLOAD_PDF_DONE": "Done ✓",
+    "WHATSAPP_HINT_PDF": "The print dialog will open - pick \"Save as PDF\" as the destination and save the file. Then attach it manually in the WhatsApp chat once it opens - WhatsApp can't auto-attach a file from a link",
+    "WHATSAPP_PDF_ERROR": "Failed to prepare the purchase order for printing",
     "WHATSAPP_SUCCESS": "WhatsApp opened successfully",
     "WHATSAPP_SUCCESS_HINT": "Message is ready to send",
     "WHATSAPP_CLOSE": "Close",
@@ -1883,7 +1887,7 @@
     }
   },
   "STORE": {
-    "DEFAULT_NAME": "Zaki Supermarket",
+    "DEFAULT_NAME": "Rawaj Supermarket",
     "SETTINGS": "Store Settings",
     "NAME": "Store Name",
     "ADDRESS": "Address",

@@ -216,6 +216,58 @@
   mat-icon { font-size: 18px; width: 18px; height: 18px; }
 }
 
+/* ── PDF Download Section ── */
+.pdf-download-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  margin: 0 20px;
+  padding: 16px;
+  background: #fef2f2;
+  border: 1px dashed #dc2626;
+  border-radius: 12px;
+
+  .pdf-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 10px;
+    background: linear-gradient(135deg, #dc2626 0%, #991b1b 100%);
+    color: #fff;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s;
+    box-shadow: 0 4px 14px rgba(220, 38, 38, 0.3);
+
+    &:hover:not(:disabled) {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(220, 38, 38, 0.4);
+    }
+
+    &:active:not(:disabled) { transform: translateY(0); }
+
+    &:disabled {
+      opacity: 0.7;
+      cursor: default;
+    }
+
+    mat-icon { font-size: 20px; width: 20px; height: 20px; }
+    ::ng-deep mat-spinner circle { stroke: #fff; }
+  }
+
+  .hint {
+    margin: 0;
+    font-size: 12px;
+    color: #7f1d1d;
+    text-align: center;
+  }
+}
+
 /* ── Open WhatsApp Section ── */
 .open-whatsapp-section {
   display: flex;
