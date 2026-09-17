@@ -1,76 +1,72 @@
-import { Injectable, inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Injectable } from '@angular/core';
+import { HttpParams } from '@angular/common/http';
+import { Observable, of } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
+import { CrudService } from '../abstracts/crud-service';
 import { ApiResponse, PaginatedResponse } from '../models';
-import { Supplier } from '../models/purchase-order.model';
+import { Supplier } from '../models/supplier.model';
 import { SupplierRequest } from '../models/purchase-request.model';
-import { StoreContextService } from './store-context.service';
-import { withHttpErrorFallback } from '../utils/http-error.util';
+import { environment } from '../../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
-export class SupplierService {
-  private readonly http = inject(HttpClient);
-  private readonly store = inject(StoreContextService);
-  private readonly apiUrl = this.store.apiUrl('suppliers');
+export class SupplierService extends CrudService<Supplier> {
+  protected getUrlSegment(): string {
+    return `${environment.apiUrl}/suppliers`;
+  }
+
+  protected override getPageUrlSegment(): string {
+    return `${this.getUrlSegment()}/paginated`;
+  }
+
+  protected createNewInstance(): Supplier {
+    return new Supplier({ storeId: this.getStoreId(), status: 'ACTIVE' });
+  }
+
+  protected override toPayload(item: Supplier): object {
+    const { storeId, ...rest } = super.toPayload(item) as Record<string, unknown>;
+    void storeId;
+    return rest;
+  }
 
   getSuppliers(page: number = 0, size: number = 10): Observable<PaginatedResponse<Supplier>> {
-    return this.http.get<ApiResponse<PaginatedResponse<Supplier>>>(`${this.apiUrl}/paginated`, {
-      params: this.store.storeParams({ page, size })
-    }).pipe(
-      map((response) => response.data),
-      withHttpErrorFallback<PaginatedResponse<Supplier>>('getSuppliers')
-    );
+    return this.load(page, size);
   }
 
   getAllSuppliers(): Observable<Supplier[]> {
-    return this.http.get<ApiResponse<Supplier[]>>(this.apiUrl, {
-      params: this.store.storeParams()
+    return this.http.get<ApiResponse<Supplier[]>>(this.getUrlSegment(), {
+      params: new HttpParams().set('storeId', this.getStoreId())
     }).pipe(
-      map((response) => response.data),
-      withHttpErrorFallback<Supplier[]>('getAllSuppliers', [])
+      map(response => (response.data || []).map(item => this.cast(item))),
+      catchError(() => of([]))
     );
   }
 
   getSupplier(id: number): Observable<Supplier> {
-    return this.http.get<ApiResponse<Supplier>>(`${this.apiUrl}/${id}`, {
-      params: this.store.storeParams()
-    }).pipe(
-      map((response) => response.data),
-      withHttpErrorFallback<Supplier>('getSupplier')
-    );
+    return this.loadById(id);
   }
 
+  /** Bypasses the base create() - this endpoint requires storeId as a query param, not in the body. */
   createSupplier(request: SupplierRequest): Observable<Supplier> {
-    return this.http.post<ApiResponse<Supplier>>(this.apiUrl, request, {
-      params: this.store.storeParams()
-    }).pipe(
-      map((response) => response.data)
-    );
+    return this.http.post<ApiResponse<Supplier>>(this.getUrlSegment(), request, {
+      params: new HttpParams().set('storeId', this.getStoreId())
+    }).pipe(map(response => this.cast(response.data)));
   }
 
   updateSupplier(id: number, request: SupplierRequest): Observable<Supplier> {
-    return this.http.put<ApiResponse<Supplier>>(`${this.apiUrl}/${id}`, request, {
-      params: this.store.storeParams()
-    }).pipe(
-      map((response) => response.data)
-    );
+    return this.update(new Supplier({ ...(request as Partial<Supplier>), id }));
   }
 
   deleteSupplier(id: number): Observable<void> {
-    return this.http.delete<ApiResponse<void>>(`${this.apiUrl}/${id}`, {
-      params: this.store.storeParams()
-    }).pipe(
-      map((response) => response.data)
-    );
+    return this.delete(id);
   }
 
   searchSuppliers(query: string): Observable<Supplier[]> {
-    return this.http.get<ApiResponse<Supplier[]>>(`${this.apiUrl}/search`, {
-      params: this.store.storeParams({ query })
+    if (!query?.trim()) return of([]);
+    return this.http.get<ApiResponse<Supplier[]>>(`${this.getUrlSegment()}/search`, {
+      params: new HttpParams().set('storeId', this.getStoreId()).set('query', query.trim())
     }).pipe(
-      map((response) => response.data),
-      withHttpErrorFallback<Supplier[]>('searchSuppliers', [])
+      map(response => (response.data || []).map(item => this.cast(item))),
+      catchError(() => of([]))
     );
   }
 }

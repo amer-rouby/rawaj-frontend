@@ -149,8 +149,8 @@
     }
 
     &.tone-primary {
-      background: var(--color-primary-50, #eef2ff);
-      color: var(--color-primary-600, #4f46e5);
+      background: var(--color-primary-50, #ecfdf5);
+      color: var(--color-primary-600, #059669);
     }
 
     &.tone-info {
@@ -271,19 +271,19 @@
     }
 
     &:hover {
-      border-color: var(--color-primary-300, #a5b4fc);
-      background: var(--color-primary-50, #eef2ff);
+      border-color: var(--color-primary-300, #a7f3d0);
+      background: var(--color-primary-50, #ecfdf5);
       transform: translateY(-2px);
 
       mat-icon {
-        color: var(--color-primary-600, #4f46e5);
+        color: var(--color-primary-600, #059669);
       }
     }
 
     &.primary-action {
-      background: var(--color-primary-600, #4f46e5);
-      border-color: var(--color-primary-600, #4f46e5);
-      box-shadow: 0 6px 16px rgba(79, 70, 229, 0.28);
+      background: var(--color-primary-600, #059669);
+      border-color: var(--color-primary-600, #059669);
+      box-shadow: 0 6px 16px rgba(5, 150, 105, 0.28);
 
       mat-icon {
         color: #fff;
@@ -294,8 +294,8 @@
       }
 
       &:hover {
-        background: var(--color-primary-700, #4338ca);
-        border-color: var(--color-primary-700, #4338ca);
+        background: var(--color-primary-700, #047857);
+        border-color: var(--color-primary-700, #047857);
         transform: translateY(-2px);
 
         mat-icon {
@@ -354,7 +354,7 @@
       color: var(--color-text-primary, #1e293b);
 
       mat-icon {
-        color: var(--color-primary-600, #4f46e5);
+        color: var(--color-primary-600, #059669);
         font-size: 20px;
         width: 20px;
         height: 20px;
@@ -412,7 +412,7 @@
 
   .amount {
     font-weight: 700;
-    color: var(--color-primary-600, #4f46e5);
+    color: var(--color-primary-600, #059669);
   }
 
   .date {

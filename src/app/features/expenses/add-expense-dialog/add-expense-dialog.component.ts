@@ -1,13 +1,12 @@
 import { Component, inject, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MaterialModule } from '../../../shared/material.module';
 import { ExpenseService } from '../../../core/services/expense.service';
-import { AuthService } from '../../../core/services/auth.service';
-import { ErrorHandlerService } from '../../../core/services/error-handler.service';
+import { ModelDialog } from '../../../core/abstracts/model-dialog';
 import { Expense } from '../../../core/models/Expense.model';
+import { ExpenseFormContract } from '../../../core/models/expense-form.contract';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -15,52 +14,34 @@ import { Subscription } from 'rxjs';
   standalone: true,
   imports: [
     CommonModule,
-    FormsModule,
+    ReactiveFormsModule,
     TranslateModule,
     MaterialModule
   ],
-  templateUrl: "./add-expense-dialog.component.html",
+  templateUrl: './add-expense-dialog.component.html',
   changeDetection: ChangeDetectionStrategy.Eager,
-  styleUrl: "./add-expense-dialog.component.scss"
+  styleUrl: './add-expense-dialog.component.scss'
 })
-export class AddExpenseDialogComponent implements OnInit, OnDestroy {
+export class AddExpenseDialogComponent extends ModelDialog<Expense, ExpenseFormContract> implements OnInit, OnDestroy {
   private readonly expenseService = inject(ExpenseService);
-  private readonly authService = inject(AuthService);
   private readonly translate = inject(TranslateService);
-  private readonly errorHandler = inject(ErrorHandlerService);
-  readonly dialogRef = inject(MatDialogRef<AddExpenseDialogComponent>);
-  readonly data = inject(MAT_DIALOG_DATA);
+  private langChangeSub?: Subscription;
+
+  form!: FormGroup<ExpenseFormContract>;
+  successKey = this.isCreate() ? 'EXPENSES.ADD_SUCCESS' : 'EXPENSES.UPDATE_SUCCESS';
+  errorKey = this.isCreate() ? 'EXPENSES.ADD_ERROR' : 'EXPENSES.UPDATE_ERROR';
 
   categories: { value: string; label: string }[] = [];
   paymentMethods: { value: string; label: string }[] = [];
-  private langChangeSub?: Subscription;
 
-  expense: Expense = {
-    storeId: this.authService.getStoreId() || 1,
-    category: 'PURCHASES',
-    title: '',
-    description: '',
-    amount: 0,
-    expenseDate: new Date().toISOString().split('T')[0],
-    paymentMethod: 'CASH',
-    referenceNumber: ''
-  };
-
-  expenseDate: Date = new Date();
-
-  ngOnInit(): void {
+  override ngOnInit(): void {
+    super.ngOnInit();
     this.loadCategories();
     this.loadPaymentMethods();
-
     this.langChangeSub = this.translate.onLangChange.subscribe(() => {
       this.loadCategories();
       this.loadPaymentMethods();
     });
-
-    if (this.data?.expense) {
-      this.expense = { ...this.data.expense };
-      this.expenseDate = new Date(this.data.expense.expenseDate);
-    }
   }
 
   ngOnDestroy(): void {
@@ -75,32 +56,18 @@ export class AddExpenseDialogComponent implements OnInit, OnDestroy {
     this.paymentMethods = this.expenseService.getPaymentMethods();
   }
 
-  isValid(): boolean {
-    const hasCategory = !!this.expense.category && this.expense.category.length > 0;
-    const hasTitle = !!this.expense.title && this.expense.title.length > 0;
-    const hasValidAmount = this.expense.amount > 0;
-    const hasValidDate = this.expenseDate !== null && !isNaN(this.expenseDate.getTime());
-
-    return hasCategory && hasTitle && hasValidAmount && hasValidDate;
+  buildForm(): void {
+    this.form = this.fb.group<ExpenseFormContract>(
+      this.model().buildFormControls() as unknown as ExpenseFormContract
+    );
   }
 
-  onSubmit(): void {
-    if (!this.isValid()) {
-      this.errorHandler.showWarning('VALIDATION.REQUIRED');
-      return;
-    }
-
-    this.expense.expenseDate = this.formatDateForApi(this.expenseDate);
-
-    this.expenseService.createExpense(this.expense).subscribe({
-      next: () => {
-        this.errorHandler.showSuccess('EXPENSES.ADD_SUCCESS');
-        this.dialogRef.close(true);
-      },
-      error: (error) => {
-        this.errorHandler.handleHttpError(error, 'EXPENSES.ADD_ERROR');
-        console.error('Create expense error:', error);
-      }
+  prepareModel(): Expense {
+    const value = this.form.getRawValue();
+    return new Expense({
+      ...this.model(),
+      ...value,
+      expenseDate: this.formatDateForApi(value.expenseDate)
     });
   }
 

@@ -1,144 +1,66 @@
-import { Injectable, inject } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable, of, throwError } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
-import { AuthService } from './auth.service';
-import { ApiResponse } from '../models';
-import { User, UserRequest, UsersCountResponse } from '../models/user.model';
+import { Injectable } from '@angular/core';
+import { ComponentType } from '@angular/cdk/overlay';
+import { HttpParams } from '@angular/common/http';
+import { Observable, finalize, map, tap } from 'rxjs';
+import { CrudServiceWithDialog } from '../abstracts/crud-service-with-dialog';
+import { User, UserRole } from '../models/user.model';
+import { ApiResponse, PaginatedResponse } from '../models';
 import { environment } from '../../../environments/environment';
+import { UserDialogComponent } from '../../features/users/user-dialog/user-dialog.component';
 
 @Injectable({
   providedIn: 'root'
 })
-export class UserService {
-  private readonly http = inject(HttpClient);
-  private readonly authService = inject(AuthService);
-  private readonly apiUrl = `${environment.apiUrl}/users`;
-
-  private getStoreId(): number {
-    return this.authService.getStoreId() || 1;
+export class UserService extends CrudServiceWithDialog<UserDialogComponent, User> {
+  protected getUrlSegment(): string {
+    return `${environment.apiUrl}/users`;
   }
 
-  getUsersCount(): Observable<number> {
-    const storeId = this.getStoreId();
+  protected createNewInstance(): User {
+    return new User({ storeId: this.getStoreId(), role: UserRole.CASHIER, isActive: true });
+  }
 
-    return this.http.get<ApiResponse<UsersCountResponse>>(`${this.apiUrl}/count`, {
-      params: new HttpParams().set('storeId', storeId.toString())
-    }).pipe(
-      map(response => response.data?.count || 0),
-      catchError(() => of(0))
+  getDialogComponent(): ComponentType<UserDialogComponent> {
+    return UserDialogComponent;
+  }
+
+  protected override toPayload(item: User): object {
+    const payload = super.toPayload(item) as Record<string, unknown>;
+    delete payload['lastLoginAt'];
+    delete payload['storeName'];
+    if (!payload['password']) delete payload['password'];
+    return payload;
+  }
+
+  // The backend's user list/search endpoints return every matching user in one array with
+  // no server-side paging support, so pagination is done here client-side (same as before).
+  override load(page = 0, size = 10, search?: string): Observable<PaginatedResponse<User>> {
+    this.isLoading.set(true);
+    const params = new HttpParams().set('storeId', this.getStoreId());
+    const source$ = search?.trim()
+      ? this.http.get<ApiResponse<User[]>>(`${this.getUrlSegment()}/search`, {
+          params: params.set('query', search.trim())
+        })
+      : this.http.get<ApiResponse<User[]>>(this.getUrlSegment(), { params });
+
+    return source$.pipe(
+      map(response => (response.data || []).map(item => this.cast(item))),
+      map(all => {
+        const start = page * size;
+        const content = all.slice(start, start + size);
+        return {
+          content,
+          totalElements: all.length,
+          totalPages: Math.max(1, Math.ceil(all.length / size)),
+          size,
+          number: page,
+          first: page === 0,
+          last: start + size >= all.length,
+          empty: all.length === 0
+        } as PaginatedResponse<User>;
+      }),
+      tap(result => this.paginatedItems.set(result)),
+      finalize(() => this.isLoading.set(false))
     );
-  }
-
-  getUsers(): Observable<User[]> {
-    const storeId = this.getStoreId();
-
-    if (!storeId) {
-      return of([]);
-    }
-
-    return this.http.get<ApiResponse<User[]>>(this.apiUrl, {
-      params: new HttpParams().set('storeId', storeId)
-    }).pipe(
-      map(response => response.data || []),
-      catchError(this.handleError<User[]>('getUsers', []))
-    );
-  }
-
-  getActiveUsers(): Observable<User[]> {
-    const storeId = this.getStoreId();
-
-    if (!storeId) {
-      return of([]);
-    }
-
-    return this.http.get<ApiResponse<User[]>>(`${this.apiUrl}/active`, {
-      params: new HttpParams().set('storeId', storeId)
-    }).pipe(
-      map(response => response.data || []),
-      catchError(this.handleError<User[]>('getActiveUsers', []))
-    );
-  }
-
-  getUser(id: number): Observable<User> {
-    const storeId = this.getStoreId();
-
-    if (!storeId) {
-      return throwError(() => new Error('Store ID is required'));
-    }
-
-    return this.http.get<ApiResponse<User>>(`${this.apiUrl}/${id}`, {
-      params: new HttpParams().set('storeId', storeId)
-    }).pipe(
-      map(response => response.data),
-      catchError(this.handleError<User>(`getUser id=${id}`))
-    );
-  }
-
-  createUser(user: UserRequest): Observable<User> {
-    const storeId = this.getStoreId();
-
-    if (!storeId) {
-      return throwError(() => new Error('Store ID is required'));
-    }
-
-    const request: UserRequest = {
-      ...user,
-      storeId
-    };
-
-    return this.http.post<ApiResponse<User>>(this.apiUrl, request).pipe(
-      map(response => response.data)
-    );
-  }
-
-  updateUser(id: number, user: UserRequest): Observable<User> {
-    const storeId = this.getStoreId();
-
-    if (!storeId) {
-      return throwError(() => new Error('Store ID is required'));
-    }
-
-    return this.http.put<ApiResponse<User>>(`${this.apiUrl}/${id}`, user, {
-      params: new HttpParams().set('storeId', storeId)
-    }).pipe(
-      map(response => response.data)
-    );
-  }
-
-  deleteUser(id: number): Observable<void> {
-    const storeId = this.getStoreId();
-
-    if (!storeId) {
-      return throwError(() => new Error('Store ID is required'));
-    }
-
-    return this.http.delete<void>(`${this.apiUrl}/${id}`, {
-      params: new HttpParams().set('storeId', storeId)
-    });
-  }
-
-  searchUsers(query: string): Observable<User[]> {
-    const storeId = this.getStoreId();
-
-    if (!storeId || !query?.trim()) {
-      return of([]);
-    }
-
-    return this.http.get<ApiResponse<User[]>>(`${this.apiUrl}/search`, {
-      params: new HttpParams()
-        .set('storeId', storeId)
-        .set('query', query.trim())
-    }).pipe(
-      map(response => response.data || []),
-      catchError(this.handleError<User[]>('searchUsers', []))
-    );
-  }
-
-  private handleError<T>(operation = 'operation', result?: T) {
-    return (error: any): Observable<T> => {
-      console.error(`${operation} failed:`, error);
-      return of(result as T);
-    };
   }
 }

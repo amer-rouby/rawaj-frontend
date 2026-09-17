@@ -29,7 +29,7 @@
 
 .batch-info {
   padding: 16px 24px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, var(--color-primary-600, #10b981) 0%, var(--color-primary-800, #065f46) 100%);
   color: white;
   border-radius: 8px;
   margin: 16px 24px;

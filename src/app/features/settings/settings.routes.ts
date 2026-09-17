@@ -41,6 +41,12 @@ export const SETTINGS_ROUTES: Routes = [
     canActivate: [authGuard]
   },
   {
+    path: 'theme',
+    loadComponent: () => import('./theme/theme-settings.component')
+      .then(m => m.ThemeSettingsComponent),
+    canActivate: [authGuard]
+  },
+  {
     path: 'session',
     loadComponent: () => import('./security/session-settings.component')
       .then(m => m.SessionSettingsComponent),

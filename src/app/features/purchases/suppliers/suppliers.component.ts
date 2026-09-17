@@ -8,12 +8,13 @@ import { PageHeaderComponent } from '../../../shared/components/page-header/page
 import { MaterialModule } from '../../../shared/material.module';
 import { ConfirmDialogService } from '../../../shared/services/confirm-dialog.service';
 import { SupplierService } from '../../../core/services/supplier.service';
-import { Supplier } from '../../../core/models/purchase-order.model';
+import { Supplier } from '../../../core/models/supplier.model';
 import { SupplierRequest } from '../../../core/models/purchase-request.model';
 import { ErrorHandlerService } from '../../../core/services/error-handler.service';
 import { TableLoadingComponent } from '../../../shared/components/table-loading/table-loading.component';
 import { EmptyStateComponent } from '../../../shared/components/empty-state/empty-state.component';
 import { DemandPredictionService, SupplierReorderGroup } from '../../../core/services/demand-prediction.service';
+import { RawajFeatureSettingsService } from '../../../core/services/settings/rawaj-feature-settings.service';
 
 @Component({
   selector: 'app-suppliers',
@@ -39,6 +40,7 @@ export class SuppliersComponent implements OnInit {
   private readonly fb = inject(FormBuilder);
   private readonly errorHandler = inject(ErrorHandlerService);
   private readonly predictionService = inject(DemandPredictionService);
+  private readonly rawajFeatureSettingsService = inject(RawajFeatureSettingsService);
 
   readonly loading = signal(false);
   readonly recommendationGroups = signal<SupplierReorderGroup[]>([]);
@@ -101,6 +103,9 @@ export class SuppliersComponent implements OnInit {
   }
 
   loadRecommendations(): void {
+    if (!this.rawajFeatureSettingsService.flags().supplierRecommendationsEnabled) {
+      return;
+    }
     this.recommendationsLoading.set(true);
     this.predictionService.getReorderRecommendationsBySupplier().subscribe({
       next: (data) => {

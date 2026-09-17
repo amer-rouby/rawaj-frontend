@@ -32,6 +32,7 @@ export class SettingsComponent {
     { icon: 'store', labelKey: 'SETTINGS.STORE', route: '/settings/store', roles: ['ADMIN'] },
     { icon: 'notifications', labelKey: 'SETTINGS.NOTIFICATIONS', route: '/settings/notifications' },
     { icon: 'security', labelKey: 'SETTINGS.SECURITY', route: '/settings/security' },
+    { icon: 'palette', labelKey: 'SETTINGS.APPEARANCE', route: '/settings/theme' },
     { icon: 'timer', labelKey: 'SETTINGS.SESSION.TITLE', route: '/settings/session' },
     // { icon: 'language', labelKey: 'SETTINGS.LANGUAGE', route: '/settings/language' },
     { icon: 'backup', labelKey: 'SETTINGS.BACKUP', route: '/settings/backup' },

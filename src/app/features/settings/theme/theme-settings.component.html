@@ -1,0 +1,49 @@
+<div class="theme-settings-container">
+  <app-page-header [title]="'SETTINGS.APPEARANCE' | translate" [subtitle]="'SETTINGS.APPEARANCE_SUBTITLE' | translate"
+    icon="palette">
+  </app-page-header>
+
+  <mat-card class="theme-card">
+    <mat-card-header>
+      <mat-card-title>
+        <mat-icon>brightness_6</mat-icon>
+        {{'SETTINGS.THEME.MODE' | translate}}
+      </mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="mode-toggle">
+        <button type="button" class="mode-option" [class.active]="mode() === 'light'" (click)="setMode('light')">
+          <mat-icon>light_mode</mat-icon>
+          <span>{{'SETTINGS.THEME.LIGHT' | translate}}</span>
+        </button>
+        <button type="button" class="mode-option" [class.active]="mode() === 'dark'" (click)="setMode('dark')">
+          <mat-icon>dark_mode</mat-icon>
+          <span>{{'SETTINGS.THEME.DARK' | translate}}</span>
+        </button>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card class="theme-card">
+    <mat-card-header>
+      <mat-card-title>
+        <mat-icon>palette</mat-icon>
+        {{'SETTINGS.THEME.COLOR' | translate}}
+      </mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="color-grid">
+        @for (theme of colorThemes; track theme.value) {
+        <button type="button" class="color-option" [class.active]="colorTheme() === theme.value"
+          (click)="setColorTheme(theme.value)">
+          <span class="swatch" [style.background]="theme.swatch"></span>
+          <span class="label">{{theme.labelKey | translate}}</span>
+          @if (colorTheme() === theme.value) {
+          <mat-icon class="check">check_circle</mat-icon>
+          }
+        </button>
+        }
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

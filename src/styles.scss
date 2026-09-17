@@ -3,13 +3,47 @@
 
 // Sass Color Module
 @use 'sass:color';
+@use 'sass:map';
 
 // Material Design Setup
 @use '@angular/material' as mat;
 @include mat.core();
 
+// ============================================================
+// Brand color themes — five selectable identities (Settings > Appearance),
+// each with a light + dark variant. "emerald" is the default (applied by
+// $theme/$dark-theme below with no class needed); BrandThemeService adds
+// body.theme-{name} to switch, matching the existing .dark-theme toggle
+// pattern so both can combine (e.g. body.theme-maroon.dark-theme).
+// ============================================================
+$themes: ("emerald": (palette: mat.$green-palette,
+      light: (p50: #ecfdf5, p100: #d1fae5, p200: #a7f3d0, p500: #10b981, p600: #059669, p700: #047857, p800: #065f46, p900: #064e3b,
+        rgb500: '16, 185, 129', rgb600: '5, 150, 105', rgb700: '4, 120, 87', rgb800: '6, 95, 70'),
+      dark: (p50: #064e3b, p100: #065f46, p200: #047857, p500: #34d399, p600: #10b981, p700: #a7f3d0, p800: #d1fae5, p900: #ecfdf5,
+        rgb500: '52, 211, 153', rgb600: '16, 185, 129', rgb700: '167, 243, 208', rgb800: '209, 250, 229')),
+    "indigo": (palette: mat.$violet-palette,
+      light: (p50: #eef2ff, p100: #e0e7ff, p200: #c7d2fe, p500: #6366f1, p600: #4f46e5, p700: #4338ca, p800: #3730a3, p900: #312e81,
+        rgb500: '99, 102, 241', rgb600: '79, 70, 229', rgb700: '67, 56, 202', rgb800: '55, 48, 163'),
+      dark: (p50: #1e1b4b, p100: #312e81, p200: #3730a3, p500: #818cf8, p600: #6366f1, p700: #a5b4fc, p800: #c7d2fe, p900: #e0e7ff,
+        rgb500: '129, 140, 248', rgb600: '99, 102, 241', rgb700: '165, 180, 252', rgb800: '199, 210, 254')),
+    "maroon": (palette: mat.$rose-palette,
+      light: (p50: #fdf2f4, p100: #fce7ea, p200: #f8d0d6, p500: #a8324a, p600: #800020, p700: #650019, p800: #4a0013, p900: #33000d,
+        rgb500: '168, 50, 74', rgb600: '128, 0, 32', rgb700: '101, 0, 25', rgb800: '74, 0, 19'),
+      dark: (p50: #33000d, p100: #4a0013, p200: #650019, p500: #d1637d, p600: #a8324a, p700: #f8d0d6, p800: #fce7ea, p900: #fdf2f4,
+        rgb500: '209, 99, 125', rgb600: '168, 50, 74', rgb700: '248, 208, 214', rgb800: '252, 231, 234')),
+    "azure": (palette: mat.$blue-palette,
+      light: (p50: #eff6ff, p100: #dbeafe, p200: #bfdbfe, p500: #3b82f6, p600: #2563eb, p700: #1d4ed8, p800: #1e40af, p900: #1e3a8a,
+        rgb500: '59, 130, 246', rgb600: '37, 99, 235', rgb700: '29, 78, 216', rgb800: '30, 64, 175'),
+      dark: (p50: #1e3a8a, p100: #1e40af, p200: #1d4ed8, p500: #60a5fa, p600: #3b82f6, p700: #bfdbfe, p800: #dbeafe, p900: #eff6ff,
+        rgb500: '96, 165, 250', rgb600: '59, 130, 246', rgb700: '191, 219, 254', rgb800: '219, 234, 254')),
+    "amber": (palette: mat.$orange-palette,
+      light: (p50: #fdf8ed, p100: #f8ecd1, p200: #f0d9a3, p500: #b8860b, p600: #9c6b0a, p700: #7d5608, p800: #5c3f06, p900: #402c04,
+        rgb500: '184, 134, 11', rgb600: '156, 107, 10', rgb700: '125, 86, 8', rgb800: '92, 63, 6'),
+      dark: (p50: #402c04, p100: #5c3f06, p200: #7d5608, p500: #d4a017, p600: #b8860b, p700: #f0d9a3, p800: #f8ecd1, p900: #fdf8ed,
+        rgb500: '212, 160, 23', rgb600: '184, 134, 11', rgb700: '240, 217, 163', rgb800: '248, 236, 209')));
+
 $theme: mat.define-theme((color: (theme-type: light,
-        primary: mat.$violet-palette,
+        primary: map.get($themes, "emerald", palette),
         tertiary: mat.$blue-palette,
       ),
       typography: (brand-family: 'Cairo, sans-serif',
@@ -20,7 +54,7 @@ $theme: mat.define-theme((color: (theme-type: light,
 @include mat.all-component-themes($theme);
 
 $dark-theme: mat.define-theme((color: (theme-type: dark,
-        primary: mat.$violet-palette,
+        primary: map.get($themes, "emerald", palette),
         tertiary: mat.$blue-palette,
       ),
       typography: (brand-family: 'Cairo, sans-serif',
@@ -35,6 +69,76 @@ $dark-theme: mat.define-theme((color: (theme-type: dark,
   @include mat.all-component-colors($dark-theme);
 }
 
+// One light + one dark Material color pass per remaining brand theme, plus
+// the matching --color-primary-* custom properties BrandThemeService's
+// body.theme-{name} class switches between.
+@each $name, $config in $themes {
+  @if $name != "emerald" {
+    $palette: map.get($config, palette);
+
+    $theme-light: mat.define-theme((color: (theme-type: light,
+            primary: $palette,
+            tertiary: mat.$blue-palette,
+          ),
+          typography: (brand-family: 'Cairo, sans-serif',
+            plain-family: 'Cairo, sans-serif',
+          ),
+          density: (scale: 0)));
+
+    $theme-dark: mat.define-theme((color: (theme-type: dark,
+            primary: $palette,
+            tertiary: mat.$blue-palette,
+          ),
+          typography: (brand-family: 'Cairo, sans-serif',
+            plain-family: 'Cairo, sans-serif',
+          ),
+          density: (scale: 0)));
+
+    body.theme-#{$name} {
+      @include mat.all-component-colors($theme-light);
+    }
+
+    body.theme-#{$name}.dark-theme {
+      @include mat.all-component-colors($theme-dark);
+    }
+  }
+}
+
+@each $name, $config in $themes {
+  $l: map.get($config, light);
+  $d: map.get($config, dark);
+
+  body.theme-#{$name} {
+    --color-primary-50: #{map.get($l, p50)};
+    --color-primary-100: #{map.get($l, p100)};
+    --color-primary-200: #{map.get($l, p200)};
+    --color-primary-500: #{map.get($l, p500)};
+    --color-primary-600: #{map.get($l, p600)};
+    --color-primary-700: #{map.get($l, p700)};
+    --color-primary-800: #{map.get($l, p800)};
+    --color-primary-900: #{map.get($l, p900)};
+    --color-primary-500-rgb: #{map.get($l, rgb500)};
+    --color-primary-600-rgb: #{map.get($l, rgb600)};
+    --color-primary-700-rgb: #{map.get($l, rgb700)};
+    --color-primary-800-rgb: #{map.get($l, rgb800)};
+  }
+
+  body.theme-#{$name}.dark-theme {
+    --color-primary-50: #{map.get($d, p50)};
+    --color-primary-100: #{map.get($d, p100)};
+    --color-primary-200: #{map.get($d, p200)};
+    --color-primary-500: #{map.get($d, p500)};
+    --color-primary-600: #{map.get($d, p600)};
+    --color-primary-700: #{map.get($d, p700)};
+    --color-primary-800: #{map.get($d, p800)};
+    --color-primary-900: #{map.get($d, p900)};
+    --color-primary-500-rgb: #{map.get($d, rgb500)};
+    --color-primary-600-rgb: #{map.get($d, rgb600)};
+    --color-primary-700-rgb: #{map.get($d, rgb700)};
+    --color-primary-800-rgb: #{map.get($d, rgb800)};
+  }
+}
+
 // Material 3's "raised" (elevated) button intentionally uses a pale tinted
 // surface instead of a solid fill - correct per M3 spec, but it makes every
 // primary submit/add/save button in the app look washed-out and low-emphasis.
@@ -42,12 +146,12 @@ $dark-theme: mat.define-theme((color: (theme-type: dark,
 // primary actions actually read as primary.
 .mat-mdc-raised-button {
   &.mat-primary {
-    background-color: #4f46e5 !important;
+    background-color: var(--color-primary-600, #059669) !important;
     color: #fff !important;
   }
 
   &.mat-accent {
-    background-color: #6366f1 !important;
+    background-color: var(--color-primary-500, #10b981) !important;
     color: #fff !important;
   }
 
@@ -79,14 +183,18 @@ body {
 // used by components that already read var(--...), e.g. header).
 // ============================================================
 :root {
-  --color-primary-50: #eef2ff;
-  --color-primary-100: #e0e7ff;
-  --color-primary-200: #c7d2fe;
-  --color-primary-500: #6366f1;
-  --color-primary-600: #4f46e5;
-  --color-primary-700: #4338ca;
-  --color-primary-800: #3730a3;
-  --color-primary-900: #312e81;
+  --color-primary-50: #ecfdf5;
+  --color-primary-100: #d1fae5;
+  --color-primary-200: #a7f3d0;
+  --color-primary-500: #10b981;
+  --color-primary-600: #059669;
+  --color-primary-700: #047857;
+  --color-primary-800: #065f46;
+  --color-primary-900: #064e3b;
+  --color-primary-500-rgb: 16, 185, 129;
+  --color-primary-600-rgb: 5, 150, 105;
+  --color-primary-700-rgb: 4, 120, 87;
+  --color-primary-800-rgb: 6, 95, 70;
 
   --color-slate-50: #f8fafc;
   --color-slate-100: #f1f5f9;
@@ -136,14 +244,18 @@ body {
 // Toggled by ThemeService via a `dark-theme` class on <body>.
 // ============================================================
 body.dark-theme {
-  --color-primary-50: #1e1b4b;
-  --color-primary-100: #312e81;
-  --color-primary-200: #3730a3;
-  --color-primary-500: #818cf8;
-  --color-primary-600: #6366f1;
-  --color-primary-700: #a5b4fc;
-  --color-primary-800: #c7d2fe;
-  --color-primary-900: #e0e7ff;
+  --color-primary-50: #064e3b;
+  --color-primary-100: #065f46;
+  --color-primary-200: #047857;
+  --color-primary-500: #34d399;
+  --color-primary-600: #10b981;
+  --color-primary-700: #a7f3d0;
+  --color-primary-800: #d1fae5;
+  --color-primary-900: #ecfdf5;
+  --color-primary-500-rgb: 52, 211, 153;
+  --color-primary-600-rgb: 16, 185, 129;
+  --color-primary-700-rgb: 167, 243, 208;
+  --color-primary-800-rgb: 209, 250, 229;
 
   --color-slate-50: #1e293b;
   --color-slate-100: #273549;
@@ -253,12 +365,10 @@ mat-icon {
   text-align: left;
 }
 
-// Color Variables — Deep Slate Blue / Indigo (kept as SCSS aliases of the
-// :root custom properties above so existing usages below keep working)
-$primary: #4f46e5;
-$primary-dark: #4338ca;
-$primary-light: #eef2ff;
-$accent: #6366f1;
+// Color Variables — semantic-only. Brand-primary usages below read
+// var(--color-primary-*) directly instead of a compile-time SCSS alias,
+// so they switch live with BrandThemeService instead of being frozen at
+// build time to whichever theme was active when this file was compiled.
 $success: #10b981;
 $warning: #f59e0b;
 $error: #ef4444;
@@ -515,7 +625,7 @@ $shadow-lg: 0 12px 32px rgba(15, 23, 42, 0.12);
 
 .price {
   font-weight: 700;
-  color: $primary;
+  color: var(--color-primary-600, #059669);
   font-size: 16px;
 }
 
@@ -571,7 +681,7 @@ code {
       font-size: 36px;
       width: 36px;
       height: 36px;
-      color: $primary;
+      color: var(--color-primary-600, #059669);
     }
 
     h1 {
@@ -821,10 +931,10 @@ app-footer {
   border-radius: $radius-full;
 }
 ::-webkit-scrollbar-thumb {
-  background: $primary;
+  background: var(--color-primary-600, #059669);
   border-radius: $radius-full;
 
   &:hover {
-    background: $accent;
+    background: var(--color-primary-500, #10b981);
   }
 }
