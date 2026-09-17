@@ -10,40 +10,43 @@
 @include mat.core();
 
 // ============================================================
-// Brand color themes — five selectable identities (Settings > Appearance),
-// each with a light + dark variant. "emerald" is the default (applied by
-// $theme/$dark-theme below with no class needed); BrandThemeService adds
-// body.theme-{name} to switch, matching the existing .dark-theme toggle
-// pattern so both can combine (e.g. body.theme-maroon.dark-theme).
+// Brand color themes — five selectable identities (Settings > Appearance,
+// v1.0.1 redesign), each with a light + dark variant. "blue" is the new
+// default (applied by $theme/$dark-theme below with no class needed);
+// BrandThemeService adds body.theme-{name} to switch, matching the existing
+// .dark-theme toggle pattern so both can combine (e.g. body.theme-gray.dark-theme).
+// "gray" has no true neutral M3 palette available, so it borrows the blue
+// palette for Material's own internal tonal computation - the visible
+// --color-primary-* custom properties below are true grays regardless.
 // ============================================================
-$themes: ("emerald": (palette: mat.$green-palette,
+$themes: ("gray": (palette: mat.$blue-palette,
+      light: (p50: #f8fafc, p100: #f1f5f9, p200: #e2e8f0, p500: #64748b, p600: #475569, p700: #334155, p800: #1e293b, p900: #0f172a,
+        rgb500: '100, 116, 139', rgb600: '71, 85, 105', rgb700: '51, 65, 85', rgb800: '30, 41, 59'),
+      dark: (p50: #0f172a, p100: #1e293b, p200: #334155, p500: #94a3b8, p600: #64748b, p700: #cbd5e1, p800: #e2e8f0, p900: #f8fafc,
+        rgb500: '148, 163, 184', rgb600: '100, 116, 139', rgb700: '203, 213, 225', rgb800: '226, 232, 240')),
+    "emerald": (palette: mat.$green-palette,
       light: (p50: #ecfdf5, p100: #d1fae5, p200: #a7f3d0, p500: #10b981, p600: #059669, p700: #047857, p800: #065f46, p900: #064e3b,
         rgb500: '16, 185, 129', rgb600: '5, 150, 105', rgb700: '4, 120, 87', rgb800: '6, 95, 70'),
       dark: (p50: #064e3b, p100: #065f46, p200: #047857, p500: #34d399, p600: #10b981, p700: #a7f3d0, p800: #d1fae5, p900: #ecfdf5,
         rgb500: '52, 211, 153', rgb600: '16, 185, 129', rgb700: '167, 243, 208', rgb800: '209, 250, 229')),
-    "indigo": (palette: mat.$violet-palette,
-      light: (p50: #eef2ff, p100: #e0e7ff, p200: #c7d2fe, p500: #6366f1, p600: #4f46e5, p700: #4338ca, p800: #3730a3, p900: #312e81,
-        rgb500: '99, 102, 241', rgb600: '79, 70, 229', rgb700: '67, 56, 202', rgb800: '55, 48, 163'),
-      dark: (p50: #1e1b4b, p100: #312e81, p200: #3730a3, p500: #818cf8, p600: #6366f1, p700: #a5b4fc, p800: #c7d2fe, p900: #e0e7ff,
-        rgb500: '129, 140, 248', rgb600: '99, 102, 241', rgb700: '165, 180, 252', rgb800: '199, 210, 254')),
-    "maroon": (palette: mat.$rose-palette,
-      light: (p50: #fdf2f4, p100: #fce7ea, p200: #f8d0d6, p500: #a8324a, p600: #800020, p700: #650019, p800: #4a0013, p900: #33000d,
-        rgb500: '168, 50, 74', rgb600: '128, 0, 32', rgb700: '101, 0, 25', rgb800: '74, 0, 19'),
-      dark: (p50: #33000d, p100: #4a0013, p200: #650019, p500: #d1637d, p600: #a8324a, p700: #f8d0d6, p800: #fce7ea, p900: #fdf2f4,
-        rgb500: '209, 99, 125', rgb600: '168, 50, 74', rgb700: '248, 208, 214', rgb800: '252, 231, 234')),
-    "azure": (palette: mat.$blue-palette,
+    "purple": (palette: mat.$violet-palette,
+      light: (p50: #faf5ff, p100: #f3e8ff, p200: #e9d5ff, p500: #a855f7, p600: #9333ea, p700: #7e22ce, p800: #6b21a8, p900: #581c87,
+        rgb500: '168, 85, 247', rgb600: '147, 51, 234', rgb700: '126, 34, 206', rgb800: '107, 33, 168'),
+      dark: (p50: #581c87, p100: #6b21a8, p200: #7e22ce, p500: #c084fc, p600: #a855f7, p700: #e9d5ff, p800: #f3e8ff, p900: #faf5ff,
+        rgb500: '192, 132, 252', rgb600: '168, 85, 247', rgb700: '233, 213, 255', rgb800: '243, 232, 255')),
+    "blue": (palette: mat.$blue-palette,
       light: (p50: #eff6ff, p100: #dbeafe, p200: #bfdbfe, p500: #3b82f6, p600: #2563eb, p700: #1d4ed8, p800: #1e40af, p900: #1e3a8a,
         rgb500: '59, 130, 246', rgb600: '37, 99, 235', rgb700: '29, 78, 216', rgb800: '30, 64, 175'),
       dark: (p50: #1e3a8a, p100: #1e40af, p200: #1d4ed8, p500: #60a5fa, p600: #3b82f6, p700: #bfdbfe, p800: #dbeafe, p900: #eff6ff,
         rgb500: '96, 165, 250', rgb600: '59, 130, 246', rgb700: '191, 219, 254', rgb800: '219, 234, 254')),
-    "amber": (palette: mat.$orange-palette,
-      light: (p50: #fdf8ed, p100: #f8ecd1, p200: #f0d9a3, p500: #b8860b, p600: #9c6b0a, p700: #7d5608, p800: #5c3f06, p900: #402c04,
-        rgb500: '184, 134, 11', rgb600: '156, 107, 10', rgb700: '125, 86, 8', rgb800: '92, 63, 6'),
-      dark: (p50: #402c04, p100: #5c3f06, p200: #7d5608, p500: #d4a017, p600: #b8860b, p700: #f0d9a3, p800: #f8ecd1, p900: #fdf8ed,
-        rgb500: '212, 160, 23', rgb600: '184, 134, 11', rgb700: '240, 217, 163', rgb800: '248, 236, 209')));
+    "orange": (palette: mat.$orange-palette,
+      light: (p50: #fff7ed, p100: #ffedd5, p200: #fed7aa, p500: #f97316, p600: #ea580c, p700: #c2410c, p800: #9a3412, p900: #7c2d12,
+        rgb500: '249, 115, 22', rgb600: '234, 88, 12', rgb700: '194, 65, 12', rgb800: '154, 52, 18'),
+      dark: (p50: #7c2d12, p100: #9a3412, p200: #c2410c, p500: #fb923c, p600: #f97316, p700: #fed7aa, p800: #ffedd5, p900: #fff7ed,
+        rgb500: '251, 146, 60', rgb600: '249, 115, 22', rgb700: '254, 215, 170', rgb800: '255, 237, 213')));
 
 $theme: mat.define-theme((color: (theme-type: light,
-        primary: map.get($themes, "emerald", palette),
+        primary: map.get($themes, "blue", palette),
         tertiary: mat.$blue-palette,
       ),
       typography: (brand-family: 'Cairo, sans-serif',
@@ -54,7 +57,7 @@ $theme: mat.define-theme((color: (theme-type: light,
 @include mat.all-component-themes($theme);
 
 $dark-theme: mat.define-theme((color: (theme-type: dark,
-        primary: map.get($themes, "emerald", palette),
+        primary: map.get($themes, "blue", palette),
         tertiary: mat.$blue-palette,
       ),
       typography: (brand-family: 'Cairo, sans-serif',
@@ -73,7 +76,7 @@ $dark-theme: mat.define-theme((color: (theme-type: dark,
 // the matching --color-primary-* custom properties BrandThemeService's
 // body.theme-{name} class switches between.
 @each $name, $config in $themes {
-  @if $name != "emerald" {
+  @if $name != "blue" {
     $palette: map.get($config, palette);
 
     $theme-light: mat.define-theme((color: (theme-type: light,
@@ -183,18 +186,22 @@ body {
 // used by components that already read var(--...), e.g. header).
 // ============================================================
 :root {
-  --color-primary-50: #ecfdf5;
-  --color-primary-100: #d1fae5;
-  --color-primary-200: #a7f3d0;
-  --color-primary-500: #10b981;
-  --color-primary-600: #059669;
-  --color-primary-700: #047857;
-  --color-primary-800: #065f46;
-  --color-primary-900: #064e3b;
-  --color-primary-500-rgb: 16, 185, 129;
-  --color-primary-600-rgb: 5, 150, 105;
-  --color-primary-700-rgb: 4, 120, 87;
-  --color-primary-800-rgb: 6, 95, 70;
+  --color-primary-50: #eff6ff;
+  --color-primary-100: #dbeafe;
+  --color-primary-200: #bfdbfe;
+  --color-primary-500: #3b82f6;
+  --color-primary-600: #2563eb;
+  --color-primary-700: #1d4ed8;
+  --color-primary-800: #1e40af;
+  --color-primary-900: #1e3a8a;
+  --color-primary-500-rgb: 59, 130, 246;
+  --color-primary-600-rgb: 37, 99, 235;
+  --color-primary-700-rgb: 29, 78, 216;
+  --color-primary-800-rgb: 30, 64, 175;
+
+  --color-purple: #9333ea;
+  --color-purple-bg: #f3e8ff;
+  --color-purple-border: #e9d5ff;
 
   --color-slate-50: #f8fafc;
   --color-slate-100: #f1f5f9;
@@ -244,18 +251,22 @@ body {
 // Toggled by ThemeService via a `dark-theme` class on <body>.
 // ============================================================
 body.dark-theme {
-  --color-primary-50: #064e3b;
-  --color-primary-100: #065f46;
-  --color-primary-200: #047857;
-  --color-primary-500: #34d399;
-  --color-primary-600: #10b981;
-  --color-primary-700: #a7f3d0;
-  --color-primary-800: #d1fae5;
-  --color-primary-900: #ecfdf5;
-  --color-primary-500-rgb: 52, 211, 153;
-  --color-primary-600-rgb: 16, 185, 129;
-  --color-primary-700-rgb: 167, 243, 208;
-  --color-primary-800-rgb: 209, 250, 229;
+  --color-primary-50: #1e3a8a;
+  --color-primary-100: #1e40af;
+  --color-primary-200: #1d4ed8;
+  --color-primary-500: #60a5fa;
+  --color-primary-600: #3b82f6;
+  --color-primary-700: #bfdbfe;
+  --color-primary-800: #dbeafe;
+  --color-primary-900: #eff6ff;
+  --color-primary-500-rgb: 96, 165, 250;
+  --color-primary-600-rgb: 59, 130, 246;
+  --color-primary-700-rgb: 191, 219, 254;
+  --color-primary-800-rgb: 219, 234, 254;
+
+  --color-purple: #c084fc;
+  --color-purple-bg: rgba(168, 85, 247, 0.16);
+  --color-purple-border: rgba(168, 85, 247, 0.35);
 
   --color-slate-50: #1e293b;
   --color-slate-100: #273549;
@@ -277,9 +288,11 @@ body.dark-theme {
   --color-info-bg: rgba(59, 130, 246, 0.12);
   --color-info-border: rgba(59, 130, 246, 0.35);
 
-  --color-surface: #1e293b;
-  --color-background: #0f172a;
-  --color-border: #334155;
+  // v1.0.1 redesign: deeper, more saturated navy than the old slate-900/800
+  // pairing, to match the new dark-mode reference design.
+  --color-surface: #101c33;
+  --color-background: #0a1220;
+  --color-border: rgba(255, 255, 255, 0.08);
   --color-text-primary: #f1f5f9;
   --color-text-secondary: #cbd5e1;
   --color-text-muted: #94a3b8;
@@ -289,7 +302,7 @@ body.dark-theme {
   --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.35);
   --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.45);
 
-  background-color: #0f172a;
+  background-color: #0a1220;
   color: #f1f5f9;
 }
 
@@ -304,6 +317,17 @@ body.dark-theme {
 // stops the worst readability bugs everywhere at once, immediately.
 // ============================================================
 body.dark-theme {
+
+  // Angular Material paints its own dark M3 "surface" (a near-black,
+  // ~#121212 baseline) on <table>/mat-table by default, which is a
+  // different color than this app's own custom navy --color-surface -
+  // that mismatch is what shows up as a black box wherever a table sits
+  // inside an otherwise navy card. Making the table itself transparent
+  // lets the card's own background show through everywhere consistently.
+  table,
+  .mat-mdc-table {
+    background: transparent !important;
+  }
 
   table tr:hover,
   .mat-mdc-row:hover,
@@ -334,14 +358,38 @@ body.dark-theme {
   }
 
   // Generic un-migrated card/container wrappers still hardcoding a
-  // light surface (mat-card itself is already theme-aware via
-  // Angular Material's own dark theme - this only catches the plain
-  // custom wrapper divs many older screens use instead).
+  // light surface (the plain custom wrapper divs many older screens use).
   .stock-card,
   .search-container,
   .empty-state h3 {
     background: transparent;
   }
+}
+
+// ============================================================
+// Material surface color consistency - ONE shared fix for every screen,
+// instead of each screen's own .scss re-declaring a background.
+//
+// Angular Material's own M3 dark theme (mat.all-component-colors) paints
+// cards, dialogs, menus, selects, etc. with Material's own dark "surface"
+// role, which defaults to a near-black baseline - a different color than
+// this app's own custom navy --color-surface token. Every screen that
+// relies on a plain <mat-card>, dialog, dropdown menu, or select panel
+// without its own explicit background override was showing that mismatch
+// as a black box. --color-surface already resolves correctly in both
+// themes (white in light mode, navy in dark mode), so pointing every
+// Material surface at it fixes every screen at once, in both modes, with
+// no screen-specific CSS needed.
+// ============================================================
+.mat-mdc-card,
+.mat-mdc-dialog-surface,
+.mat-mdc-menu-panel,
+.mat-mdc-select-panel,
+.mat-mdc-autocomplete-panel,
+.mat-expansion-panel,
+.mat-mdc-bottom-sheet-container,
+.mat-datepicker-content {
+  background-color: var(--color-surface, #ffffff) !important;
 }
 
 // Sensible default icon color so icons that don't set their own color

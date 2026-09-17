@@ -2,6 +2,7 @@ import { Component, signal, inject, OnInit, ChangeDetectionStrategy } from '@ang
 import { RouterOutlet } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { ThemeService } from './core/services/theme.service';
+import { applyChartJsTheme } from './core/utils/chart-theme.util';
 
 @Component({
   selector: 'app-root',
@@ -21,6 +22,12 @@ export class App implements OnInit {
   private readonly themeService = inject(ThemeService);
   readonly direction = signal<'rtl' | 'ltr'>('rtl');
   readonly currentLang = signal<string>('ar');
+
+  constructor() {
+    // currentTheme$ is a BehaviorSubject, so this also applies the theme
+    // immediately (covers the initial load, not just later toggles).
+    this.themeService.currentTheme$.subscribe(() => applyChartJsTheme());
+  }
 
   ngOnInit(): void {
     const lang = localStorage.getItem('language') || 'ar';

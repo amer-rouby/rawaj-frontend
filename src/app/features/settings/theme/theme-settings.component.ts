@@ -2,6 +2,7 @@ import { Component, inject, signal, ChangeDetectionStrategy } from '@angular/cor
 import { PageHeaderComponent } from '../../../shared/components/page-header/page-header.component';
 import { MaterialModule } from '../../../shared/material.module';
 import { ThemeService, ThemeMode, ColorTheme, COLOR_THEMES } from '../../../core/services/theme.service';
+import { ErrorHandlerService } from '../../../core/services/error-handler.service';
 
 @Component({
   selector: 'app-theme-settings',
@@ -13,6 +14,7 @@ import { ThemeService, ThemeMode, ColorTheme, COLOR_THEMES } from '../../../core
 })
 export class ThemeSettingsComponent {
   private readonly themeService = inject(ThemeService);
+  private readonly errorHandler = inject(ErrorHandlerService);
 
   readonly colorThemes = COLOR_THEMES;
   readonly mode = signal<ThemeMode>(this.themeService.getCurrentTheme());
@@ -29,5 +31,16 @@ export class ThemeSettingsComponent {
 
   setColorTheme(theme: ColorTheme): void {
     this.themeService.setColorTheme(theme);
+  }
+
+  onSave(): void {
+    // Mode/color already apply and persist instantly on click - this just
+    // confirms the choice, matching the reference design's explicit save step.
+    this.errorHandler.showSuccess('SETTINGS.THEME.SAVE_SUCCESS');
+  }
+
+  onReset(): void {
+    this.themeService.setTheme('dark');
+    this.themeService.setColorTheme('blue');
   }
 }
