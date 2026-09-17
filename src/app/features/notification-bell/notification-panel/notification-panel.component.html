@@ -63,8 +63,8 @@
     </div>
     } @empty {
     <div class="empty-state" style="text-align: center; padding: 40px 20px;" (click)="$event.stopPropagation()">
-      <mat-icon style="font-size: 48px; color: #cbd5e1;">notifications_off</mat-icon>
-      <p style="color: #64748b;">{{'NOTIFICATIONS.EMPTY' | translate}}</p>
+      <mat-icon style="font-size: 48px; color: var(--color-text-muted, #cbd5e1);">notifications_off</mat-icon>
+      <p style="color: var(--color-text-secondary, #64748b);">{{'NOTIFICATIONS.EMPTY' | translate}}</p>
     </div>
     }
   </div>

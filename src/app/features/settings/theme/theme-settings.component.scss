@@ -7,6 +7,13 @@
 .theme-card {
   border-radius: var(--radius-xl, 20px);
 
+  mat-card-header {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding-bottom: 4px;
+  }
+
   mat-card-title {
     display: flex;
     align-items: center;
@@ -19,6 +26,12 @@
       color: var(--color-primary-600, #059669);
     }
   }
+
+  .card-subtitle {
+    margin: 4px 0 0;
+    font-size: 12.5px;
+    color: var(--color-text-secondary, #64748b);
+  }
 }
 
 .mode-toggle {
@@ -29,6 +42,7 @@
 
 .mode-option,
 .color-option {
+  position: relative;
   cursor: pointer;
   border: 1.5px solid var(--color-border, #e2e8f0);
   background: var(--color-surface, #fff);
@@ -39,48 +53,64 @@
     border-color: var(--color-primary-600, #059669);
     background: var(--color-primary-50, #ecfdf5);
   }
+
+  .check {
+    position: absolute;
+    top: 10px;
+    inset-inline-end: 10px;
+    font-size: 20px;
+    width: 20px;
+    height: 20px;
+    color: var(--color-primary-600, #059669);
+  }
 }
 
 .mode-option {
   flex: 1;
-  min-width: 140px;
+  min-width: 200px;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 8px;
-  padding: 18px 12px;
+  align-items: flex-start;
+  gap: 4px;
+  padding: 20px;
 
-  mat-icon {
-    font-size: 28px;
-    width: 28px;
-    height: 28px;
+  mat-icon:not(.check) {
+    font-size: 26px;
+    width: 26px;
+    height: 26px;
     color: var(--color-text-secondary, #64748b);
+    margin-bottom: 6px;
   }
 
-  &.active mat-icon {
+  &.active mat-icon:not(.check) {
     color: var(--color-primary-600, #059669);
   }
 
-  span {
-    font-size: 13px;
-    font-weight: 600;
+  .option-title {
+    font-size: 14.5px;
+    font-weight: 700;
     color: var(--color-text-primary, #1e293b);
+  }
+
+  .option-desc {
+    font-size: 12.5px;
+    color: var(--color-text-secondary, #64748b);
   }
 }
 
 .color-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
   gap: 12px;
 }
 
 .color-option {
-  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 8px;
-  padding: 16px 10px;
+  gap: 6px;
+  padding: 18px 12px;
+  text-align: center;
 
   .swatch {
     width: 36px;
@@ -91,17 +121,86 @@
 
   .label {
     font-size: 12.5px;
-    font-weight: 600;
+    font-weight: 700;
     color: var(--color-text-primary, #1e293b);
   }
 
-  .check {
-    position: absolute;
-    top: 6px;
-    inset-inline-end: 6px;
+  .desc {
+    font-size: 11px;
+    color: var(--color-text-secondary, #64748b);
+  }
+}
+
+.suggestion-box {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-top: 16px;
+  padding: 14px 16px;
+  border-radius: var(--radius-md, 12px);
+  background: var(--color-info-bg, #eff6ff);
+  border: 1px solid var(--color-info-border, #bfdbfe);
+
+  mat-icon {
+    color: var(--color-info, #3b82f6);
+    font-size: 20px;
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  p {
+    margin: 0;
+    font-size: 12.5px;
+    line-height: 1.6;
+    color: var(--color-text-secondary, #64748b);
+  }
+}
+
+.theme-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.save-btn,
+.reset-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 22px;
+  border-radius: var(--radius-md, 12px);
+  font-size: 13.5px;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all 0.15s ease;
+
+  mat-icon {
     font-size: 18px;
     width: 18px;
     height: 18px;
-    color: var(--color-primary-600, #059669);
+  }
+}
+
+.save-btn {
+  background: var(--color-primary-600, #059669);
+  color: #fff;
+  border: none;
+
+  &:hover {
+    background: var(--color-primary-700, #047857);
+  }
+}
+
+.reset-btn {
+  background: var(--color-surface, #fff);
+  color: var(--color-text-secondary, #64748b);
+  border: 1.5px solid var(--color-border, #e2e8f0);
+
+  &:hover {
+    background: var(--color-slate-100, #f1f5f9);
+    color: var(--color-text-primary, #1e293b);
   }
 }

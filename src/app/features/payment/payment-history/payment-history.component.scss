@@ -26,11 +26,11 @@
 
         strong {
           font-weight: 600;
-          color: #1f2937;
+          color: var(--color-text-primary, #1f2937);
         }
 
         small {
-          color: #6b7280;
+          color: var(--color-text-secondary, #6b7280);
           font-size: 12px;
         }
       }
@@ -84,11 +84,11 @@
         font-size: 64px;
         width: 64px;
         height: 64px;
-        color: #9ca3af;
+        color: var(--color-text-muted, #9ca3af);
       }
 
       p {
-        color: #6b7280;
+        color: var(--color-text-secondary, #6b7280);
         margin: 0;
         font-size: 14px;
       }
@@ -96,7 +96,7 @@
 
     mat-paginator {
       margin-top: 16px;
-      border-top: 1px solid #e5e7eb;
+      border-top: 1px solid var(--color-border, #e5e7eb);
       padding-top: 16px;
     }
   }

@@ -1,20 +1,5 @@
 <div class="sidebar" [class.collapsed]="isCollapsed()">
 
-  <!-- Logo -->
-  <div class="sidebar-logo" routerLink="/dashboard">
-    <div class="logo-icon">
-      <img src="assets/favicon.svg" alt="">
-    </div>
-
-    @if (!isCollapsed()) {
-    <div class="logo-text-stack">
-      <span class="store-name">
-        {{ storeDisplayName() || ('APP.NAME' | translate) }}
-      </span>
-    </div>
-    }
-  </div>
-
   <!-- Menu -->
   <mat-nav-list class="sidebar-menu">
 
