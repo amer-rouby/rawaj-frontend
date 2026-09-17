@@ -34,6 +34,12 @@ export class LicenseRenewComponent implements OnInit {
   // differs, but the code-entry form works the same either way.
   readonly expired = signal(false);
 
+  // The header must never say "you must renew" to a fresh install or a
+  // healthy subscription - that read as broken/alarming to a technician or
+  // customer opening this screen for the first time with nothing wrong.
+  readonly pageTitleKey = computed(() => this.expired() ? 'LICENSE.TITLE_EXPIRED' : 'LICENSE.TITLE_OK');
+  readonly pageSubtitleKey = computed(() => this.expired() ? 'LICENSE.SUBTITLE_EXPIRED' : 'LICENSE.SUBTITLE_OK');
+
   ngOnInit(): void {
     this.refreshStatus();
   }
