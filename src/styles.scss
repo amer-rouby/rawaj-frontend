@@ -146,12 +146,12 @@ $dark-theme: mat.define-theme((color: (theme-type: dark,
 // primary actions actually read as primary.
 .mat-mdc-raised-button {
   &.mat-primary {
-    background-color: #059669 !important;
+    background-color: var(--color-primary-600, #059669) !important;
     color: #fff !important;
   }
 
   &.mat-accent {
-    background-color: #10b981 !important;
+    background-color: var(--color-primary-500, #10b981) !important;
     color: #fff !important;
   }
 
