@@ -19,19 +19,7 @@
     "RENEW_BUTTON": "Renew",
     "CONTACT_ADMIN": "Your subscription has expired. Please contact your store admin to renew it.",
     "RENEW_SUCCESS": "Subscription renewed successfully",
-    "RENEW_ERROR": "Could not renew the subscription",
-    "GENERATE_TITLE": "Generate Activation Code",
-    "GENERATE_SUBTITLE": "For a new customer or to renew an existing one",
-    "LICENSE_KEY_HINT": "Paste the key the customer/technician sent you from their activation screen.",
-    "LICENSE_KEY_LABEL": "Activation key",
-    "MONTHS_LABEL": "Duration (months)",
-    "MONTHS_HINT": "1200 = effectively permanent (100 years) - suitable for a one-time sale",
-    "GENERATE_BUTTON": "Generate Code",
-    "GENERATE_ERROR": "Could not generate the code",
-    "RESULT_LABEL": "Code valid until",
-    "COPY_CODE": "Copy code",
-    "COPIED": "Copied",
-    "GENERATE_ANOTHER": "Generate another"
+    "RENEW_ERROR": "Could not renew the subscription"
   },
   "PAGINATOR": {
     "ITEMS_PER_PAGE": "Items per page",
@@ -72,7 +60,6 @@
     "SETTINGS": "Settings",
     "SETTINGS_GENERAL": "General Settings",
     "SETTINGS_STORE": "Store Details",
-    "LICENSE_GENERATE": "Generate Activation Code",
     "NOTIFICATIONS": "Notifications",
     "EXPENSES": "Expenses",
     "EXPIRY_REPORT": "Expiry Report",

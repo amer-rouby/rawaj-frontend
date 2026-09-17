@@ -19,19 +19,7 @@
     "RENEW_BUTTON": "تجديد",
     "CONTACT_ADMIN": "الاشتراك انتهى. تواصل مع أدمن المتجر عشان يجدده.",
     "RENEW_SUCCESS": "تم تجديد الاشتراك بنجاح",
-    "RENEW_ERROR": "تعذّر تجديد الاشتراك",
-    "GENERATE_TITLE": "توليد كود تفعيل",
-    "GENERATE_SUBTITLE": "لتوليد كود لعميل جديد أو تجديد اشتراك عميل حالي",
-    "LICENSE_KEY_HINT": "الصق المفتاح اللي بعتهولك العميل/الفني من شاشة التفعيل بتاعته.",
-    "LICENSE_KEY_LABEL": "مفتاح التفعيل",
-    "MONTHS_LABEL": "المدة (بالشهور)",
-    "MONTHS_HINT": "1200 = دايم تقريبًا (100 سنة) - مناسب لبيع نسخة مرة واحدة",
-    "GENERATE_BUTTON": "توليد الكود",
-    "GENERATE_ERROR": "تعذّر توليد الكود",
-    "RESULT_LABEL": "الكود صالح لحد",
-    "COPY_CODE": "نسخ الكود",
-    "COPIED": "اتنسخ",
-    "GENERATE_ANOTHER": "توليد كود تاني"
+    "RENEW_ERROR": "تعذّر تجديد الاشتراك"
   },
   "PAGINATOR": {
     "ITEMS_PER_PAGE": "عناصر في الصفحة",
@@ -72,7 +60,6 @@
     "SETTINGS": "الإعدادات",
     "SETTINGS_GENERAL": "الإعدادات العامة",
     "SETTINGS_STORE": "بيانات المتجر",
-    "LICENSE_GENERATE": "توليد كود تفعيل",
     "NOTIFICATIONS": "الإشعارات",
     "EXPENSES": "المصروفات",
     "EXPIRY_REPORT": "تقرير انتهاء الصلاحية",
