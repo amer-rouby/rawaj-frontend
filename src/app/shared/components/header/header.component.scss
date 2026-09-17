@@ -11,6 +11,14 @@
   display: block;
 }
 
+// Dark mode only: the header used --color-surface (the card tone), which is
+// visibly lighter than the page's own --color-background - that mismatch
+// read as a seam/border running under the header. Light mode keeps the
+// original elevated white-bar-on-gray-page look, which was never the issue.
+:host-context(.dark-theme) {
+  --header-bg: var(--color-background, #0a1220);
+}
+
 // 2. القوالب المشتركة (Mixins) لتقليل الكود
 @mixin glass-style($padding: 8px 16px) {
   background: var(--glass-effect);

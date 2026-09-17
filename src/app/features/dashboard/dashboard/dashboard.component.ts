@@ -2,14 +2,14 @@ import { Component, inject, signal, computed, OnInit, OnDestroy, ChangeDetection
 import { Router, RouterLink } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { MatDialog } from '@angular/material/dialog';
-import { Subject, takeUntil } from 'rxjs';
-import { PageHeaderComponent } from '../../../shared/components/page-header/page-header.component';
+import { Subject, takeUntil, interval, startWith } from 'rxjs';
 import { EmptyStateComponent } from '../../../shared/components/empty-state/empty-state.component';
 import { TopProductsTableComponent } from '../../../shared/components/top-products-table/top-products-table.component';
 import { MaterialModule } from '../../../shared/material.module';
 import { formatCurrency as formatCurrencyAmount, formatDateTime } from '../../../core/utils/format.util';
 import { DashboardService } from '../../../core/services/dashboard.service';
 import { LanguageService } from '../../../core/services/language.service';
+import { AuthService } from '../../../core/services/auth.service';
 import { DashboardStats, RawajInsights } from '../../../core/models/dashboard.model';
 import { ErrorHandlerService } from '../../../core/services/error-handler.service';
 import { RawajFeatureSettingsService } from '../../../core/services/settings/rawaj-feature-settings.service';
@@ -21,7 +21,6 @@ import { DailyBriefDialogComponent } from '../daily-brief-dialog/daily-brief-dia
   imports: [
     RouterLink,
     MaterialModule,
-    PageHeaderComponent,
     EmptyStateComponent,
     TopProductsTableComponent
   ],
@@ -33,6 +32,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   private readonly dashboardService = inject(DashboardService);
   private readonly translate = inject(TranslateService);
   private readonly languageService = inject(LanguageService);
+  private readonly authService = inject(AuthService);
   private readonly router = inject(Router);
   private readonly errorHandler = inject(ErrorHandlerService);
   private readonly dialog = inject(MatDialog);
@@ -40,6 +40,24 @@ export class DashboardComponent implements OnInit, OnDestroy {
   private readonly destroy$ = new Subject<void>();
 
   readonly dailyBriefEnabled = computed(() => this.rawajFeatureSettingsService.flags().dailyBriefEnabled);
+
+  readonly currentUserName = computed(() => this.authService.getCurrentUser()?.fullName ?? '');
+
+  private readonly now = signal(new Date());
+
+  readonly formattedDate = computed(() => {
+    const lang = this.languageService.getCurrentLanguage();
+    return this.now().toLocaleDateString(lang === 'ar' ? 'ar-EG-u-nu-latn' : 'en-US', {
+      weekday: 'long', day: 'numeric', month: 'long', year: 'numeric'
+    });
+  });
+
+  readonly formattedTime = computed(() => {
+    const lang = this.languageService.getCurrentLanguage();
+    return this.now().toLocaleTimeString(lang === 'ar' ? 'ar-EG-u-nu-latn' : 'en-US', {
+      hour: '2-digit', minute: '2-digit'
+    });
+  });
 
   readonly stats = signal<DashboardStats | null>(null);
   readonly loading = signal(true);
@@ -61,6 +79,17 @@ export class DashboardComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.loadDashboardStats();
     this.loadRawajInsights();
+
+    interval(60000)
+      .pipe(startWith(0), takeUntil(this.destroy$))
+      .subscribe(() => this.now.set(new Date()));
+  }
+
+  scrollActions(container: HTMLElement, direction: 'prev' | 'next'): void {
+    const isRtl = getComputedStyle(container).direction === 'rtl';
+    const sign = direction === 'next' ? 1 : -1;
+    const amount = container.clientWidth * 0.7 * sign * (isRtl ? -1 : 1);
+    container.scrollBy({ left: amount, behavior: 'smooth' });
   }
 
   loadRawajInsights(): void {

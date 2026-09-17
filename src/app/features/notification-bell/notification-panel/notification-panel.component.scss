@@ -4,12 +4,12 @@
   border-radius: 20px !important;
   padding: 0 !important;
   box-shadow: 0 15px 50px rgba(0, 0, 0, 0.15) !important;
-  background: #ffffff !important;
+  background: var(--color-surface, #ffffff) !important;
   direction: inherit !important;
 
   .menu-header {
     padding: 15px 20px;
-    border-bottom: 1px solid #f1f5f9;
+    border-bottom: 1px solid var(--color-border, #f1f5f9);
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -25,7 +25,7 @@
 
   .notifications-container {
     padding: 12px;
-    background: #f8fafc;
+    background: var(--color-slate-50, #f8fafc);
     max-height: 450px;
     overflow-y: auto;
     direction: inherit;
@@ -42,11 +42,11 @@
 
     /* ألوان واضحة وتغطية كاملة */
     &.urgent {
-      background: #fee2e2 !important;
-      border-color: #fca5a5;
+      background: var(--color-danger-bg, #fee2e2) !important;
+      border-color: var(--color-danger-border, #fca5a5);
 
       .message {
-        color: #991b1b;
+        color: var(--color-danger, #991b1b);
       }
 
       .icon-box {
@@ -56,11 +56,11 @@
     }
 
     &.high {
-      background: #ffedd5 !important;
-      border-color: #fdba74;
+      background: var(--color-warning-bg, #ffedd5) !important;
+      border-color: var(--color-warning-border, #fdba74);
 
       .message {
-        color: #9a3412;
+        color: var(--color-warning, #9a3412);
       }
 
       .icon-box {
@@ -70,11 +70,11 @@
     }
 
     &.medium {
-      background: #d1fae5 !important;
-      border-color: #a7f3d0;
+      background: var(--color-success-bg, #d1fae5) !important;
+      border-color: var(--color-success-border, #a7f3d0);
 
       .message {
-        color: #065f46;
+        color: var(--color-success, #065f46);
       }
 
       .icon-box {
@@ -84,11 +84,11 @@
     }
 
     &.low {
-      background: #dcfce7 !important;
-      border-color: #86efac;
+      background: var(--color-success-bg, #dcfce7) !important;
+      border-color: var(--color-success-border, #86efac);
 
       .message {
-        color: #166534;
+        color: var(--color-success, #166534);
       }
 
       .icon-box {
@@ -98,12 +98,12 @@
     }
 
     &.is-read {
-      background: #ffffff !important;
-      border-color: #e2e8f0;
+      background: var(--color-surface, #ffffff) !important;
+      border-color: var(--color-border, #e2e8f0);
       opacity: 0.8;
 
       .message {
-        color: #64748b;
+        color: var(--color-text-secondary, #64748b);
         font-weight: 500;
       }
 
@@ -161,8 +161,8 @@
 
   .menu-footer {
     padding: 15px 20px;
-    border-top: 1px solid #f1f5f9;
-    background: #ffffff;
+    border-top: 1px solid var(--color-border, #f1f5f9);
+    background: var(--color-surface, #ffffff);
     direction: inherit;
 
     .full-width-btn {
@@ -180,7 +180,7 @@
     }
 
     p {
-      color: #64748b !important;
+      color: var(--color-text-secondary, #64748b) !important;
     }
   }
 }
