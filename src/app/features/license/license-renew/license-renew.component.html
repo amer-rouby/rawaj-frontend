@@ -17,6 +17,12 @@
       }
 
       @if (isAdmin()) {
+      @if (licenseKey()) {
+      <p class="store-id-hint">
+        {{'LICENSE.STORE_ID_HINT' | translate}}
+        <strong class="store-id-value">{{ licenseKey() }}</strong>
+      </p>
+      }
       <p>{{'LICENSE.ENTER_CODE_HINT' | translate}}</p>
       <mat-form-field appearance="outline" class="code-field">
         <mat-label>{{'LICENSE.CODE_LABEL' | translate}}</mat-label>
