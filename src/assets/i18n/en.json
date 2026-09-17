@@ -2,7 +2,7 @@
   "APP": {
     "NAME": "Rawaj Supermarket",
     "SUBTITLE": "Store Management System",
-    "VERSION": "Version 1.0.0",
+    "VERSION": "Version 1.0.1",
     "COPYRIGHT": "© 2026 Rawaj Supermarket - All Rights Reserved"
   },
   "LICENSE": {
@@ -112,6 +112,8 @@
   "DASHBOARD": {
     "TITLE": "Dashboard",
     "SUBTITLE": "Overview of store performance",
+    "WELCOME": "Welcome, {{name}}",
+    "WELCOME_SUBTITLE": "Here's an overview of your store's performance today",
     "TODAY_SALES": "Today's Sales",
     "TOTAL_PRODUCTS": "Total Products",
     "STOCK_ALERTS": "Stock Alerts",
@@ -693,13 +695,25 @@
     "THEME": {
       "MODE": "Display Mode",
       "LIGHT": "Light",
+      "LIGHT_DESC": "Brighter for daytime use",
       "DARK": "Dark",
+      "DARK_DESC": "Ideal for night use, reduces eye strain",
       "COLOR": "Accent Color",
+      "COLOR_SUBTITLE": "Pick the color that highlights the app's sections",
+      "GRAY": "Gray",
+      "GRAY_DESC": "Professional and calm",
       "EMERALD": "Emerald",
-      "INDIGO": "Indigo",
-      "MAROON": "Maroon",
-      "AZURE": "Azure",
-      "AMBER": "Amber"
+      "EMERALD_DESC": "Active and focused",
+      "PURPLE": "Purple",
+      "PURPLE_DESC": "Creative and flexible",
+      "BLUE": "Blue",
+      "BLUE_DESC": "Trust and stability",
+      "ORANGE": "Orange",
+      "ORANGE_DESC": "Energetic and vibrant",
+      "SUGGESTION": "Blue is the best choice for business apps, offering an ideal balance between professionalism and ease of use.",
+      "SAVE": "Save Settings",
+      "SAVE_SUCCESS": "Appearance settings saved successfully",
+      "RESET": "Reset to Default"
     },
     "STORE_INFO": "Store Information",
     "LEGAL_INFO": "Legal Information",
