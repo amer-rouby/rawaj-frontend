@@ -7,8 +7,10 @@
   },
   "LICENSE": {
     "MENU_LABEL": "Subscription",
-    "TITLE": "Subscription Renewal",
-    "SUBTITLE": "Your subscription needs to be renewed to continue",
+    "TITLE_EXPIRED": "Subscription Renewal",
+    "SUBTITLE_EXPIRED": "Your subscription needs to be renewed to continue",
+    "TITLE_OK": "Subscription",
+    "SUBTITLE_OK": "Subscription status and your store's activation key",
     "EXPIRED_ON": "Your subscription expired on",
     "EXPIRED_GENERIC": "Your subscription has expired.",
     "ACTIVE_UNTIL": "Your subscription is active until",
