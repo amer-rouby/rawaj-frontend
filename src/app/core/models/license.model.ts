@@ -4,3 +4,9 @@ export interface LicenseStatus {
   expiresAt: string | null;
   licenseKey: string | null;
 }
+
+export interface GeneratedLicenseCode {
+  code: string;
+  licenseKey: string;
+  expiresAt: string;
+}

@@ -1,82 +1,59 @@
 import { Injectable, inject } from '@angular/core';
-import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { AuthService } from './auth.service';
-import { Expense, ExpenseCategory, ExpenseSummary } from '../models/Expense.model';
-import { environment } from '../../../environments/environment';
+import { ComponentType } from '@angular/cdk/overlay';
+import { HttpParams } from '@angular/common/http';
+import { Observable, map } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
+import { CrudServiceWithDialog } from '../abstracts/crud-service-with-dialog';
+import { Expense, ExpenseCategory, ExpenseSummary } from '../models/Expense.model';
+import { ApiResponse } from '../models';
+import { environment } from '../../../environments/environment';
+import { AddExpenseDialogComponent } from '../../features/expenses/add-expense-dialog/add-expense-dialog.component';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ExpenseService {
-  private readonly http = inject(HttpClient);
-  private readonly authService = inject(AuthService);
+export class ExpenseService extends CrudServiceWithDialog<AddExpenseDialogComponent, Expense> {
   private readonly translate = inject(TranslateService);
-  private readonly baseUrl = `${environment.apiUrl}/expenses`;
 
-  private getStoreId(): number {
-    return this.authService.getStoreId() || 1;
+  protected getUrlSegment(): string {
+    return `${environment.apiUrl}/expenses`;
   }
 
-  private getAuthHeaders(): HttpHeaders {
-    const token = this.authService.getToken();
-    return new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Authorization': token ? `Bearer ${token}` : ''
+  protected override getPageUrlSegment(): string {
+    return this.getUrlSegment();
+  }
+
+  protected createNewInstance(): Expense {
+    return new Expense({
+      storeId: this.getStoreId(),
+      category: 'PURCHASES',
+      expenseDate: new Date().toISOString()
     });
   }
 
-  createExpense(expense: Expense): Observable<Expense> {
-    const headers = this.getAuthHeaders();
-    return this.http.post<any>(this.baseUrl, expense, { headers }).pipe(
-      map(response => response.data)
-    );
+  getDialogComponent(): ComponentType<AddExpenseDialogComponent> {
+    return AddExpenseDialogComponent;
   }
 
-  getExpenses(page: number = 0, size: number = 10): Observable<any> {
-    const headers = this.getAuthHeaders();
-    const params = new HttpParams()
-      .set('storeId', this.getStoreId())
-      .set('page', page)
-      .set('size', size);
-
-    return this.http.get<any>(this.baseUrl, { headers, params }).pipe(
-      map(response => response.data)
-    );
+  protected override afterCast(model: Expense): void {
+    const raw = model as unknown as { categoryArabic?: string };
+    model.categoryAr = raw.categoryArabic || model.category;
   }
 
-  getExpenseById(id: number): Observable<Expense> {
-    const headers = this.getAuthHeaders();
-    const params = new HttpParams().set('storeId', this.getStoreId());
-    return this.http.get<any>(`${this.baseUrl}/${id}`, { headers, params }).pipe(
-      map(response => response.data)
-    );
-  }
-
-  updateExpense(id: number, expense: Expense): Observable<Expense> {
-    const headers = this.getAuthHeaders();
-    const params = new HttpParams().set('storeId', this.getStoreId());
-    return this.http.put<any>(`${this.baseUrl}/${id}`, expense, { headers, params }).pipe(
-      map(response => response.data)
-    );
-  }
-
-  deleteExpense(id: number): Observable<void> {
-    const headers = this.getAuthHeaders();
-    const params = new HttpParams().set('storeId', this.getStoreId());
-    return this.http.delete<void>(`${this.baseUrl}/${id}`, { headers, params });
+  protected override toPayload(item: Expense): object {
+    const payload = super.toPayload(item) as Record<string, unknown>;
+    delete payload['categoryAr'];
+    delete payload['categoryArabic'];
+    delete payload['createdBy'];
+    return payload;
   }
 
   getExpenseSummary(startDate?: string, endDate?: string): Observable<ExpenseSummary> {
-    const headers = this.getAuthHeaders();
     let params = new HttpParams().set('storeId', this.getStoreId());
-
     if (startDate) params = params.set('startDate', startDate);
     if (endDate) params = params.set('endDate', endDate);
 
-    return this.http.get<any>(`${this.baseUrl}/summary`, { headers, params }).pipe(
+    return this.http.get<ApiResponse<ExpenseSummary>>(`${this.getUrlSegment()}/summary`, { params }).pipe(
       map(response => response.data)
     );
   }
@@ -94,9 +71,7 @@ export class ExpenseService {
   }
 
   getPaymentMethods(): { value: string; label: string }[] {
-    const methods = [
-      'CASH', 'VISA', 'INSTAPAY', 'BANK_TRANSFER', 'WALLET'
-    ];
+    const methods = ['CASH', 'VISA', 'INSTAPAY', 'BANK_TRANSFER', 'WALLET'];
 
     return methods.map(value => ({
       value,

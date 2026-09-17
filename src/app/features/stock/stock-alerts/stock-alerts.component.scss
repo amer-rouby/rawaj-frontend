@@ -72,13 +72,13 @@
 
   &.info {
     .stat-icon {
-      background: linear-gradient(135deg, #3b82f6, #6366f1);
+      background: linear-gradient(135deg, #3b82f6, #10b981);
     }
   }
 
   &.primary {
     .stat-icon {
-      background: linear-gradient(135deg, #667eea, #764ba2);
+      background: linear-gradient(135deg, var(--color-primary-600, #10b981), var(--color-primary-800, #065f46));
     }
   }
 

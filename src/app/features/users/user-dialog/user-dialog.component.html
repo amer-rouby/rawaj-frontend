@@ -2,7 +2,7 @@
   <!-- Header -->
   <div class="dialog-header">
     <h2 mat-dialog-title>
-      {{ data?.mode === 'edit' ? ('USERS.EDIT' | translate) : ('USERS.ADD_NEW' | translate) }}
+      {{ !isCreate() ? ('USERS.EDIT' | translate) : ('USERS.ADD_NEW' | translate) }}
     </h2>
     <button mat-icon-button mat-dialog-close>
       <mat-icon>close</mat-icon>
@@ -22,9 +22,9 @@
 
     <!-- Password -->
     <mat-form-field appearance="outline" class="full-width">
-      <mat-label>{{'USERS.PASSWORD' | translate}} {{ data?.mode === 'edit' ? '' : '*' }}</mat-label>
+      <mat-label>{{'USERS.PASSWORD' | translate}} {{ !isCreate() ? '' : '*' }}</mat-label>
       <input matInput type="password" formControlName="password"
-        [placeholder]="data?.mode === 'edit' ? ('USERS.PASSWORD_HINT' | translate) : ('USERS.PASSWORD' | translate)">
+        [placeholder]="!isCreate() ? ('USERS.PASSWORD_HINT' | translate) : ('USERS.PASSWORD' | translate)">
       @if (form.get('password')?.invalid && form.get('password')?.touched) {
       <mat-error>{{'USERS.PASSWORD_REQUIRED' | translate}}</mat-error>
       }
@@ -81,9 +81,9 @@
       @if (loading()) {
       <mat-spinner diameter="20"></mat-spinner>
       } @else {
-      <mat-icon>{{ data?.mode === 'edit' ? 'save' : 'add' }}</mat-icon>
+      <mat-icon>{{ !isCreate() ? 'save' : 'add' }}</mat-icon>
       }
-      {{ data?.mode === 'edit' ? ('COMMON.SAVE' | translate) : ('COMMON.ADD' | translate) }}
+      {{ !isCreate() ? ('COMMON.SAVE' | translate) : ('COMMON.ADD' | translate) }}
     </button>
   </div>
 </div>

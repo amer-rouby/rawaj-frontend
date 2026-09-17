@@ -51,7 +51,7 @@ import { LanguageService } from '../../../core/services/language.service';
         right: 2px;
         font-size: 9px;
         font-weight: 700;
-        background: #667eea;
+        background: var(--color-primary-600, #10b981);
         color: white;
         padding: 1px 4px;
         border-radius: 4px;

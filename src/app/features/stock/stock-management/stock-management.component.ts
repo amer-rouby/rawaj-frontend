@@ -100,7 +100,7 @@ export class StockManagementComponent implements OnInit, AfterViewInit, OnDestro
 
     if (idx > -1) {
       const updated = [...current];
-      updated[idx] = { ...updated[idx], quantityCurrent: event.batch.quantityCurrent, status: event.batch.status as StockBatch['status'] };
+      updated[idx] = new StockBatch({ ...updated[idx], quantityCurrent: event.batch.quantityCurrent, status: event.batch.status as StockBatch['status'] });
       this.dataSource.data = updated;
     }
   }

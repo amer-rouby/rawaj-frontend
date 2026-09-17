@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { ApiResponse } from '../models';
-import { LicenseStatus } from '../models/license.model';
+import { GeneratedLicenseCode, LicenseStatus } from '../models/license.model';
 import { StoreContextService } from './store-context.service';
 
 @Injectable({ providedIn: 'root' })
@@ -42,6 +42,14 @@ export class LicenseService {
     return this.http.post<ApiResponse<LicenseStatus>>(`${this.apiUrl}/renew`, { code }).pipe(
       map((response) => response.data),
       tap((status) => this.cachedStatus.set(status))
+    );
+  }
+
+  // Vendor-only: only works on this instance's own backend, which is the
+  // sole place license.private-key-path is ever configured.
+  generateCode(licenseKey: string, months: number): Observable<GeneratedLicenseCode> {
+    return this.http.post<ApiResponse<GeneratedLicenseCode>>(`${this.apiUrl}/generate`, { licenseKey, months }).pipe(
+      map((response) => response.data)
     );
   }
 }

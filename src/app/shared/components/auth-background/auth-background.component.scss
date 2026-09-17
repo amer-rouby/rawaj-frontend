@@ -26,7 +26,7 @@
   height: 420px;
   top: -120px;
   inset-inline-start: -100px;
-  background: radial-gradient(circle, var(--color-primary-500, #6366f1), transparent 70%);
+  background: radial-gradient(circle, var(--color-primary-500, #10b981), transparent 70%);
   animation: float-blob-1 22s ease-in-out infinite;
 }
 
@@ -35,7 +35,7 @@
   height: 380px;
   bottom: -140px;
   inset-inline-end: -80px;
-  background: radial-gradient(circle, var(--color-primary-700, #4338ca), transparent 70%);
+  background: radial-gradient(circle, var(--color-primary-700, #047857), transparent 70%);
   animation: float-blob-2 26s ease-in-out infinite;
 }
 
@@ -44,7 +44,7 @@
   height: 300px;
   top: 40%;
   inset-inline-start: 45%;
-  background: radial-gradient(circle, var(--color-primary-300, #a5b4fc), transparent 70%);
+  background: radial-gradient(circle, var(--color-primary-300, #a7f3d0), transparent 70%);
   opacity: 0.2;
   animation: float-blob-3 18s ease-in-out infinite;
 }
@@ -89,7 +89,7 @@
 .grid-overlay {
   position: absolute;
   inset: 0;
-  background-image: radial-gradient(var(--color-primary-300, #a5b4fc) 1px, transparent 1px);
+  background-image: radial-gradient(var(--color-primary-300, #a7f3d0) 1px, transparent 1px);
   background-size: 36px 36px;
   opacity: 0.15;
 }
@@ -97,7 +97,7 @@
 // Floating store-themed icons, scattered and drifting
 .floating-icon {
   position: absolute;
-  color: var(--color-primary-500, #6366f1);
+  color: var(--color-primary-500, #10b981);
   opacity: 0.14;
 }
 
@@ -217,12 +217,12 @@
   }
 
   .floating-icon {
-    color: var(--color-primary-600, #4f46e5);
+    color: var(--color-primary-600, #059669);
     opacity: 0.28;
   }
 
   .grid-overlay {
-    background-image: radial-gradient(var(--color-primary-400, #818cf8) 1.5px, transparent 1.5px);
+    background-image: radial-gradient(var(--color-primary-400, #34d399) 1.5px, transparent 1.5px);
     opacity: 0.3;
   }
 }
