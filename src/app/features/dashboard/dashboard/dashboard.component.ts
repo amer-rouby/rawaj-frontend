@@ -178,7 +178,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   openDailyBrief(): void {
     this.dialog.open(DailyBriefDialogComponent, {
-      width: '420px',
+      width: '480px',
+      maxWidth: '92vw',
       data: { stats: this.stats(), insights: this.insights() }
     });
   }
