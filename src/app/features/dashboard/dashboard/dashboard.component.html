@@ -57,34 +57,18 @@
     <!-- Statistics Cards -->
     <div class="stats-grid">
 
-      <mat-card class="stat-card tone-teal">
+      <mat-card class="stat-card tone-purple">
         <mat-card-content>
           <div class="stat-icon">
-            <mat-icon>account_balance_wallet</mat-icon>
+            <mat-icon>point_of_sale</mat-icon>
           </div>
           <div class="stat-info">
-            <h3>{{formatCurrency(stats()!.inventoryValue)}}</h3>
-            <p>{{'DASHBOARD.INVENTORY_VALUE' | translate}}</p>
-            <small>{{'STOCK.TOTAL_VALUE' | translate}}</small>
+            <h3>{{formatCurrency(stats()!.todayRevenue)}}</h3>
+            <p>{{'DASHBOARD.TODAY_SALES' | translate}}</p>
+            <small>{{stats()!.todayOrders}} {{'DASHBOARD.TOTAL_ORDERS' | translate}}</small>
           </div>
           <svg class="sparkline" viewBox="0 0 100 32" preserveAspectRatio="none">
-            <polyline points="0,26 15,24 30,27 45,18 60,20 75,10 90,12 100,4" />
-          </svg>
-        </mat-card-content>
-      </mat-card>
-
-      <mat-card class="stat-card tone-orange">
-        <mat-card-content>
-          <div class="stat-icon">
-            <mat-icon>warning</mat-icon>
-          </div>
-          <div class="stat-info">
-            <h3>{{stats()!.lowStockProducts}}</h3>
-            <p>{{'DASHBOARD.STOCK_ALERTS' | translate}}</p>
-            <small>{{'STOCK.LOW_STOCK_PRODUCTS' | translate}}</small>
-          </div>
-          <svg class="sparkline" viewBox="0 0 100 32" preserveAspectRatio="none">
-            <polyline points="0,14 15,20 30,12 45,22 60,14 75,24 90,16 100,20" />
+            <polyline points="0,22 15,18 30,24 45,14 60,18 75,8 90,14 100,6" />
           </svg>
         </mat-card-content>
       </mat-card>
@@ -105,18 +89,34 @@
         </mat-card-content>
       </mat-card>
 
-      <mat-card class="stat-card tone-purple">
+      <mat-card class="stat-card tone-orange">
         <mat-card-content>
           <div class="stat-icon">
-            <mat-icon>point_of_sale</mat-icon>
+            <mat-icon>warning</mat-icon>
           </div>
           <div class="stat-info">
-            <h3>{{formatCurrency(stats()!.todayRevenue)}}</h3>
-            <p>{{'DASHBOARD.TODAY_SALES' | translate}}</p>
-            <small>{{stats()!.todayOrders}} {{'DASHBOARD.TOTAL_ORDERS' | translate}}</small>
+            <h3>{{stats()!.lowStockProducts}}</h3>
+            <p>{{'DASHBOARD.STOCK_ALERTS' | translate}}</p>
+            <small>{{'STOCK.LOW_STOCK_PRODUCTS' | translate}}</small>
           </div>
           <svg class="sparkline" viewBox="0 0 100 32" preserveAspectRatio="none">
-            <polyline points="0,22 15,18 30,24 45,14 60,18 75,8 90,14 100,6" />
+            <polyline points="0,14 15,20 30,12 45,22 60,14 75,24 90,16 100,20" />
+          </svg>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card class="stat-card tone-teal">
+        <mat-card-content>
+          <div class="stat-icon">
+            <mat-icon>account_balance_wallet</mat-icon>
+          </div>
+          <div class="stat-info">
+            <h3>{{formatCurrency(stats()!.inventoryValue)}}</h3>
+            <p>{{'DASHBOARD.INVENTORY_VALUE' | translate}}</p>
+            <small>{{'STOCK.TOTAL_VALUE' | translate}}</small>
+          </div>
+          <svg class="sparkline" viewBox="0 0 100 32" preserveAspectRatio="none">
+            <polyline points="0,26 15,24 30,27 45,18 60,20 75,10 90,12 100,4" />
           </svg>
         </mat-card-content>
       </mat-card>
