@@ -14,7 +14,8 @@ export abstract class CrudServiceWithDialog<DialogComponent, Model extends CrudM
 
   openCreateDialog<R = unknown>(configs?: MatDialogConfig, extras?: object): MatDialogRef<DialogComponent, R> {
     return this.dialog.open<DialogComponent, DialogDataContract<Model>, R>(this.getDialogComponent(), {
-      width: '450px',
+      width: '560px',
+      maxWidth: '92vw',
       ...configs,
       data: { model: this.getNewInstance(), operation: Operations.CREATE, extras }
     });
@@ -22,7 +23,8 @@ export abstract class CrudServiceWithDialog<DialogComponent, Model extends CrudM
 
   openEditDialog<R = unknown>(model: Model, configs?: MatDialogConfig, extras?: object): MatDialogRef<DialogComponent, R> {
     return this.dialog.open<DialogComponent, DialogDataContract<Model>, R>(this.getDialogComponent(), {
-      width: '450px',
+      width: '560px',
+      maxWidth: '92vw',
       ...configs,
       data: { model, operation: Operations.UPDATE, extras }
     });

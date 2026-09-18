@@ -1,6 +1,6 @@
 // 1. الثوابت والمتغيرات
 :host {
-  --header-height: 72px;
+  --header-height: 84px;
   --header-bg: var(--color-surface, #ffffff);
   --header-text: var(--color-text-primary, #1e293b);
   --radius-main: 12px;
@@ -66,9 +66,12 @@
   min-width: 0;
   display: flex;
   justify-content: center;
+  align-items: center;
 
   .search-wrapper {
     width: 100%;
+    display: flex;
+    align-items: center;
   }
 }
 
