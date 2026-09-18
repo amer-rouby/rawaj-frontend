@@ -59,5 +59,16 @@ export class App implements OnInit {
     this.currentLang.set(lang);
     document.documentElement.dir = dir;
     document.documentElement.lang = lang;
+
+    // Angular Material's outlined form fields measure their notch/label
+    // gap once against whatever direction was active at render time, and
+    // don't re-measure just because `dir` changes later at runtime - every
+    // already-rendered field (any screen the user had open before
+    // switching language) is left with a stale, wrong-direction gap,
+    // which is what actually causes the overlapping label/value look.
+    // Material's own notch recalculation already listens for window
+    // resize, so firing one is the standard way to force it everywhere
+    // at once instead of hunting down every affected form field.
+    setTimeout(() => window.dispatchEvent(new Event('resize')), 0);
   }
 }
