@@ -1,6 +1,8 @@
 import { Component, signal, inject, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import { SwUpdate, VersionReadyEvent } from '@angular/service-worker';
+import { filter } from 'rxjs';
 import { ThemeService } from './core/services/theme.service';
 import { applyChartJsTheme } from './core/utils/chart-theme.util';
 
@@ -20,6 +22,7 @@ export class App implements OnInit {
   // applies to body before the very first paint - including the login
   // page, which renders before any authenticated feature does.
   private readonly themeService = inject(ThemeService);
+  private readonly swUpdate = inject(SwUpdate);
   readonly direction = signal<'rtl' | 'ltr'>('rtl');
   readonly currentLang = signal<string>('ar');
 
@@ -27,6 +30,19 @@ export class App implements OnInit {
     // currentTheme$ is a BehaviorSubject, so this also applies the theme
     // immediately (covers the initial load, not just later toggles).
     this.themeService.currentTheme$.subscribe(() => applyChartJsTheme());
+
+    // The service worker only checks in the background - without this, an
+    // already-open tab keeps serving whatever was cached at its own last
+    // load indefinitely after a new deployment, until the user manually
+    // clears site data. Activate and reload as soon as a new version is
+    // ready so a redeploy actually reaches people without any manual step.
+    if (this.swUpdate.isEnabled) {
+      this.swUpdate.versionUpdates
+        .pipe(filter((evt): evt is VersionReadyEvent => evt.type === 'VERSION_READY'))
+        .subscribe(() => {
+          this.swUpdate.activateUpdate().then(() => document.location.reload());
+        });
+    }
   }
 
   ngOnInit(): void {
