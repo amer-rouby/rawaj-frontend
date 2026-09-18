@@ -153,6 +153,14 @@
               <mat-icon>receipt_long</mat-icon>
               <span>{{'DASHBOARD.SALES_HISTORY' | translate}}</span>
             </button>
+            <button type="button" routerLink="/purchases/new" class="action-btn">
+              <mat-icon>local_shipping</mat-icon>
+              <span>{{'DASHBOARD.NEW_PURCHASE' | translate}}</span>
+            </button>
+            <button type="button" routerLink="/reports" class="action-btn">
+              <mat-icon>assessment</mat-icon>
+              <span>{{'NAV.REPORTS' | translate}}</span>
+            </button>
             @if (dailyBriefEnabled()) {
             <button type="button" (click)="openDailyBrief()" class="action-btn">
               <mat-icon>auto_awesome</mat-icon>
