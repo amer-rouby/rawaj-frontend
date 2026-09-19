@@ -28,17 +28,20 @@ export class LicenseGenerateComponent {
   // defaults to effectively permanent (100 years) rather than a monthly
   // duration - override it for an actual subscription-style customer.
   readonly months = signal(1200);
+  // Days is 0 by default and adds to months - set months to 0 and use this
+  // alone for a short trial (10 or 15 days), since a full month is too long.
+  readonly days = signal(0);
   readonly submitting = signal(false);
   readonly result = signal<GeneratedLicenseCode | null>(null);
   readonly copied = signal(false);
 
   onSubmit(): void {
     const key = this.licenseKey().trim();
-    if (!key || this.months() < 1) return;
+    if (!key || (this.months() <= 0 && this.days() <= 0)) return;
 
     this.submitting.set(true);
     this.result.set(null);
-    this.licenseService.generateCode(key, this.months()).subscribe({
+    this.licenseService.generateCode(key, this.months(), this.days()).subscribe({
       next: (generated) => {
         this.submitting.set(false);
         this.result.set(generated);

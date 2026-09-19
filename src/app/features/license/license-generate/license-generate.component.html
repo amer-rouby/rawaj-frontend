@@ -12,11 +12,17 @@
 
       <mat-form-field appearance="outline" class="full-width">
         <mat-label>{{'LICENSE.MONTHS_LABEL' | translate}}</mat-label>
-        <input matInput type="number" min="1" [ngModel]="months()" (ngModelChange)="months.set($event)">
+        <input matInput type="number" min="0" [ngModel]="months()" (ngModelChange)="months.set($event)">
         <mat-hint>{{'LICENSE.MONTHS_HINT' | translate}}</mat-hint>
       </mat-form-field>
 
-      <button mat-raised-button color="primary" [disabled]="submitting() || !licenseKey().trim()" (click)="onSubmit()">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>{{'LICENSE.DAYS_LABEL' | translate}}</mat-label>
+        <input matInput type="number" min="0" [ngModel]="days()" (ngModelChange)="days.set($event)">
+        <mat-hint>{{'LICENSE.DAYS_HINT' | translate}}</mat-hint>
+      </mat-form-field>
+
+      <button mat-raised-button color="primary" [disabled]="submitting() || !licenseKey().trim() || (months() <= 0 && days() <= 0)" (click)="onSubmit()">
         @if (submitting()) {
         <mat-spinner diameter="20"></mat-spinner>
         } @else {

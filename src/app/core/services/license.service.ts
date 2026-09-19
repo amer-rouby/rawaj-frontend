@@ -39,8 +39,8 @@ export class LicenseService {
 
   // Vendor-only: only works on this instance's own backend, which is the
   // sole place license.private-key-path is ever configured.
-  generateCode(licenseKey: string, months: number): Observable<GeneratedLicenseCode> {
-    return this.http.post<ApiResponse<GeneratedLicenseCode>>(`${this.apiUrl}/generate`, { licenseKey, months }).pipe(
+  generateCode(licenseKey: string, months: number, days: number): Observable<GeneratedLicenseCode> {
+    return this.http.post<ApiResponse<GeneratedLicenseCode>>(`${this.apiUrl}/generate`, { licenseKey, months, days }).pipe(
       map((response) => response.data)
     );
   }
