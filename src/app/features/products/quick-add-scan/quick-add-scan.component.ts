@@ -23,12 +23,6 @@ interface SessionEntry {
   time: string;
 }
 
-function defaultExpiry(): Date {
-  const d = new Date();
-  d.setMonth(d.getMonth() + 24);
-  return d;
-}
-
 @Component({
   selector: 'app-quick-add-scan',
   standalone: true,
@@ -75,11 +69,9 @@ export class QuickAddScanComponent implements OnInit, AfterViewInit {
   readonly newBuyPrice = signal<number | null>(null);
   readonly newCategory = signal('');
   readonly newQuantity = signal<number | null>(null);
-  readonly newExpiryDate = signal<Date | null>(defaultExpiry());
 
   // restock mini form (existing product)
   readonly restockQuantity = signal<number | null>(null);
-  readonly restockExpiryDate = signal<Date | null>(defaultExpiry());
 
   readonly sessionCount = computed(() => this.sessionLog().length);
 
@@ -119,7 +111,6 @@ export class QuickAddScanComponent implements OnInit, AfterViewInit {
       this.matchedProduct.set(product);
       this.mode.set('existing');
       this.restockQuantity.set(null);
-      this.restockExpiryDate.set(defaultExpiry());
     } else {
       this.matchedProduct.set(null);
       this.mode.set('new');
@@ -129,7 +120,6 @@ export class QuickAddScanComponent implements OnInit, AfterViewInit {
       this.newBuyPrice.set(null);
       this.newCategory.set('');
       this.newQuantity.set(null);
-      this.newExpiryDate.set(defaultExpiry());
     }
   }
 
@@ -153,11 +143,6 @@ export class QuickAddScanComponent implements OnInit, AfterViewInit {
       });
       return;
     }
-    if (this.newQuantity() && this.newQuantity()! > 0 && !this.newExpiryDate()) {
-      this.errorHandler.showWarning('PRODUCTS.EXPIRY_DATE_REQUIRED_WITH_STOCK');
-      return;
-    }
-
     const barcode = this.barcodeValue().trim();
     this.saving.set(true);
 
@@ -169,8 +154,7 @@ export class QuickAddScanComponent implements OnInit, AfterViewInit {
       sellPrice: this.newSellPrice()!,
       buyPrice: this.newBuyPrice() || undefined,
       minStockLevel: 10,
-      initialStock: this.newQuantity() || undefined,
-      expiryDate: this.toLocalDateString(this.newExpiryDate())
+      initialStock: this.newQuantity() || undefined
     }).subscribe({
       next: (response: any) => {
         this.saving.set(false);
@@ -198,11 +182,6 @@ export class QuickAddScanComponent implements OnInit, AfterViewInit {
       });
       return;
     }
-    if (!this.restockExpiryDate()) {
-      this.errorHandler.showWarning('PRODUCTS.EXPIRY_DATE_REQUIRED_WITH_STOCK');
-      return;
-    }
-
     const storeId = this.authService.getStoreId() || 1;
     this.saving.set(true);
 
@@ -211,7 +190,6 @@ export class QuickAddScanComponent implements OnInit, AfterViewInit {
       batchNumber: `SCAN-${product.id}-${Date.now()}`,
       quantityInitial: quantity,
       quantityCurrent: quantity,
-      expiryDate: this.toLocalDateString(this.restockExpiryDate())!,
       buyPrice: product.buyPrice,
       sellPrice: product.sellPrice,
       location: 'Shelf-1',
@@ -253,14 +231,6 @@ export class QuickAddScanComponent implements OnInit, AfterViewInit {
       barcode, name, kind, quantity,
       time: new Date().toLocaleTimeString(this.languageService.getCurrentLanguage() === 'ar' ? 'ar-EG-u-nu-latn' : 'en-US')
     }, ...log]);
-  }
-
-  private toLocalDateString(date: Date | null): string | undefined {
-    if (!date) return undefined;
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const day = String(date.getDate()).padStart(2, '0');
-    return `${year}-${month}-${day}`;
   }
 
   getCategoryName(category: Category): string {
