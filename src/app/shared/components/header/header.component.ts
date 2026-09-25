@@ -189,6 +189,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.currentLang.set(lang);
   }
 
+  toggleLanguage(): void {
+    this.changeLanguage(this.currentLang() === 'ar' ? 'en' : 'ar');
+  }
+
   logout(): void {
     this.authService.logout().subscribe({
       next: () => {
