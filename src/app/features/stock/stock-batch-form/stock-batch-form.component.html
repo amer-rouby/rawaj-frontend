@@ -57,29 +57,14 @@
           </mat-form-field>
         </div>
 
-        <!-- Dates Row -->
-        <div class="row">
-          <!-- Expiry Date - REQUIRED -->
-          <mat-form-field appearance="outline" class="half-width">
-            <mat-label>{{'PRODUCTS.EXPIRY_DATE' | translate}} *</mat-label>
-            <input matInput [matDatepicker]="expiryPicker"
-                   formControlName="expiryDate" required>
-            <mat-datepicker-toggle matIconSuffix [for]="expiryPicker"></mat-datepicker-toggle>
-            <mat-datepicker #expiryPicker></mat-datepicker>
-            @if (batchForm.get('expiryDate')?.invalid && batchForm.get('expiryDate')?.touched) {
-              <mat-error>{{'VALIDATION.REQUIRED' | translate}}</mat-error>
-            }
-          </mat-form-field>
-
-          <!-- Production Date - Optional -->
-          <mat-form-field appearance="outline" class="half-width">
-            <mat-label>{{'STOCK.PRODUCTION_DATE' | translate}}</mat-label>
-            <input matInput [matDatepicker]="productionPicker"
-                   formControlName="productionDate">
-            <mat-datepicker-toggle matIconSuffix [for]="productionPicker"></mat-datepicker-toggle>
-            <mat-datepicker #productionPicker></mat-datepicker>
-          </mat-form-field>
-        </div>
+        <!-- Production Date - Optional -->
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>{{'STOCK.PRODUCTION_DATE' | translate}}</mat-label>
+          <input matInput [matDatepicker]="productionPicker"
+                 formControlName="productionDate">
+          <mat-datepicker-toggle matIconSuffix [for]="productionPicker"></mat-datepicker-toggle>
+          <mat-datepicker #productionPicker></mat-datepicker>
+        </mat-form-field>
 
         <!-- Location -->
         <mat-form-field appearance="outline" class="full-width">

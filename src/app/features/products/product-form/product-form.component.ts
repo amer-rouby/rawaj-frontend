@@ -180,11 +180,6 @@ export class ProductFormComponent implements OnInit, AfterViewInit {
       return;
     }
 
-    if (!this.isEditMode() && p.initialStock && p.initialStock > 0 && !p.expiryDate) {
-      this.errorHandler.showWarning('PRODUCTS.EXPIRY_DATE_REQUIRED_WITH_STOCK');
-      return;
-    }
-
     const ef = this.extraFields();
     const extraAttributes: Record<string, any> = {};
     if (ef.manufacturer.trim()) extraAttributes['manufacturer'] = ef.manufacturer.trim();
@@ -194,8 +189,7 @@ export class ProductFormComponent implements OnInit, AfterViewInit {
     const payload: ProductRequest = {
       ...p,
       extraAttributes: Object.keys(extraAttributes).length ? extraAttributes : undefined,
-      initialStock: this.isEditMode() ? undefined : p.initialStock,
-      expiryDate: this.isEditMode() ? undefined : this.toLocalDateString(p.expiryDate)
+      initialStock: this.isEditMode() ? undefined : p.initialStock
     };
 
     this.loading.set(true);
@@ -226,16 +220,6 @@ export class ProductFormComponent implements OnInit, AfterViewInit {
   regenerateBarcode(): void {
     this.generateUniqueBarcode();
     this.errorHandler.showSuccess('PRODUCTS.BARCODE_REGENERATED');
-  }
-
-  private toLocalDateString(date: string | Date | undefined): string | undefined {
-    if (!date) return undefined;
-    const d = typeof date === 'string' ? new Date(date) : date;
-    if (isNaN(d.getTime())) return undefined;
-    const year = d.getFullYear();
-    const month = String(d.getMonth() + 1).padStart(2, '0');
-    const day = String(d.getDate()).padStart(2, '0');
-    return `${year}-${month}-${day}`;
   }
 
   formatCurrency(amount: number): string {

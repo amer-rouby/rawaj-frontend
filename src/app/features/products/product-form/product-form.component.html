@@ -120,14 +120,6 @@
           <input matInput type="number" min="0" [(ngModel)]="product().initialStock" name="initialStock">
           <mat-icon matPrefix>inventory</mat-icon>
         </mat-form-field>
-
-        <mat-form-field appearance="outline">
-          <mat-label>{{'PRODUCTS.EXPIRY_DATE' | translate}}</mat-label>
-          <input matInput [matDatepicker]="expiryPicker" [(ngModel)]="product().expiryDate" name="expiryDate">
-          <mat-icon matPrefix>event</mat-icon>
-          <mat-datepicker-toggle matIconSuffix [for]="expiryPicker"></mat-datepicker-toggle>
-          <mat-datepicker #expiryPicker></mat-datepicker>
-        </mat-form-field>
       </mat-card-content>
     </mat-card>
     }

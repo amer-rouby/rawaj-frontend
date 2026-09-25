@@ -33,7 +33,7 @@ export class Product extends CrudModel<Product> {
   }
 }
 
-/** Only relevant at creation - initialStock/expiryDate never come back on a Product. */
+/** Only relevant at creation - initialStock never comes back on a Product. */
 export interface ProductRequest {
   name: string;
   barcode?: string;
@@ -44,5 +44,4 @@ export interface ProductRequest {
   buyPrice?: number;
   extraAttributes?: Record<string, unknown>;
   initialStock?: number;
-  expiryDate?: string | Date;
 }
